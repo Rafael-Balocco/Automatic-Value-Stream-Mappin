@@ -23,8 +23,8 @@
         <div class="tabContainer">
             <ul>
               <li><a href="mapInfos.html">Map Infos</a></li>
-              <li style="background-color:#4c31fa;"><a href="Sup1.html">Supplier and Consumer I</a></li>
-              <li><a href="Sup2.html">Supplier and Consumer II</a></li>
+              <li style="background-color:#4c31fa;"><a href="Sup1.html">Supplier</a></li>
+              <li><a href="Sup2.html">Consumer</a></li>
               <li><a href="process.html">Process Creation</a></li>
               <li><a href="inventory.html">Inventory</a></li>
               <li><a href="matFlow.html">Material Flow Data</a></li>
@@ -32,14 +32,18 @@
           </ul>
         </div>
         <div class="tab">
-          <h2>Supplier and Consumer I</h2>
+          <h2>Supplier</h2>
           <label for="enterpriseName">Supplier Name:</label>
           <input type="text" id="enterpriseName" name="enterpriseName" required>
           <br>
-          <label for="creatorName">Consumer Name:</label>
+          <label for="creatorName">What it Supplies:</label>
           <input type="text" id="creatorName" name="creatorName" required>
+          <br>
+          <button id="addProcessButton">Add another Supplier</button>
         </div>
         
+        <script src="script.js"></script>
+
     </main>
 
     <footer>
