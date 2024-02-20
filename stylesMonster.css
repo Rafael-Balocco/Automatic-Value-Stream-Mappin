@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {  
+    position: fixed;
+    background-color: #ffffff;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right:0;    
+}
+
+header h1 {
+    font-size: 35px;
+    color: #333;    
+    margin-right: 100px;
+  }
+
+  a.nav-link:link
+{
+   color: #333;
+   text-decoration: none;
+}
+a.nav-link:visited
+{
+   color: #333;
+   text-decoration: none;
+}
+a.nav-link:hover
+{
+   color: #333;
+   text-decoration: none;
+}
+a.nav-link:active
+{
+   color: #333;
+   text-decoration: none;
+}
+
+
+  .logo-image {
+    margin-left: 10px;
+    width: 200px;
+    height: auto;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  header nav ul {
+    list-style-type: none;
+    margin: 50px;
+    padding: 0px;
+    margin-right: 0px;
+  }
+
+  header nav ul li {
+    display: inline-block;
+    margin-right: 80px;
+  }
+
+  header nav ul li a {
+    font-family: Georgia;
+    font-size: 20px;
+    color: #333;
+  }
+  main{
+    background-color: #ccccca;
+    padding: 80px;
+    margin-top: 80px; 
+    background-size: auto;
+    min-height: 100vh;
+  }
+  
+  footer {
+    background-color: #4c31fa;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .company-info {
+    font-size: 14px;
+    color: #000000;
+  }
+  
+  .tabContainer ul {
+    /* Estilos para a lista não ordenada dentro do contêiner de abas */
+    list-style-type: none; /* Remove os marcadores de lista */
+    padding: -50px; /* Remove o preenchimento padrão da lista */
+    margin-top: -15px;
+    margin-left: 0px;
+    margin-right: 50px; /* Remove a margem padrão da lista */
+    text-align: center;
+  }
+  
+  .tabContainer ul li {
+    /* Estilos para cada item de lista dentro do contêiner de abas */
+    display: inline;
+    border: 0px solid #ddd;
+    padding:  8px 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+  
+  .tabContainer ul li a {
+    /* Estilos para os links dentro de cada item de lista */
+    text-decoration: none; /* Remover sublinhado padrão */
+    padding: 10px 20px; /* Adicionar preenchimento ao redor do texto */
+    display: inline-block; /* Permitir que os links se comportem como blocos para adicionar preenchimento e margem */
+    color: black; /* Cor do texto */
+    font-weight:normal;
+  }
+  
+  .tabContainer ul li:hover {
+    /* Estilos para os links quando o mouse passa por cima */
+    background-color: #4c31fa; /* Altera o fundo ao passar o mouse */
+  }
+
+  
+  /* Adicione estilos adicionais conforme necessário */
+  
