@@ -20,7 +20,7 @@ function addProcess(buttonElement) {
     <label for="scrapRate">Scrap Rate:</label>
     <input type="text" id="scrapRate" name="scrapRate" required>
     <br>
-    <button id="addProcessButton">Add another Process</button>
+    <button id="addProcessButton" onclick="addProcess(this)">Add another Process</button>
   `;
 
   const parentElement = buttonElement.parentNode; // Get the parent "tab" element
