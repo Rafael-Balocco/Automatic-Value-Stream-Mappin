@@ -31,13 +31,48 @@
               <li><a href="infoFlow.html">Informational Flow Data</a></li>       
           </ul>
         </div>
+        <div class="consumerTab">
+          <h2>Consumer Material Flow</h2>
+          <label for="transportMode">Transport Mode:</label>
+            <form method="post">
+              <select name="Mode">
+                <option value="Airplane">Airplane</option>
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+                <option value="Multi">Multi Modal</option>
+                <option value="Ship">Ship</option>
+                <option value="Train">Train</option>
+                <option value="Truck">Truck</option>
+              </select>
+            </form>
+          <br>
+          <label for="period">Period (Specify the Unit):</label>
+          <input type="text" id="period" name="period" required>
+        </div>
+
         <div class="tab">
-          <h2>Mat flow</h2>
-          <label for="enterpriseName">Enterprise Name:</label>
+          <h2>Supplier Material Flow</h2>
+          <label for="enterpriseName">Supplier Number (Same in Supplier Tab):</label>
           <input type="text" id="enterpriseName" name="enterpriseName" required>
           <br>
-          <label for="creatorName">Creator Name:</label>
-          <input type="text" id="creatorName" name="creatorName" required>
+          <label for="period">Period (Specify the Unit):</label>
+          <input type="text" id="period" name="period" required>
+          <br>
+          <label for="transportMode">Transport Mode:</label>
+            <form method="post">
+              <select name="Mode">
+                <option value="Airplane">Airplane</option>
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+                <option value="Multi">Multi Modal</option>
+                <option value="Ship">Ship</option>
+                <option value="Train">Train</option>
+                <option value="Truck">Truck</option>
+              </select>
+            </form>
+          <br>
+          <button id="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
+          <script src="scriptSupMat.js"></script>
         </div>
         
     </main>
