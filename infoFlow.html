@@ -40,11 +40,9 @@
                 <option value="supplier&MRP">Between Supplier and Production Control</option>
                 <option value="process&MRP">Between Process and Production Control</option>
               </select>
-          
-          <br>
-          <br>
 
           <div id="customer&MRP" style="display: none;">
+            <br>
             <h3>Flow Between Customer and Production Control</h3>
             <br>
             <label for="infoType">Type of Information:</label>
@@ -55,12 +53,30 @@
                 <option value="physical">Physical (Document, Told ...)</option>
               </select>
             </form>
+              
+            <br>
+
+            <label for="period">Period (Specify the Unit):</label>
+            <input type="text" id="period" name="period" required>
+            <br>
+            <label for="content">Information Content:</label>
+            <input type="text" id="content" name="period" required>
+            <br>
+            <label for="receive">Who receive the Information:</label>
+            <form method="post">
+              <select name="receive">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Production Control</option>
+                <option value="physical">Customer</option>
+              </select>
+            </form>
+
           </div>
-          
-          <br>
 
           <div id="supplier&MRP" style="display: none;">
+            <br>
             <h3>Flow Between Supplier and Production Control</h3>
+            <br>
             <label for="infoType">Type of Information:</label>
             <form method="post">
               <select name="Mode">
@@ -69,9 +85,32 @@
                 <option value="physical">Physical (Document, Told ...)</option>
               </select>
             </form>
+            
+            <br>
+
+            <label for="period">Period (Specify the Unit):</label>
+            <input type="text" id="period" name="period" required>
+            <br>
+            <label for="content">Information Content:</label>
+            <input type="text" id="content" name="period" required>
+            <br>
+            <label for="receive">Who receive the Information:</label>
+            <form method="post">
+              <select name="receive">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Production Control</option>
+                <option value="physical">Supplier</option>
+              </select>
+            </form>
+            <br>
+            
+            <label for="supName">Supplier Number (Same in Supplier Tab):</label>
+            <input type="text" id="supName" name="supName" required> 
+
           </div>
 
           <div id="process&MRP" style="display: none;">
+            <br>
             <h3>Flow Between Process and Production Control</h3>
             <br>
             <label for="infoType">Type of Information:</label>
@@ -82,6 +121,28 @@
                 <option value="physical">Physical (Document, Told ...)</option>
               </select>
             </form>
+            
+            <br>
+
+            <label for="period">Period (Specify the Unit):</label>
+            <input type="text" id="period" name="period" required>
+            <br>
+            <label for="content">Information Content:</label>
+            <input type="text" id="content" name="period" required>
+            <br>
+            <label for="receive">Who receive the Information:</label>
+            <form method="post">
+              <select name="receive">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Production Control</option>
+                <option value="physical">Process</option>
+              </select>
+            </form>
+            <br>
+            <label for="processNumber">Process Number:</label>
+            <input type="text" id="processNumber" name="processNumber" required>
+
+
           </div>
 
         </div>
