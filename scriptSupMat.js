@@ -20,6 +20,7 @@ function addSupplier(buttonElement) {
   <label for="transportMode">Transport Mode:</label>
   <form method="post">
     <select name="Mode">
+        <option value="none">Select an option</option>
         <option value="Airplane">Airplane</option>
         <option value="Bike">Bike</option>
         <option value="Car">Car</option>
