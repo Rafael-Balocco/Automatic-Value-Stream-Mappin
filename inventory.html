@@ -33,11 +33,13 @@
         </div>
         <div class="tab">
           <h2>Inventory</h2>
-          <label for="enterpriseName">Enterprise Name:</label>
-          <input type="text" id="enterpriseName" name="enterpriseName" required>
+          <label for="Related Process">Process Inventory Number:</label>
+          <input type="text" id="processNumber" name="processNumber" required>
           <br>
-          <label for="creatorName">Creator Name:</label>
-          <input type="text" id="creatorName" name="creatorName" required>
+          <label for="quantity">Quantity:</label>
+          <input type="text" id="inventoryQuantity" name="inventoryQuantity" required>
+          <button id="addInventoryButton" onclick="this.style.display = 'none';">Add Another Inventory</button>
+          <script src="scriptInventory.js"></script>
         </div>
         
     </main>

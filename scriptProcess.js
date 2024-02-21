@@ -1,6 +1,12 @@
 let processCounter = 1; // Initialize a counter for unique IDs
 
 function addProcess(buttonElement) {
+
+  const existingButtons = document.querySelectorAll(".addProcessButton");
+  existingButtons.forEach(button => {
+    button.style.display = "none"; // Hide the button
+  });
+
   const newProcess = document.createElement("div");
   newProcess.id = "process" + processCounter++; // Assign a unique ID
   newProcess.classList.add("tab");
@@ -20,7 +26,7 @@ function addProcess(buttonElement) {
     <label for="scrapRate">Scrap Rate:</label>
     <input type="text" id="scrapRate" name="scrapRate" required>
     <br>
-    <button id="addProcessButton" onclick="addProcess(this)">Add another Process</button>
+    <button class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
   `;
 
   const parentElement = buttonElement.parentNode; // Get the parent "tab" element

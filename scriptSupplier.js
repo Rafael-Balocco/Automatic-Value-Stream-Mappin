@@ -25,7 +25,7 @@ function addSupplier(buttonElement) {
 }
 
 // Initial button for first supplier
-const initialButton = document.getElementById("addProcessButton");
+const initialButton = document.getElementById("addSupplierButton");
 initialButton.addEventListener("click", function() {
   addSupplier(this); // Call the addSupplier function for the initial button
 });
