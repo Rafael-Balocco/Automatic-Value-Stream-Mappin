@@ -33,34 +33,60 @@
         </div>
         <div class="tab">
           <h2>Informational Flow</h2>
-          <label for="infoType">Type of Information</label>
+          <label for="infoType">Connections</label>
               <select id="options-in-menu" onchange="myFunction()">
                 <option value="none">Select an option</option>
-                <option value="Eletronic">Eletronic (Email, Message ...)</option>
-                <option value="Physical">Physical (Paper, Told ...)</option>
+                <option value="customer&MRP">Between Customer and Production Control</option>
+                <option value="supplier&MRP">Between Supplier and Production Control</option>
+                <option value="process&MRP">Between Process and Production Control</option>
               </select>
-        </div>
+          
+          <br>
+          <br>
 
-        <div id="selected-option" class="scenario">
-          <div id="Eletronic" style="display: none;">
-            <h3>Eletronic Scenario</h3>
-            <p>This is the content for Eletronic scenario.</p>
+          <div id="customer&MRP" style="display: none;">
+            <h3>Flow Between Customer and Production Control</h3>
+            <br>
+            <label for="infoType">Type of Information:</label>
+            <form method="post">
+              <select name="Mode">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Eletronic (Email, Message ...)</option>
+                <option value="physical">Physical (Document, Told ...)</option>
+              </select>
+            </form>
           </div>
           
-          <div id="Physical" style="display: none;">
-            <h3>Physical Scenario</h3>
-            <p>This is the content for Physical scenario.</p>
+          <br>
+
+          <div id="supplier&MRP" style="display: none;">
+            <h3>Flow Between Supplier and Production Control</h3>
+            <label for="infoType">Type of Information:</label>
+            <form method="post">
+              <select name="Mode">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Eletronic (Email, Message ...)</option>
+                <option value="physical">Physical (Document, Told ...)</option>
+              </select>
+            </form>
           </div>
+
+          <div id="process&MRP" style="display: none;">
+            <h3>Flow Between Process and Production Control</h3>
+            <br>
+            <label for="infoType">Type of Information:</label>
+            <form method="post">
+              <select name="Mode">
+                <option value="none">Select an option</option>
+                <option value="eletronic">Eletronic (Email, Message ...)</option>
+                <option value="physical">Physical (Document, Told ...)</option>
+              </select>
+            </form>
+          </div>
+
         </div>
 
-        <script>
-          function myFunction() {
-            var val = document.getElementById("options-in-menu").value;
-            document.getElementById("Eletronic").style.display="none";
-            document.getElementById("Physical").style.display="none";
-            document.getElementById(val).style.display="block";
-          }
-        </script>
+        <script src = "infoSource.js"></scriptsrc></script>
         
     </main>
 

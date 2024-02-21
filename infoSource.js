@@ -1,16 +1,7 @@
-function showScenario() {
-  var selectedOption = document.querySelector('select[name="Type"]').value;
-  var eletronicScenario = document.getElementById("eletronicScenario");
-  var physicalScenario = document.getElementById("physicalScenario");
-  
-  // Hide both scenarios initially
-  eletronicScenario.style.display = "none";
-  physicalScenario.style.display = "none";
-  
-  // Show the selected scenario
-  if (selectedOption === "Eletronic") {
-    eletronicScenario.style.display = "block";
-  } else if (selectedOption === "Physical") {
-    physicalScenario.style.display = "block";
-  }
+function myFunction() {
+  var val = document.getElementById("options-in-menu").value;
+  document.getElementById("customer&MRP").style.display="none";
+  document.getElementById("supplier&MRP").style.display="none";
+  document.getElementById("process&MRP").style.display="none";
+  document.getElementById(val).style.display="block";
 }

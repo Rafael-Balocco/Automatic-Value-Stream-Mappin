@@ -42,3 +42,9 @@ input[type="text"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly increased box-shadow on hover for depth */
 }
 
+
+.tab h3{
+  font-size: 18px; /* Slightly increased font size for headings */
+  margin-bottom: 5px;
+  color: #333;
+}
