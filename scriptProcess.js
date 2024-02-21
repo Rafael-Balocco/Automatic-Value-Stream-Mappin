@@ -2,7 +2,7 @@ let processCounter = 1; // Initialize a counter for unique IDs
 
 function addProcess(buttonElement) {
   const newProcess = document.createElement("div");
-  newProcess.id = "supplier" + processCounter++; // Assign a unique ID
+  newProcess.id = "process" + processCounter++; // Assign a unique ID
   newProcess.classList.add("tab");
   newProcess.innerHTML = `
     <label for="processName">Process Name ${processCounter}:</label>

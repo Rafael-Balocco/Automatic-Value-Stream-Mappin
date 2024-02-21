@@ -1,6 +1,12 @@
 let supplierCount = 1; // Initialize a counter for unique IDs
 
 function addSupplier(buttonElement) {
+  // Hide previously generated buttons
+  const existingButtons = document.querySelectorAll(".addSupplierButton");
+  existingButtons.forEach(button => {
+    button.style.display = "none"; // Hide the button
+  });
+
   const newProcess = document.createElement("div");
   newProcess.id = "supplier" + supplierCount++; // Assign a unique ID
   newProcess.classList.add("tab");
@@ -11,7 +17,7 @@ function addSupplier(buttonElement) {
     <label for="creatorName">What it Supplies:</label>
     <input type="text" id="creatorName" name="creatorName" required>
     <br>
-    <button id="addProcessButton" onclick="addSupplier(this)">Add another Supplier</button>
+    <button class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
   `;
 
   const parentElement = buttonElement.parentNode; // Get the parent "tab" element
