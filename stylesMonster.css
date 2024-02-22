@@ -133,6 +133,8 @@ a.nav-link:active {
     margin-left: 0px;
     margin-right: 50px; /* Remove a margem padrão da lista */
     text-align: center;
+    margin-bottom: 10px;
+
   }
   
   .tabContainer ul li {
