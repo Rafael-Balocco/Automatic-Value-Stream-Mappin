@@ -12,19 +12,19 @@ function addProcess(buttonElement) {
   newProcess.classList.add("tab");
   newProcess.innerHTML = `
     <label for="processName">Process Name ${processCounter}:</label>
-    <input type="text" id="processName" name="processName" required>
+    <input type="text" id="processName-${processCounter}" name="processName" required>
     <br>
     <label for="cycleTime">Cycle Time:</label>
-    <input type="text" id="cycleTime" name="cycleTime" required>
+    <input type="text" id="cycleTime-${processCounter}" name="cycleTime" required>
     <br>
     <label for="avaibleTime">Avaible Time:</label>
-    <input type="text" id="avaibleTime" name="avaibleTime" required>
+    <input type="text" id="avaibleTime-${processCounter}" name="avaibleTime" required>
     <br>
     <label for="upTime">Up Time:</label>
-    <input type="text" id="upTime" name="upTime" required>
+    <input type="text" id="upTime-${processCounter}" name="upTime" required>
     <br>
     <label for="scrapRate">Scrap Rate:</label>
-    <input type="text" id="scrapRate" name="scrapRate" required>
+    <input type="text" id="scrapRate-${processCounter}" name="scrapRate" required>
     <br>
     <button class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
   `;

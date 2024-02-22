@@ -12,10 +12,10 @@ function addInventory(buttonElement) {
   newProcess.classList.add("tab");
   newProcess.innerHTML = `
     <label for="Related Process">Process ${inventoryCount} Inventory Number:</label>
-    <input type="text" id="processNumber" name="processNumber" required>
+    <input type="text" id="processInvenNumber-${inventoryCount}" name="processNumber" required>
     <br>
     <label for="quantity">Quantity:</label>
-    <input type="text" id="inventoryQuantity" name="inventoryQuantity" required>
+    <input type="text" id="inventoryQuantity-${inventoryCount}" name="inventoryQuantity" required>
     <br>
     <button class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
   `;

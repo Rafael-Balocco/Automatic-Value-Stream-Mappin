@@ -12,10 +12,10 @@ function addSupplier(buttonElement) {
   newProcess.classList.add("tab");
   newProcess.innerHTML = `
     <label for="enterpriseName">Supplier Name ${supplierCount}:</label>
-    <input type="text" id="enterpriseName" name="enterpriseName" required>
+    <input type="text" id="enterpriseName-${supplierCount}" name="enterpriseName" required>
     <br>
     <label for="creatorName">What it Supplies:</label>
-    <input type="text" id="creatorName" name="creatorName" required>
+    <input type="text" id="creatorName-${supplierCount}" name="creatorName" required>
     <br>
     <button class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
   `;

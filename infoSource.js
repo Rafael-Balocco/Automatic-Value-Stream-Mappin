@@ -1,9 +1,7 @@
 let infoCount = 1;
 
 function myFunction() {
-  console.log("myFunction Inside")
   var val = document.getElementById("options-in-menu-" +  infoCount).value;
-  console.log(val)
   document.getElementById("customer&MRP-"+infoCount).style.display="none";
   document.getElementById("supplier&MRP-"+infoCount).style.display="none";
   document.getElementById("process&MRP-"+infoCount).style.display="none";
