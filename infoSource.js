@@ -38,6 +38,7 @@ function addInfo(buttonElement) {
       <option value="eletronic">Eletronic (Email, Message ...)</option>
       <option value="physical">Physical (Document, Told ...)</option>
     </select>
+    <br>
   </form>
   
   <br>
@@ -56,6 +57,8 @@ function addInfo(buttonElement) {
       <option value="physical">Customer</option>
     </select>
   </form>
+
+  <br>
 
   </div>
 
@@ -93,6 +96,8 @@ function addInfo(buttonElement) {
   <label for="supName">Supplier Number (Same in Supplier Tab):</label>
   <input type="text" id="supName-${infoCount}" name="supName" required> 
 
+  <br>
+  
   </div>
 
   <div id="process&MRP-${infoCount}" style="display: none;">
