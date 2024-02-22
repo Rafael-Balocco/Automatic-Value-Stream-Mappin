@@ -33,15 +33,15 @@
         </div>
         <div class="tab">
           <h2>Informational Flow</h2>
-          <label for="infoType">Connections</label>
-              <select id="options-in-menu" onchange="myFunction()">
+          <label for="infoType">Connection</label>
+              <select id="options-in-menu-1" onchange="myFunction()">
                 <option value="none">Select an option</option>
-                <option value="customer&MRP">Between Customer and Production Control</option>
-                <option value="supplier&MRP">Between Supplier and Production Control</option>
-                <option value="process&MRP">Between Process and Production Control</option>
+                <option value="customer&MRP-1">Between Customer and Production Control</option>
+                <option value="supplier&MRP-1">Between Supplier and Production Control</option>
+                <option value="process&MRP-1">Between Process and Production Control</option>
               </select>
 
-          <div id="customer&MRP" style="display: none;">
+          <div id="customer&MRP-1" style="display: none;">
             <br>
             <h3>Flow Between Customer and Production Control</h3>
             <br>
@@ -73,7 +73,7 @@
 
           </div>
 
-          <div id="supplier&MRP" style="display: none;">
+          <div id="supplier&MRP-1" style="display: none;">
             <br>
             <h3>Flow Between Supplier and Production Control</h3>
             <br>
@@ -109,7 +109,7 @@
 
           </div>
 
-          <div id="process&MRP" style="display: none;">
+          <div id="process&MRP-1" style="display: none;">
             <br>
             <h3>Flow Between Process and Production Control</h3>
             <br>
@@ -141,12 +141,10 @@
             <br>
             <label for="processNumber">Process Number:</label>
             <input type="text" id="processNumber" name="processNumber" required>
-
-
+            <br>
           </div>
-
+          <button id="addInfoButton" onclick="this.style.display = 'none';">Add Another Information</button>
         </div>
-
         <script src = "infoSource.js"></scriptsrc></script>
         
     </main>
