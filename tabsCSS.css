@@ -8,8 +8,18 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+
+
+.flex-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns the button to the right */
+    margin-bottom: 15px; /* Adjust margin as needed */
+    margin-right: 20px;
+}
+
 .tab h2,
 .consumerTab h2 {
+    display: inline; /* Keeps the h2 on the same line */
     font-size: 24px; /* Slightly increased font size for headings */
     margin-bottom: 15px;
     color: #333;
