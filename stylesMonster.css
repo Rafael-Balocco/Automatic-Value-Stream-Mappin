@@ -162,12 +162,17 @@ a.nav-link:active {
     background-color: rgb(0, 99, 228); /* Altera o fundo ao passar o mouse */
   }
 
+  .tabContainer ul li:hover a {
+    color: white; /* Change text color to white on hover */
+  }
+
   .background-section {
     display: block;
     margin: 60px auto; /* This will center the element horizontally with 20px margin on top */
     width: 1000px;
-    margin-bottom: 30px;
+    margin-bottom: 18px;
     max-height: 100%;
+    margin-top: 15px;
   }
   
   footer {
@@ -185,6 +190,34 @@ a.nav-link:active {
     color: #000000;
     font-weight: bold;
   }
+
+  .center-container {
+    text-align: center;
+    margin-top: 18px; /* Adjust margin-top as needed */
+}
+
+.start-button {
+    display: inline-block;
+    padding: 20px 40px;
+    background-color: #F24D45;
+    color: #fff;
+    font-size: 27px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.start-button:hover {
+    background-color: #1C253D; /* Darker shade of blue on hover */
+    transform: translateY(-2px); /* Add a slight upward lift on hover */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+
   @media screen and (max-width: 1513px){
     /* Coloque aqui os estilos específicos para telas menores que 1514px
     /* Por exemplo: */
