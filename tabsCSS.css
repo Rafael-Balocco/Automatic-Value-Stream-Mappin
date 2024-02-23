@@ -17,6 +17,30 @@
     margin-right: 20px;
 }
 
+.flex-container button{
+  display: inline-block;
+  padding: 5px 10px;
+  border: 2px solid rgb(0, 99, 228); 
+  background-color: rgb(0, 99, 228); 
+  color: #ffffff; /* White text */
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.flex-container button:hover {
+    background-color: #004d9e; /* Darker blue background on hover */
+    border-color: #004d9e; /* Darker blue border on hover */
+    color: #ffffff; /* White text on hover */
+  }
+  
+  .flex-container button:focus {
+    outline: none; /* Remove outline on focus */
+  }
+
 .tab h2,
 .consumerTab h2 {
     display: inline; /* Keeps the h2 on the same line */
