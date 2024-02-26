@@ -1,6 +1,7 @@
 let supplierCount = 1; // Initialize a counter for unique IDs
 
 function addSupplier(buttonElement) {
+    supplierCount++; // Increment the supplier counter
     // Hide previously generated buttons
     const existingButtons = document.querySelectorAll(".addSupplierButton");
     existingButtons.forEach(button => {
@@ -22,7 +23,6 @@ function addSupplier(buttonElement) {
     const formElement = document.getElementById("supplierForm"); // Get the form element
     formElement.appendChild(newSupplier); // Append the new supplier inside the form
 
-    supplierCount++; // Increment the supplier counter
 }
 
 // Initial button for first supplier
