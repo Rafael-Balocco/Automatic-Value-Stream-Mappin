@@ -36,23 +36,32 @@
           <div class="flex-container">
             <a href="inventory.html"><button>Next Page</button></a>
           </div>
-          <label for="processName">Process Name 1:</label>
-          <input type="text" id="processName-1" name="processName" required>
-          <br>
-          <label for="cycleTime">Cycle Time:</label>
-          <input type="text" id="cycleTime-1" name="cycleTime" required>
-          <br>
-          <label for="avaibleTime">Avaible Time:</label>
-          <input type="text" id="avaibleTime-1" name="avaibleTime" required>
-          <br>
-          <label for="upTime">Up Time:</label>
-          <input type="text" id="upTime-1" name="upTime" required>
-          <br>
-          <label for="scrapRate">Scrap Rate:</label>
-          <input type="text" id="scrapRate-1" name="scrapRate" required>
-          <br>
-          <button id="addProcessButton" class="addProcessButton" onclick="this.style.display = 'none';">Add Another Process</button>
-          <script src="scriptProcess.js"></script>
+          <form id="processForm">
+            <div id="process1" class="process"> <!-- Adiciona uma classe process -->
+              <br>
+                <label for="processName">Process Name 1:</label>
+                <input type="text" class="processName" name="processName" required>
+                <br>
+                <br>
+                <label for="cycleTime">Cycle Time (minutes):</label>
+                <input type="number" class="cycleTime" name="cycleTime" required>
+                <br>
+                <br>
+                <label for="availableTime">Available Time (minutes):</label>
+                <input type="number" class="availableTime" name="availableTime" required>
+                <br>
+                <br>
+                <label for="upTime">Up Time (minutes):</label>
+                <input type="number" class="upTime" name="upTime" required>
+                <br>
+                <br>
+                <label for="scrapRate">Scrap Rate (%):</label>
+                <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01" required>
+                <br>
+                <br>
+            </div>
+            <button id="addProcessButton" class="addProcessButton">Add another Process</button>
+        </form>
         </div>
         
     </main>
@@ -62,5 +71,5 @@
             Copyright &copy; 2022 SMART LAB. All rights reserved.
           </p>
     </footer>
-
+    <script src="scriptProcess.js"></script>
   </body>

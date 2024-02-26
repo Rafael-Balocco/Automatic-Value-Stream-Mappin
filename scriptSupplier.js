@@ -1,7 +1,6 @@
 let supplierCount = 1; // Initialize a counter for unique IDs
 
 function addSupplier(buttonElement) {
-    supplierCount++; // Increment the supplier counter
     // Hide previously generated buttons
     const existingButtons = document.querySelectorAll(".addSupplierButton");
     existingButtons.forEach(button => {
@@ -9,13 +8,14 @@ function addSupplier(buttonElement) {
     });
 
     const newSupplier = document.createElement("div");
-    newSupplier.classList.add("tab");
+    newSupplier.id ="supplier" + supplierCount++;
+    newSupplier.classList.add("supplier");
     newSupplier.innerHTML = `
         <label for="enterpriseName">Supplier Name ${supplierCount}:</label>
-        <input type="text" id="enterpriseName-${supplierCount}" name="enterpriseName" required>
+        <input type="text" class="enterpriseName" name="enterpriseName" required>
         <br>
         <label for="creatorName">What it Supplies:</label>
-        <input type="text" id="creatorName-${supplierCount}" name="creatorName" required>
+        <input type="text" class="creatorName" name="creatorName" required>
         <br>
         <button class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
     `;
