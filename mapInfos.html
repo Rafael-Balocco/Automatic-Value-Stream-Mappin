@@ -33,15 +33,18 @@
         </div>
         <div class="tab">
           <h2>Basic Information</h2>
-          <div class="flex-container">
-            <a href="Sup1.html"><button>Next Page</button></a>
-          </div>
-          <label for="enterpriseName">Enterprise Name:</label>
-          <input type="text" id="enterpriseName" name="enterpriseName" required>
-          <br>
-          <label for="creatorName">Creator Name:</label>
-          <input type="text" id="creatorName" name="creatorName" required>
-        </div>
+          <form id="basicInfoForm" action="backend_script.php" method="post">
+            <label for="enterpriseName">Enterprise Name:</label>
+            <input type="text" id="enterpriseName" name="enterpriseName" required>
+            <br>
+            <label for="creatorName">Creator Name:</label>
+            <input type="text" id="creatorName" name="creatorName" required>
+            <br>
+            <div class="flex-container">
+              <button type="submit">Submit</button>
+            </div>
+        </form>
+      </div>
         
     </main>
 
