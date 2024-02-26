@@ -36,14 +36,15 @@
           <div class="flex-container">
             <a href="Sup2.html"><button>Next Page</button></a>
           </div>
-          <label for="enterpriseName">Supplier Name 1:</label>
-          <input type="text" id="enterpriseName-1" name="enterpriseName" required>
-          <br>
-          <label for="creatorName">What it Supplies:</label>
-          <input type="text" id="creatorName-1" name="creatorName" required>
-          <br>
-          <button id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
-          <script src="scriptSupplier.js"></script>
+          <form id="supplierForm">
+            <label for="enterpriseName">Supplier Name 1:</label>
+            <input type="text" id="enterpriseName-1" name="enterpriseName" required>
+            <br>
+            <label for="creatorName">What it Supplies:</label>
+            <input type="text" id="creatorName-1" name="creatorName" required>
+            <br>
+            <button id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
+        </form>
         </div>
 
     </main>
@@ -53,5 +54,5 @@
             Copyright &copy; 2022 SMART LAB. All rights reserved.
           </p>
     </footer>
-
+    <script src="scriptSupplier.js"></script>
   </body>
