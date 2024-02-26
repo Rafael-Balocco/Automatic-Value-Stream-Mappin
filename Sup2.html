@@ -37,15 +37,16 @@
             <a href="process.html"><button>Next Page</button></a>
           </div>
           <form id="consumerForm">
+            <br>
             <label for="consumerName">Consumer Name:</label>
             <input type="text" id="consumerName" name="consumerName" required>
             <br>
-            <label for="demand">Demand:</label>
-            <input type="number" id="demand" name="demand" required>
+            <label for="demand">Demand (Units or Weight):</label>
+            <input type="number" id="demand" name="demand" min="0" required>
             <br>
             <br>
             <label for="processNumber">Process Number:</label>
-            <input type="number" id="processNumber" name="processNumber">
+            <input type="number" id="processNumber" name="processNumber" min="0" step="1">
         </form>    
         </div>
         

@@ -12,7 +12,7 @@ function addSupplier(buttonElement) {
     newSupplier.classList.add("supplier");
     newSupplier.innerHTML = `
         <br>
-        <label for="enterpriseName">Supplier Name ${supplierCount}:</label>
+        <label for="enterpriseName">Supplier ${supplierCount} Name:</label>
         <input type="text" class="enterpriseName" name="enterpriseName" required>
         <br>
         <label for="creatorName">What it Supplies:</label>

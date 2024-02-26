@@ -11,7 +11,7 @@ function addInventory(buttonElement) {
   newInventory.classList.add("inventory");
   newInventory.innerHTML = `
     <br>
-    <label for="relatedProcess">Process Inventory ${inventoryCount}:</label>
+    <label for="relatedProcess">Process ${inventoryCount} Inventory:</label>
     <input type="number" class="processINumber" name="processINumber" required>
     <br>
     <br>

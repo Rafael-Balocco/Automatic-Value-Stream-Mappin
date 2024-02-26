@@ -13,7 +13,7 @@ function addProcess(buttonElement) {
 
         <br>
 
-        <label for="processName">Process Name ${processCounter}:</label>
+        <label for="processName">Process ${processCounter} Name:</label>
         <input type="text" class="processName" name="processName" required>
         <br>
         <br>

@@ -26,11 +26,11 @@ function addInfo(buttonElement) {
     <option value="supplier&MRP-${infoCount}">Between Supplier and Production Control</option>
     <option value="process&MRP-${infoCount}">Between Process and Production Control</option>
   </select>
+  <br>
 
   <div id="customer&MRP-${infoCount}" style="display: none;">
   <br>
   <h3>Flow Between Customer and Production Control</h3>
-  <br>
   <label for="infoType">Type of Information:</label>
   <form method="post">
     <select name="Mode">
@@ -97,7 +97,6 @@ function addInfo(buttonElement) {
   <label for="supName">Supplier Number (Same in Supplier Tab):</label>
   <input type="number" class="supName" name="supName" required> 
 
-  <br>
   
   </div>
 
@@ -133,9 +132,7 @@ function addInfo(buttonElement) {
   <br>
   <label for="processNumber">Process Number:</label>
   <input type="number" class="processNumber" name="processNumber" required>
-  <br>
   </div>
-  <br>
   <br>
   <button class="addInfoButton" onclick="addInfo(this)">Add Another Information</button>
   <script src="scriptSupplier.js"></script>
