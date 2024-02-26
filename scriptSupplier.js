@@ -11,6 +11,7 @@ function addSupplier(buttonElement) {
     newSupplier.id ="supplier" + supplierCount++;
     newSupplier.classList.add("supplier");
     newSupplier.innerHTML = `
+        <br>
         <label for="enterpriseName">Supplier Name ${supplierCount}:</label>
         <input type="text" class="enterpriseName" name="enterpriseName" required>
         <br>

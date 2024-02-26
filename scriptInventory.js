@@ -1,27 +1,30 @@
 let inventoryCount = 1; // Initialize a counter for unique IDs
 
 function addInventory(buttonElement) {
-  // Hide previously generated buttons
   const existingButtons = document.querySelectorAll(".addInventoryButton");
   existingButtons.forEach(button => {
     button.style.display = "none"; // Hide the button
   });
 
-  const newProcess = document.createElement("div");
-  newProcess.id = "inventory" + inventoryCount++; // Assign a unique ID
-  newProcess.classList.add("tab");
-  newProcess.innerHTML = `
-    <label for="Related Process">Process ${inventoryCount} Inventory Number:</label>
-    <input type="text" id="processInvenNumber-${inventoryCount}" name="processNumber" required>
+  const newInventory = document.createElement("div");
+  newInventory.id = "inventory" + inventoryCount++; // Assign a unique ID
+  newInventory.classList.add("inventory");
+  newInventory.innerHTML = `
+    <br>
+    <label for="relatedProcess">Process Inventory ${inventoryCount}:</label>
+    <input type="number" class="processINumber" name="processINumber" required>
+    <br>
     <br>
     <label for="quantity">Quantity:</label>
-    <input type="text" id="inventoryQuantity-${inventoryCount}" name="inventoryQuantity" required>
+    <input type="number" class="inventoryQuantity" name="inventoryQuantity" required>
+    <br>
     <br>
     <button class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
   `;
 
-  const parentElement = buttonElement.parentNode; // Get the parent "tab" element
-  parentElement.parentNode.insertBefore(newProcess, parentElement.nextSibling); // Insert after parent
+  const formElement = document.getElementById("inventoryForm"); // Get the form element
+  formElement.appendChild(newInventory); // Append the new supplier inside the form
+
 }
 
 // Initial button for first inventory

@@ -36,13 +36,20 @@
           <div class="flex-container">
             <a href="matFlow.html"><button>Next Page</button></a>
           </div>
-          <label for="Related Process">Process Inventory Number 1:</label>
-          <input type="text" id="processInvenNumber-1" name="processNumber" required>
-          <br>
-          <label for="quantity">Quantity:</label>
-          <input type="text" id="inventoryQuantity-1" name="inventoryQuantity" required>
-          <button id="addInventoryButton" class = "addInventoryButton" onclick="this.style.display = 'none';">Add Another Inventory</button>
-          <script src="scriptInventory.js"></script>
+          <form id="inventoryForm">
+            <div id="inventory1" class="inventory">
+              <br>
+              <label for="relatedProcess">Process Inventory 1:</label>
+              <input type="number" class="processINumber" name="processINumber" required>
+              <br>
+              <br>
+              <label for="quantity">Quantity:</label>
+              <input type="number" class="inventoryQuantity" name="inventoryQuantity" required>
+              <br>
+              <br>
+            </div>
+            <button id="addInventoryButton" class = "addInventoryButton">Add Another Inventory</button>
+          </form>
         </div>
         
     </main>
@@ -52,5 +59,6 @@
             Copyright &copy; 2022 SMART LAB. All rights reserved.
           </p>
     </footer>
+    <script src="scriptInventory.js"></script>
 
   </body>
