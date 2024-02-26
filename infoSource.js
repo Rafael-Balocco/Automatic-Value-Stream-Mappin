@@ -15,10 +15,10 @@ function addInfo(buttonElement) {
     button.style.display = "none"; // Hide the button
   });
 
-  const newProcess = document.createElement("div");
-  newProcess.id = "info" + infoCount++; // Assign a unique ID
-  newProcess.classList.add("tab");
-  newProcess.innerHTML = `
+  const newInfoFlow = document.createElement("div");
+  newInfoFlow.id = "info" + infoCount++; // Assign a unique ID
+  newInfoFlow.classList.add("infoFlow");
+  newInfoFlow.innerHTML = `
   <label for="infoType">Connection ${infoCount}</label>
   <select id="options-in-menu-${infoCount}">
     <option value="none">Select an option</option>
@@ -42,12 +42,13 @@ function addInfo(buttonElement) {
   </form>
   
   <br>
+  <br>
 
   <label for="period">Period (Specify the Unit):</label>
-  <input type="text" id="period-${infoCount}" name="period" required>
+  <input type="text" class = "period" name="period" required>
   <br>
   <label for="content">Information Content:</label>
-  <input type="text" id="content-${infoCount}" name="period" required>
+  <input type="text" class="content" name="period" required>
   <br>
   <label for="receive">Who receive the Information:</label>
   <form method="post">
@@ -78,10 +79,10 @@ function addInfo(buttonElement) {
   <br>
 
   <label for="period">Period (Specify the Unit):</label>
-  <input type="text" id="period-${infoCount}" name="period" required>
+  <input type="text" class="period" name="period" required>
   <br>
   <label for="content">Information Content:</label>
-  <input type="text" id="content-${infoCount}" name="period" required>
+  <input type="text" class="content" name="period" required>
   <br>
   <label for="receive">Who receive the Information:</label>
   <form method="post">
@@ -94,7 +95,7 @@ function addInfo(buttonElement) {
   <br>
 
   <label for="supName">Supplier Number (Same in Supplier Tab):</label>
-  <input type="text" id="supName-${infoCount}" name="supName" required> 
+  <input type="number" class="supName" name="supName" required> 
 
   <br>
   
@@ -116,10 +117,10 @@ function addInfo(buttonElement) {
   <br>
 
   <label for="period">Period (Specify the Unit):</label>
-  <input type="text" id="period-${infoCount}" name="period" required>
+  <input type="text" class="period" name="period" required>
   <br>
   <label for="content">Information Content:</label>
-  <input type="text" id="content-${infoCount}" name="period" required>
+  <input type="text" class="content" name="content" required>
   <br>
   <label for="receive">Who receive the Information:</label>
   <form method="post">
@@ -131,17 +132,19 @@ function addInfo(buttonElement) {
   </form>
   <br>
   <label for="processNumber">Process Number:</label>
-  <input type="text" id="processNumber-${infoCount}" name="processNumber" required>
+  <input type="number" class="processNumber" name="processNumber" required>
   <br>
   </div>
+  <br>
+  <br>
   <button class="addInfoButton" onclick="addInfo(this)">Add Another Information</button>
   <script src="scriptSupplier.js"></script>
   `;
 
-  newProcess.querySelector(`[id="options-in-menu-${infoCount}"]`).addEventListener("change", myFunction);
+  newInfoFlow.querySelector(`[id="options-in-menu-${infoCount}"]`).addEventListener("change", myFunction);
 
   const parentElement = buttonElement.parentNode; // Get the parent "tab" element
-  parentElement.parentNode.insertBefore(newProcess, parentElement.nextSibling); // Insert after parent
+  parentElement.insertBefore(newInfoFlow, buttonElement); // Insert after parent
 }
 
 // Initial button for first supplier

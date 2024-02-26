@@ -1,25 +1,28 @@
-let supplierCount = 1; // Initialize a counter for unique IDs
+let supplierMatCount = 1; // Initialize a counter for unique IDs
 
-function addSupplier(buttonElement) {
+function addMatSupplier(buttonElement) {
   // Hide previously generated buttons
-  const existingButtons = document.querySelectorAll(".addSupplierButton");
+  const existingButtons = document.querySelectorAll(".addMatSupplierButton");
   existingButtons.forEach(button => {
     button.style.display = "none"; // Hide the button
   });
 
-  const newProcess = document.createElement("div");
-  newProcess.id = "supplier" + supplierCount++; // Assign a unique ID
-  newProcess.classList.add("tab");
-  newProcess.innerHTML = `
-  <label for="enterpriseName">Supplier Number ${supplierCount} (Same in Supplier Tab):</label>
-  <input type="text" id="enterpriseMatFlowName-${supplierCount}" name="enterpriseName" required>
+  const newMatSupplier = document.createElement("div");
+  newMatSupplier.id = "supplier" + supplierMatCount++; // Assign a unique ID
+  newMatSupplier.classList.add("matSup");
+  newMatSupplier.innerHTML = `
+  <br>
+
+  <label for="enterpriseName">Supplier ${supplierMatCount} (Same in Supplier Tab):</label>
+  <input type="number" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+  <br>
   <br>
   <label for="period">Period (Specify the Unit):</label>
-  <input type="text" id="periodMatFlowName-${supplierCount}" name="period" required>
+  <input type="text" class="periodSupMat" name="periodSupMat" required>
   <br>
   <label for="transportMode">Transport Mode:</label>
-  <form method="post">
-    <select name="Mode">
+    <form method="post">
+      <select name="Mode">
         <option value="none">Select an option</option>
         <option value="Airplane">Airplane</option>
         <option value="Bike">Bike</option>
@@ -28,18 +31,19 @@ function addSupplier(buttonElement) {
         <option value="Ship">Ship</option>
         <option value="Train">Train</option>
         <option value="Truck">Truck</option>
-    </select>
-  </form>
+      </select>
+    </form>
   <br>
-  <button class="addSupplierButton" onclick="addSupplier(this)">Add Another Supplier</button>
+  <br>
+  <button class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
   `;
 
   const parentElement = buttonElement.parentNode; // Get the parent "tab" element
-  parentElement.parentNode.insertBefore(newProcess, parentElement.nextSibling); // Insert after parent
+  parentElement.insertBefore(newMatSupplier, buttonElement); // Insere antes do botão
 }
 
 // Initial button for first supplier
-const initialButton = document.getElementById("addSupplierButton");
+const initialButton = document.getElementById("addMatSupplierButton");
 initialButton.addEventListener("click", function() {
-  addSupplier(this); // Call the addSupplier function for the initial button
+  addMatSupplier(this); // Call the addMatSupplier function for the initial button
 });

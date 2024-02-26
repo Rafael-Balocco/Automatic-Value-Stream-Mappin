@@ -117,12 +117,16 @@ input[type="text"] {
   margin-bottom: 5px;
   color: #333;
 }
-
+.infoFlow
+.matSup,
 .process,
 .supplier,
 .inventory {
     margin-bottom: 20px; /* Adiciona um espaço entre os grupos de campos */
 }
+
+.infoFlow:not(:first-child),
+.matSup:not(:first-child),
 .inventory:not(:first-child),
 .process:not(:first-child),
 .supplier:not(:first-child) {

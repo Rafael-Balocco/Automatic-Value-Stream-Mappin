@@ -36,47 +36,59 @@
           <div class="flex-container">
             <a href="infoFlow.html"><button>Next Page</button></a>
           </div>
-          <label for="transportMode">Transport Mode:</label>
-            <form method="post">
-              <select name="Mode">
-                <option value="none">Select an option</option>
-                <option value="Airplane">Airplane</option>
-                <option value="Bike">Bike</option>
-                <option value="Car">Car</option>
-                <option value="Multi">Multi Modal</option>
-                <option value="Ship">Ship</option>
-                <option value="Train">Train</option>
-                <option value="Truck">Truck</option>
-              </select>
-            </form>
-          <br>
-          <label for="period">Period (Specify the Unit):</label>
-          <input type="text" id="period" name="period" required>
+          <form id="consumerMatForm">
+            <div id = "consumerMat1" class = "consumerMat">
+              <label for="transportMode">Transport Mode:</label>
+                <form method="post">
+                  <select name="Mode">
+                    <option value="none">Select an option</option>
+                    <option value="Airplane">Airplane</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Car">Car</option>
+                    <option value="Multi">Multi Modal</option>
+                    <option value="Ship">Ship</option>
+                    <option value="Train">Train</option>
+                    <option value="Truck">Truck</option>
+                  </select>
+                </form>
+              <br>
+              <br>
+            <label for="period">Period (Specify the Unit):</label>
+            <input type="text" class = "period" name="period" required>
+            </div>
+          </form>
         </div>
 
         <div class="tab">
           <h2>Supplier Material Flow</h2>
-          <label for="enterpriseName">Supplier Number 1 (Same in Supplier Tab):</label>
-          <input type="text" id="enterpriseMatFlowName-1" name="enterpriseName" required>
-          <br>
-          <label for="period">Period (Specify the Unit):</label>
-          <input type="text" id="periodMatFlowName-1" name="period" required>
-          <br>
-          <label for="transportMode">Transport Mode:</label>
-            <form method="post">
-              <select name="Mode">
-                <option value="none">Select an option</option>
-                <option value="Airplane">Airplane</option>
-                <option value="Bike">Bike</option>
-                <option value="Car">Car</option>
-                <option value="Multi">Multi Modal</option>
-                <option value="Ship">Ship</option>
-                <option value="Train">Train</option>
-                <option value="Truck">Truck</option>
-              </select>
-            </form>
-          <br>
-          <button id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
+          <form id = "materialSupForm">
+            <div id="matSup1" class = "matSup">
+              <br>
+              <label for="enterpriseName">Supplier 1 (Same in Supplier Tab):</label>
+              <input type="number" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+              <br>
+              <br>
+              <label for="period">Period (Specify the Unit):</label>
+              <input type="text" class="periodSupMat" name="periodSupMat" required>
+              <br>
+              <label for="transportMode">Transport Mode:</label>
+                <form method="post">
+                  <select name="Mode">
+                    <option value="none">Select an option</option>
+                    <option value="Airplane">Airplane</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Car">Car</option>
+                    <option value="Multi">Multi Modal</option>
+                    <option value="Ship">Ship</option>
+                    <option value="Train">Train</option>
+                    <option value="Truck">Truck</option>
+                  </select>
+                </form>
+              <br>
+              <br>
+            </div>
+            <button id="addMatSupplierButton" class="addMatSupplierButton">Add Another Supplier</button>
+          </form>
           <script src="scriptSupMat.js"></script>
         </div>
         
