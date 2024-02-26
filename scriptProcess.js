@@ -8,8 +8,9 @@ function addProcess(buttonElement) {
 
     const newProcess = document.createElement("div");
     newProcess.id = "process" + processCounter++;
-    newProcess.classList.add("process");
+    newProcess.classList.add("process"); // Adiciona a classe "process"
     newProcess.innerHTML = `
+
         <br>
 
         <label for="processName">Process Name ${processCounter}:</label>

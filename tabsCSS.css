@@ -117,3 +117,15 @@ input[type="text"] {
   margin-bottom: 5px;
   color: #333;
 }
+
+.process,
+.supplier,
+.inventory {
+    margin-bottom: 20px; /* Adiciona um espaço entre os grupos de campos */
+}
+.inventory:not(:first-child),
+.process:not(:first-child),
+.supplier:not(:first-child) {
+    border-top: 1px solid #ccc; /* Adiciona uma linha divisória cinza acima de todos os grupos de campos, exceto o primeiro */
+    padding-top: 20px; /* Adiciona um espaço acima da linha divisória para separá-la dos campos acima */
+}
