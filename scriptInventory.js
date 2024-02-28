@@ -15,10 +15,6 @@ function addInventory(buttonElement) {
     <input type="number" class="processINumber" name="processINumber" required>
     <br>
     <br>
-    <label for="quantity">Quantity:</label>
-    <input type="number" class="inventoryQuantity" name="inventoryQuantity" required>
-    <br>
-    <br>
     <button class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
   `;
 

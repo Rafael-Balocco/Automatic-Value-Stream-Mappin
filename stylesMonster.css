@@ -168,7 +168,7 @@ a.nav-link:active {
 
   .background-section {
     display: block;
-    margin: 60px auto; /* This will center the element horizontally with 20px margin on top */
+    margin: auto; /* This will center the element horizontally with 20px margin on top */
     width: 1000px;
     margin-bottom: 18px;
     max-height: 100%;

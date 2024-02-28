@@ -24,7 +24,7 @@
             <ul>
               <li><a href="mapInfos.html">Map Infos</a></li>
               <li><a href="Sup1.html">Supplier</a></li>
-              <li><a href="Sup2.html">Consumer</a></li>
+              <li><a href="Sup2.html">Customer</a></li>
               <li style="background-color:rgb(0, 99, 228);"><a href="process.html" style="color: white;">Process Creation</a></li>
               <li><a href="inventory.html">Inventory</a></li>
               <li><a href="matFlow.html">Material Flow Data</a></li>
@@ -36,27 +36,27 @@
           <div class="flex-container">
             <a href="inventory.html"><button>Next Page</button></a>
           </div>
-          <form id="processForm">
+          <form id="processForm" autocomplete="off">
             <div id="process1" class="process"> <!-- Adiciona uma classe process -->
               <br>
                 <label for="processName">Process 1 Name:</label>
                 <input type="text" class="processName" name="processName" required>
                 <br>
                 <br>
-                <label for="cycleTime">Cycle Time (minutes):</label>
+                <label for="cycleTime">Cycle Time (Seconds):</label>
                 <input type="number" class="cycleTime" name="cycleTime" required>
                 <br>
                 <br>
-                <label for="availableTime">Available Time (minutes):</label>
-                <input type="number" class="availableTime" name="availableTime" required>
+                <label for="availableTime">Available Time (Seconds):</label>
+                <input type="number" class="availableTime" name="availableTime">
                 <br>
                 <br>
-                <label for="upTime">Up Time (minutes):</label>
-                <input type="number" class="upTime" name="upTime" required>
+                <label for="upTime">Up Time (%):</label>
+                <input type="number" class="upTime" name="upTime">
                 <br>
                 <br>
                 <label for="scrapRate">Scrap Rate (%):</label>
-                <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01" required>
+                <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
                 <br>
                 <br>
             </div>

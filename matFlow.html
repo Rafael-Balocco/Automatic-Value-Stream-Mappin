@@ -24,7 +24,7 @@
             <ul>
               <li><a href="mapInfos.html">Map Infos</a></li>
               <li><a href="Sup1.html">Supplier</a></li>
-              <li><a href="Sup2.html">Consumer</a></li>
+              <li><a href="Sup2.html">Customer</a></li>
               <li><a href="process.html">Process Creation</a></li>
               <li><a href="inventory.html">Inventory</a></li>
               <li style="background-color:rgb(0, 99, 228);"><a href="matFlow.html" style="color: white;">Material Flow Data</a></li>
@@ -32,7 +32,7 @@
           </ul>
         </div>
         <div class="consumerTab">
-          <h2>Consumer Material Flow</h2>
+          <h2>Customer Material Flow</h2>
           <div class="flex-container">
             <a href="infoFlow.html"><button>Next Page</button></a>
           </div>
@@ -54,37 +54,40 @@
                 </form>
               <br>
               <br>
-            <label for="period">Period (Specify the Unit):</label>
-            <input type="text" class = "period" name="period" required>
+              <label for="shiftPeriocCustomer">Shift Period:</label>
+              <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+              <br>
+              <label for="quantityShift">Quantity per Shift:</label>
+              <input type="number" class="quantityShift" name="quantityShift" required>
             </div>
           </form>
         </div>
 
         <div class="tab">
           <h2>Supplier Material Flow</h2>
-          <form id = "materialSupForm">
+          <form id = "materialSupForm" autocomplete="off">
             <div id="matSup1" class = "matSup">
               <br>
-              <label for="enterpriseName">Supplier 1 (Same in Supplier Tab):</label>
-              <input type="number" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
-              <br>
-              <br>
-              <label for="period">Period (Specify the Unit):</label>
-              <input type="text" class="periodSupMat" name="periodSupMat" required>
-              <br>
               <label for="transportMode">Transport Mode:</label>
-                <form method="post">
-                  <select name="Mode">
-                    <option value="none">Select an option</option>
-                    <option value="Airplane">Airplane</option>
-                    <option value="Bike">Bike</option>
-                    <option value="Car">Car</option>
-                    <option value="Multi">Multi Modal</option>
-                    <option value="Ship">Ship</option>
-                    <option value="Train">Train</option>
-                    <option value="Truck">Truck</option>
-                  </select>
-                </form>
+              <form method="post" >
+                <select name="Mode">
+                  <option value="none">Select an option</option>
+                  <option value="Airplane">Airplane</option>
+                  <option value="Bike">Bike</option>
+                  <option value="Car">Car</option>
+                  <option value="Multi">Multi Modal</option>
+                  <option value="Ship">Ship</option>
+                  <option value="Train">Train</option>
+                  <option value="Truck">Truck</option>
+                </select>
+              </form>
+              <br>
+              <br>
+              <label for="enterpriseName">Shift Period:</label>
+              <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+              <br>
+              <label for="quantityShift">Quantity per Shift:</label>
+              <input type="number" class="quantityShift" name="quantityShift" required>
               <br>
               <br>
             </div>

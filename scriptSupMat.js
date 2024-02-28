@@ -11,15 +11,6 @@ function addMatSupplier(buttonElement) {
   newMatSupplier.id = "supplier" + supplierMatCount++; // Assign a unique ID
   newMatSupplier.classList.add("matSup");
   newMatSupplier.innerHTML = `
-  <br>
-
-  <label for="enterpriseName">Supplier ${supplierMatCount} (Same in Supplier Tab):</label>
-  <input type="number" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
-  <br>
-  <br>
-  <label for="period">Period (Specify the Unit):</label>
-  <input type="text" class="periodSupMat" name="periodSupMat" required>
-  <br>
   <label for="transportMode">Transport Mode:</label>
     <form method="post">
       <select name="Mode">
@@ -32,8 +23,14 @@ function addMatSupplier(buttonElement) {
         <option value="Train">Train</option>
         <option value="Truck">Truck</option>
       </select>
+      <br>
+      <br>
+      <label for="enterpriseName">Shift Period:</label>
+      <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+      <br>
+      <label for="quantityShift">Quantity per Shift:</label>
+      <input type="number" class="quantityShift" name="quantityShift" required>
     </form>
-  <br>
   <br>
   <button class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
   `;

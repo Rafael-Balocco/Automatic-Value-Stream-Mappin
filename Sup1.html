@@ -24,7 +24,7 @@
             <ul>
               <li><a href="mapInfos.html">Map Infos</a></li>
               <li style="background-color:rgb(0, 99, 228);"><a href="Sup1.html" style="color: white;">Supplier</a></li>
-              <li><a href="Sup2.html">Consumer</a></li>
+              <li><a href="Sup2.html">Customer</a></li>
               <li><a href="process.html">Process Creation</a></li>
               <li><a href="inventory.html">Inventory</a></li>
               <li><a href="matFlow.html">Material Flow Data</a></li>
@@ -36,14 +36,14 @@
           <div class="flex-container">
             <a href="Sup2.html"><button>Next Page</button></a>
           </div>
-          <form id="supplierForm">
+          <form id="supplierForm" autocomplete="off">
             <div id="supplier1" class="supplier">
               <br>  
               <label for="enterpriseName">Supplier 1 Name:</label>
               <input type="text" class="enterpriseName" name="enterpriseName" required>
               <br>
-              <label for="creatorName">What it Supplies:</label>
-              <input type="text" class="creatorName" name="creatorName" required>
+              <label for="supplierName">What it Supplies:</label>
+              <input type="text" class="supplierName" name="supplierName" required>
               <br>
             </div>
             <button id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>

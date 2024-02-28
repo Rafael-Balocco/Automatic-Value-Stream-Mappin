@@ -17,20 +17,20 @@ function addProcess(buttonElement) {
         <input type="text" class="processName" name="processName" required>
         <br>
         <br>
-        <label for="cycleTime">Cycle Time (minutes):</label>
+        <label for="cycleTime">Cycle Time (Seconds):</label>
         <input type="number" class="cycleTime" name="cycleTime" required>
         <br>
         <br>
-        <label for="availableTime">Available Time (minutes):</label>
-        <input type="number" class="availableTime" name="availableTime" required>
+        <label for="availableTime">Available Time (Seconds):</label>
+        <input type="number" class="availableTime" name="availableTime" >
         <br>
         <br>
-        <label for="upTime">Up Time (minutes):</label>
-        <input type="number" class="upTime" name="upTime" required>
+        <label for="upTime">Up Time (%):</label>
+        <input type="number" class="upTime" name="upTime" >
         <br>
         <br>
         <label for="scrapRate">Scrap Rate (%):</label>
-        <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01" required>
+        <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
         <br>
         <br>
         <button class="addProcessButton" onclick="addProcess(this)">Add another Process</button>

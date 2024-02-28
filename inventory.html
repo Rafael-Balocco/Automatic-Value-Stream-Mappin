@@ -24,7 +24,7 @@
             <ul>
               <li><a href="mapInfos.html">Map Infos</a></li>
               <li><a href="Sup1.html">Supplier</a></li>
-              <li><a href="Sup2.html">Consumer</a></li>
+              <li><a href="Sup2.html">Customer</a></li>
               <li><a href="process.html">Process Creation</a></li>
               <li style="background-color:rgb(0, 99, 228);"><a href="inventory.html" style="color: white;">Inventory</a></li>
               <li><a href="matFlow.html">Material Flow Data</a></li>
@@ -36,16 +36,11 @@
           <div class="flex-container">
             <a href="matFlow.html"><button>Next Page</button></a>
           </div>
-          <form id="inventoryForm">
+          <form id="inventoryForm" autocomplete="off">
             <div id="inventory1" class="inventory">
               <br>
               <label for="relatedProcess">Process 1 Inventory:</label>
               <input type="number" class="processINumber" name="processINumber" required>
-              <br>
-              <br>
-              <label for="quantity">Quantity:</label>
-              <input type="number" class="inventoryQuantity" name="inventoryQuantity" required>
-              <br>
               <br>
             </div>
             <button id="addInventoryButton" class = "addInventoryButton">Add Another Inventory</button>
