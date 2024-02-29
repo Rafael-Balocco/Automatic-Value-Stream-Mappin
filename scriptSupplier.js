@@ -24,8 +24,6 @@ function addSupplier(buttonElement) {
         <label for="creatorName">What it Supplies:</label>
         <input type="text" class="creatorName" name="creatorName">
         <button type="button" class="removeSupplierButton" >Remove Supplier</button>
-        <br>
-        <br>
         <button type="button" class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
     `;
 
@@ -41,16 +39,16 @@ function addSupplier(buttonElement) {
             supplierCount--;
             const existingButtons = document.querySelectorAll(".addSupplierButton");
             existingButtons.forEach(button => {
-                button.style.display = "block"; // mostra o botão
+                button.style.display = "inline"; // mostra o botão
             });
         }
         if(supplierCount>2){
             const supplierToRemove = this.parentNode;
             const previousSupplier = supplierToRemove.previousSibling;
             const removeButtonDisplay = previousSupplier.querySelector(".removeSupplierButton");
-            removeButtonDisplay.style.display = "block";
+            removeButtonDisplay.style.display = "inline";
             const addButton = previousSupplier.querySelector(".addSupplierButton");
-            addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+            addButton.style.display = "inline"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
             supplierToRemove.remove();
             supplierCount--;
         }    

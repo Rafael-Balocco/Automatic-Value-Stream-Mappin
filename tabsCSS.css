@@ -8,11 +8,16 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.buttonsSupplier {
+    text-align: center;
+}
+
 .removeInfoButton,
 .removeMatSupplierButton,
 .removeInventoryButton,
 .removeSupplierButton,
 .removeProcessButton {
+    margin: 0;
     padding: 3px 8px;
     border: 2px solid rgb(250, 90, 90); 
     background-color: rgb(250, 90, 90); 
@@ -29,6 +34,7 @@
 .addProcessButton,
 .addSupplierButton,
 .addInfoButton{
+    margin: 0;
     padding: 3px 8px;
     border: 2px solid rgb(100, 100, 100); /* Grey border */
     background-color: rgb(100, 100, 100); /* Grey background */

@@ -144,7 +144,6 @@ function addInfo(buttonElement) {
     </div>
     <br>
     <button type="button" class="removeInfoButton">Remove Information</button>
-    <br><br>
     <button type = "button" class="addInfoButton" onclick="addInfo(this)">Add Another Information</button>
     <script src="scriptSupplier.js"></script>
   `;
@@ -163,7 +162,7 @@ function addInfo(buttonElement) {
             infoCount--;
             const existingButtons = document.querySelectorAll(".addInfoButton");
             existingButtons.forEach(button => {
-                button.style.display = "block"; // mostra o botão
+                button.style.display = "inline"; // mostra o botão
             });
         }
 
@@ -171,9 +170,9 @@ function addInfo(buttonElement) {
             const infoToRemove = this.parentNode;
             const previousInfo = infoToRemove.previousSibling;
             const removeButtonDisplay = previousInfo.querySelector(".removeInfoButton");
-            removeButtonDisplay.style.display = "block";
+            removeButtonDisplay.style.display = "inline";
             const addButton = previousInfo.querySelector(".addInfoButton");
-            addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+            addButton.style.display = "inline"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
             infoToRemove.remove();
             infoCount--;
         }    

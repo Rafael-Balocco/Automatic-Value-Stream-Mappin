@@ -23,8 +23,6 @@ function addInventory(buttonElement) {
     <input type="number" class="processINumber" name="processINumber" required>
     <br><br>
     <button type = "button" class="removeInventoryButton">Remove Inventory</button> 
-    <br>
-    <br>
     <button type = "button" class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
   `;
 
@@ -39,16 +37,16 @@ function addInventory(buttonElement) {
           inventoryCount--;
           const existingButtons = document.querySelectorAll(".addInventoryButton");
           existingButtons.forEach(button => {
-              button.style.display = "block"; // mostra o botão
+              button.style.display = "inline"; // mostra o botão
           });
       }
       if(inventoryCount>2){
           const inventoryToRemove = this.parentNode;
           const previousInventory = inventoryToRemove.previousSibling;
           const removeButtonDisplay = previousInventory.querySelector(".removeInventoryButton");
-          removeButtonDisplay.style.display = "block";
+          removeButtonDisplay.style.display = "inline";
           const addButton = previousInventory.querySelector(".addInventoryButton");
-          addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+          addButton.style.display = "inline"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
           inventoryToRemove.remove();
           inventoryCount--;
       }    

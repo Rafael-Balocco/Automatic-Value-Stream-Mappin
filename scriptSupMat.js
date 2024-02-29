@@ -42,7 +42,6 @@ function addMatSupplier(buttonElement) {
     </form>
   <br>
   <button type="button" class="removeMatSupplierButton"> Remove Supplier</button>
-  <br><br>
   <button type="button" class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
   `;
 
@@ -57,16 +56,16 @@ function addMatSupplier(buttonElement) {
           supplierMatCount--;
           const existingButtons = document.querySelectorAll(".addMatSupplierButton");
           existingButtons.forEach(button => {
-            button.style.display = "block"; // mostra o botão
+            button.style.display = "inline"; // mostra o botão
           });
       }
       if(supplierMatCount>2){
           const supplierMatToRemove = this.parentNode;
           const previousMatSupplier = supplierMatToRemove.previousSibling;
           const removeButtonDisplay = previousMatSupplier.querySelector(".removeMatSupplierButton");
-          removeButtonDisplay.style.display = "block";
+          removeButtonDisplay.style.display = "inline";
           const addButton = previousMatSupplier.querySelector(".addMatSupplierButton");
-          addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+          addButton.style.display = "inline"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
           supplierMatToRemove.remove();
           supplierMatCount--;
       }    

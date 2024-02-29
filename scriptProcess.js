@@ -41,8 +41,6 @@ function addProcess(buttonElement) {
         <br>
         <br>
         <button type="button" class="removeProcessButton">Remove Process</button>
-        <br>
-        <br>
         <button type = "button" class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
     `;
 
@@ -57,16 +55,16 @@ function addProcess(buttonElement) {
             processCounter--;
             const existingButtons = document.querySelectorAll(".addProcessButton");
             existingButtons.forEach(button => {
-                button.style.display = "block"; // mostra o botão
+                button.style.display = "inline"; // mostra o botão
             });
         }
         if(processCounter>2){
             const processToRemove = this.parentNode;
             const previousProcess = processToRemove.previousSibling;
             const removeButtonDisplay = previousProcess.querySelector(".removeProcessButton");
-            removeButtonDisplay.style.display = "block";
+            removeButtonDisplay.style.display = "inline";
             const addButton = previousProcess.querySelector(".addProcessButton");
-            addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+            addButton.style.display = "inline"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
             processToRemove.remove();
             processCounter--;
         }    
