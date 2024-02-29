@@ -1,16 +1,25 @@
 let supplierMatCount = 1; // Initialize a counter for unique IDs
 
 function addMatSupplier(buttonElement) {
-  // Hide previously generated buttons
   const existingButtons = document.querySelectorAll(".addMatSupplierButton");
   existingButtons.forEach(button => {
     button.style.display = "none"; // Hide the button
   });
 
+  if(supplierMatCount > 1){
+    const existingRemoveButtons = document.querySelectorAll(".removeMatSupplierButton");
+    existingRemoveButtons.forEach(button => {
+        button.style.display = "none"; // Esconde o botão
+    });
+  }
+
   const newMatSupplier = document.createElement("div");
-  newMatSupplier.id = "supplier" + supplierMatCount++; // Assign a unique ID
+  newMatSupplier.id = "matSup" + supplierMatCount; // Assign a unique ID
+  supplierMatCount++;
   newMatSupplier.classList.add("matSup");
   newMatSupplier.innerHTML = `
+  <h3>Supplier Number ${supplierMatCount}</h3>
+  <br>
   <label for="transportMode">Transport Mode:</label>
     <form method="post">
       <select name="Mode">
@@ -32,11 +41,36 @@ function addMatSupplier(buttonElement) {
       <input type="number" class="quantityShift" name="quantityShift" required>
     </form>
   <br>
-  <button class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
+  <button type="button" class="removeMatSupplierButton"> Remove Supplier</button>
+  <br><br>
+  <button type="button" class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
   `;
 
-  const parentElement = buttonElement.parentNode; // Get the parent "tab" element
-  parentElement.insertBefore(newMatSupplier, buttonElement); // Insere antes do botão
+  const formElement = document.getElementById("materialSupForm"); // Obtém o elemento do formulário
+  formElement.appendChild(newMatSupplier); // Anexa o novo fornecedor dentro do formulário
+
+  const removeButton = newMatSupplier.querySelector(".removeMatSupplierButton");
+  removeButton.addEventListener("click", function() {
+      if(supplierMatCount==2) {
+          const supplierMatToRemove = this.parentNode;
+          supplierMatToRemove.remove();
+          supplierMatCount--;
+          const existingButtons = document.querySelectorAll(".addMatSupplierButton");
+          existingButtons.forEach(button => {
+            button.style.display = "block"; // mostra o botão
+          });
+      }
+      if(supplierMatCount>2){
+          const supplierMatToRemove = this.parentNode;
+          const previousMatSupplier = supplierMatToRemove.previousSibling;
+          const removeButtonDisplay = previousMatSupplier.querySelector(".removeMatSupplierButton");
+          removeButtonDisplay.style.display = "block";
+          const addButton = previousMatSupplier.querySelector(".addMatSupplierButton");
+          addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+          supplierMatToRemove.remove();
+          supplierMatCount--;
+      }    
+  });
 }
 
 // Initial button for first supplier

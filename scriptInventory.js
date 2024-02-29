@@ -14,7 +14,7 @@ function addInventory(buttonElement) {
   }
 
   const newInventory = document.createElement("div");
-  newInventory.id = "inventory"; // Assign a unique ID
+  newInventory.id = "inventory" + inventoryCount; // Assign a unique ID
   inventoryCount++;
   newInventory.classList.add("inventory");
   newInventory.innerHTML = `

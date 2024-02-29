@@ -40,7 +40,7 @@ function addProcess(buttonElement) {
         <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
         <br>
         <br>
-        <button type "button" class="removeProcessButton">Remove Process</button>
+        <button type="button" class="removeProcessButton">Remove Process</button>
         <br>
         <br>
         <button type = "button" class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
