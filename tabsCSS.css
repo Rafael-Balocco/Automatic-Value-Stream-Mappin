@@ -7,9 +7,9 @@
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-.removeSupplierButton {
-    display: inline-block;
+.removeInventoryButton,
+.removeSupplierButton,
+.removeProcessButton {
     padding: 3px 8px;
     border: 2px solid rgb(250, 90, 90); 
     background-color: rgb(250, 90, 90); 
@@ -27,7 +27,6 @@
 .addProcessButton,
 .addSupplierButton,
 .addInfoButton{
-    display: inline-block;
     padding: 3px 8px;
     border: 2px solid rgb(100, 100, 100); /* Grey border */
     background-color: rgb(100, 100, 100); /* Grey background */
@@ -40,9 +39,11 @@
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;  
 }
 
-.removeSupplierButton:hover{
+.removeInventoryButton:hover,
+.removeSupplierButton:hover,
+.removeProcessButton:hover{
     border: 2px solid rgb(250, 0, 0); 
-    background-color: rgb(254, 37, 37);
+    background-color: rgb(255, 0, 0);
 }
 
 .addSupplierButton:hover,

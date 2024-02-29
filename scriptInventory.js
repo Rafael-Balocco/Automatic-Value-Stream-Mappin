@@ -6,21 +6,53 @@ function addInventory(buttonElement) {
     button.style.display = "none"; // Hide the button
   });
 
+  if(inventoryCount > 1){
+    const existingRemoveButtons = document.querySelectorAll(".removeInventoryButton");
+    existingRemoveButtons.forEach(button => {
+        button.style.display = "none"; // Esconde o botão
+    });
+  }
+
   const newInventory = document.createElement("div");
-  newInventory.id = "inventory" + inventoryCount++; // Assign a unique ID
+  newInventory.id = "inventory"; // Assign a unique ID
+  inventoryCount++;
   newInventory.classList.add("inventory");
   newInventory.innerHTML = `
     <br>
     <label for="relatedProcess">Process ${inventoryCount} Inventory:</label>
     <input type="number" class="processINumber" name="processINumber" required>
+    <br><br>
+    <button type = "button" class="removeInventoryButton">Remove Inventory</button> 
     <br>
     <br>
-    <button class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
+    <button type = "button" class="addInventoryButton" onclick="addInventory(this)">Add Another Inventory</button>
   `;
 
   const formElement = document.getElementById("inventoryForm"); // Get the form element
   formElement.appendChild(newInventory); // Append the new supplier inside the form
 
+  const removeButton = newInventory.querySelector(".removeInventoryButton");
+  removeButton.addEventListener("click", function() {
+      if(inventoryCount==2) {
+          const inventoryToRemove = this.parentNode;
+          inventoryToRemove.remove();
+          inventoryCount--;
+          const existingButtons = document.querySelectorAll(".addInventoryButton");
+          existingButtons.forEach(button => {
+              button.style.display = "block"; // mostra o botão
+          });
+      }
+      if(inventoryCount>2){
+          const inventoryToRemove = this.parentNode;
+          const previousInventory = inventoryToRemove.previousSibling;
+          const removeButtonDisplay = previousInventory.querySelector(".removeInventoryButton");
+          removeButtonDisplay.style.display = "block";
+          const addButton = previousInventory.querySelector(".addInventoryButton");
+          addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+          inventoryToRemove.remove();
+          inventoryCount--;
+      }    
+  });
 }
 
 // Initial button for first inventory

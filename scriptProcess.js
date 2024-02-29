@@ -6,13 +6,20 @@ function addProcess(buttonElement) {
         button.style.display = "none"; // Esconde o botão
     });
 
+    if(processCounter > 1){
+        const existingRemoveButtons = document.querySelectorAll(".removeProcessButton");
+        existingRemoveButtons.forEach(button =>{
+            button.style.display ="none";
+        })
+    }
+
+
     const newProcess = document.createElement("div");
-    newProcess.id = "process" + processCounter++;
+    newProcess.id = "process" + processCounter;
+    processCounter++;
     newProcess.classList.add("process"); // Adiciona a classe "process"
     newProcess.innerHTML = `
-
         <br>
-
         <label for="processName">Process ${processCounter} Name:</label>
         <input type="text" class="processName" name="processName" required>
         <br>
@@ -33,11 +40,38 @@ function addProcess(buttonElement) {
         <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
         <br>
         <br>
-        <button class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
+        <button type "button" class="removeProcessButton">Remove Process</button>
+        <br>
+        <br>
+        <button type = "button" class="addProcessButton" onclick="addProcess(this)">Add another Process</button>
     `;
 
-    const parentElement = buttonElement.parentNode; // Obtém o elemento pai "form"
-    parentElement.insertBefore(newProcess, buttonElement); // Insere antes do botão
+    const formElement = document.getElementById("processForm"); // Obtém o elemento do formulário
+    formElement.appendChild(newProcess); // Anexa o novo fornecedor dentro do formulário
+
+    const removeButton = newProcess.querySelector(".removeProcessButton");
+    removeButton.addEventListener("click", function() {
+        if(processCounter==2) {
+            const processToRemove = this.parentNode;
+            processToRemove.remove();
+            processCounter--;
+            const existingButtons = document.querySelectorAll(".addProcessButton");
+            existingButtons.forEach(button => {
+                button.style.display = "block"; // mostra o botão
+            });
+        }
+        if(processCounter>2){
+            const processToRemove = this.parentNode;
+            const previousProcess = processToRemove.previousSibling;
+            const removeButtonDisplay = previousProcess.querySelector(".removeProcessButton");
+            removeButtonDisplay.style.display = "block";
+            const addButton = previousProcess.querySelector(".addProcessButton");
+            addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+            processToRemove.remove();
+            processCounter--;
+        }    
+    });
+
 }
 
 // Botão inicial para o primeiro processo
