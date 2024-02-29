@@ -7,19 +7,28 @@ function addSupplier(buttonElement) {
         button.style.display = "none"; // Esconde o botão
     });
 
+    if(supplierCount > 1){
+        const existingRemoveButtons = document.querySelectorAll(".removeSupplierButton");
+        existingRemoveButtons.forEach(button => {
+            button.style.display = "none"; // Esconde o botão
+        });
+    }
+
     const newSupplier = document.createElement("div");
-    newSupplier.id = "supplier" + supplierCount++;
+    newSupplier.id = "supplier" + supplierCount;
+    supplierCount++;
     newSupplier.classList.add("supplier");
     newSupplier.innerHTML = `
         <br>
         <label for="enterpriseName">Supplier ${supplierCount} Name:</label>
-        <input type="text" class="enterpriseName" name="enterpriseName" required>
+        <input type="text" class="enterpriseName" name="enterpriseName" required>   
         <br>
         <label for="creatorName">What it Supplies:</label>
-        <input type="text" class="creatorName" name="creatorName" required>
+        <input type="text" class="creatorName" name="creatorName">
         <br>
-        <button class="removeSupplierButton">Remove Supplier</button>
-        <button class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
+        <button type="button" class="removeSupplierButton" >Remove Supplier</button>
+        <br><br>
+        <button type="button" class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
     `;
 
     const formElement = document.getElementById("supplierForm"); // Obtém o elemento do formulário
@@ -28,12 +37,25 @@ function addSupplier(buttonElement) {
     // Adiciona o ouvinte de evento para remover o fornecedor
     const removeButton = newSupplier.querySelector(".removeSupplierButton");
     removeButton.addEventListener("click", function() {
-        const supplierToRemove = this.parentNode;
-        const previousSupplier = supplierToRemove.previousSibling;
-        const addButton = previousSupplier.querySelector(".addSupplierButton");
-        addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
-        supplierToRemove.remove();
-        supplierCount--;
+        if(supplierCount==2) {
+            const supplierToRemove = this.parentNode;
+            supplierToRemove.remove();
+            supplierCount--;
+            const existingButtons = document.querySelectorAll(".addSupplierButton");
+            existingButtons.forEach(button => {
+                button.style.display = "block"; // mostra o botão
+            });
+        }
+        if(supplierCount>2){
+            const supplierToRemove = this.parentNode;
+            const previousSupplier = supplierToRemove.previousSibling;
+            const removeButtonDisplay = previousSupplier.querySelector(".removeSupplierButton");
+            removeButtonDisplay.style.display = "block";
+            const addButton = previousSupplier.querySelector(".addSupplierButton");
+            addButton.style.display = "block"; // Mostra o botão "Adicionar Fornecedor" para o fornecedor anterior
+            supplierToRemove.remove();
+            supplierCount--;
+        }    
     });
 }
 

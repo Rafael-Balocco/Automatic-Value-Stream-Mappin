@@ -37,16 +37,16 @@
             <a href="Sup2.html"><button>Next Page</button></a>
           </div>
           <form id="supplierForm" autocomplete="off">
-            <div id="supplier1" class="supplier">
+            <div id="supplier0" class="supplier">
               <br>  
               <label for="enterpriseName">Supplier 1 Name:</label>
               <input type="text" class="enterpriseName" name="enterpriseName" required>
               <br>
               <label for="supplierName">What it Supplies:</label>
-              <input type="text" class="supplierName" name="supplierName" required>
+              <input type="text" class="supplierName" name="supplierName">
               <br>
             </div>
-            <button id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
+            <button type="button" id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
         </form>
         </div>
 
@@ -58,4 +58,5 @@
           </p>
     </footer>
     <script src="scriptSupplier.js"></script>
+
   </body>
