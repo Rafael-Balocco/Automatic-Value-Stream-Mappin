@@ -36,7 +36,7 @@
           <div class="flex-container">
             <a href="Sup2.html"><button>Next Page</button></a>
           </div>
-          <form id="supplierForm" autocomplete="off">
+          <form id="supplierForm" action="/submit-form-Sup1Info"  method="POST" autocomplete="off">
             <div id="supplier0" class="supplier">
               <br>  
               <label for="enterpriseName">Supplier 1 Name:</label>
@@ -47,6 +47,9 @@
               <br>
             </div>
             <button type="button" id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
+            <div class="flex-container">
+              <button type="submit" onclick="redirectToNextPage()">Send / Next Page</button>
+            </div>
         </form>
         </div>
 
@@ -58,5 +61,12 @@
           </p>
     </footer>
     <script src="scriptSupplier.js"></script>
-
+    <script>
+      function redirectToNextPage() {
+        // Redireciona para a próxima página após um pequeno atraso
+        setTimeout(() => {
+          window.location.href = "Sup1.html";
+        }, 100);
+      }
+    </script>
   </body>
