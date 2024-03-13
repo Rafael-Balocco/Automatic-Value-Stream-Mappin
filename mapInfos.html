@@ -33,10 +33,8 @@
         </div>
         <div class="tab">
           <h2>Basic Information</h2>
-          <div class="flex-container">
-            <a href="Sup1.html"><button>Next Page</button></a>
-          </div>
-          <form id="mapInfoForm" autocomplete="off">
+
+          <form id="mapInfoForm" action="/submit-form-mapInfo"  method="POST" autocomplete="off">
             <br>
             <label for="enterpriseName">Enterprise Name:</label>
             <input type="text" id="enterpriseName" name="enterpriseName">
@@ -44,6 +42,9 @@
             <label for="creatorName">Creator Name:</label>
             <input type="text" id="creatorName" name="creatorName" required>
             <br>
+            <div class="flex-container">
+              <button type="submit" onclick="redirectToNextPage()">Send / Next Page</button>
+            </div>
         </form>
       </div>
         
@@ -54,5 +55,13 @@
             Copyright &copy; 2022 SMART LAB. All rights reserved.
           </p>
     </footer>
-
+    <script>
+      function redirectToNextPage() {
+        // Redireciona para a próxima página após um pequeno atraso
+        setTimeout(() => {
+          window.location.href = "Sup1.html";
+        }, 100);
+      }
+    </script>
   </body>
+</html>
