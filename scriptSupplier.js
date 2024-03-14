@@ -53,6 +53,7 @@ function addSupplier(buttonElement) {
             supplierCount--;
         }    
     });
+    document.getElementById('number_supplier').value = supplierCount;
 }
 
 // Botão inicial para o primeiro fornecedor

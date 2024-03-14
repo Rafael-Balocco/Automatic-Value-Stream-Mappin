@@ -34,7 +34,7 @@
         <div class="tab">
           <h2>Basic Information</h2>
 
-          <form id="mapInfoForm" action="/submit-form-mapInfo"  method="POST" autocomplete="off">
+          <form id="mapInfoForm" action="/submit-form-mapInfo"  method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">
             <br>
             <label for="enterpriseName">Enterprise Name:</label>
             <input type="text" id="enterpriseName" name="enterpriseName">
@@ -43,7 +43,7 @@
             <input type="text" id="creatorName" name="creatorName" required>
             <br>
             <div class="flex-container">
-              <button type="submit" onclick="redirectToNextPage()">Send / Next Page</button>
+              <button type="submit">Send / Next Page</button>
             </div>
         </form>
       </div>
@@ -57,11 +57,16 @@
     </footer>
     <script>
       function redirectToNextPage() {
-        // Redireciona para a próxima página após um pequeno atraso
-        setTimeout(() => {
-          window.location.href = "Sup1.html";
-        }, 100);
-      }
+        if (document.getElementById("mapInfoForm").checkValidity()) {
+        
+          setTimeout(() => {
+              window.location.href = "Sup1.html";
+          }, 100);
+          return true; // Permite que o formulário seja submetido
+        } else {
+        return false; // Impede o envio do formulário se a validação falhar
+    }
+}
     </script>
   </body>
 </html>

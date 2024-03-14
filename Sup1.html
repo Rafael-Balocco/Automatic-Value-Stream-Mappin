@@ -36,7 +36,7 @@
           <div class="flex-container">
             <a href="Sup2.html"><button>Next Page</button></a>
           </div>
-          <form id="supplierForm" action="/submit-form-Sup1Info"  method="POST" autocomplete="off">
+          <form id="supplierForm" action="/submit-form-Sup1Info"  method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">
             <div id="supplier0" class="supplier">
               <br>  
               <label for="enterpriseName">Supplier 1 Name:</label>
@@ -46,9 +46,10 @@
               <input type="text" class="supplierName" name="supplierName">
               <br>
             </div>
+            <input type="hidden" name="number_supplier" id="number_supplier" value="1"> 
             <button type="button" id="addSupplierButton" class="addSupplierButton" onclick="this.style.display = 'none';">Add Another Supplier</button>
             <div class="flex-container">
-              <button type="submit" onclick="redirectToNextPage()">Send / Next Page</button>
+              <button type="submit">Send / Next Page</button>
             </div>
         </form>
         </div>
@@ -63,10 +64,15 @@
     <script src="scriptSupplier.js"></script>
     <script>
       function redirectToNextPage() {
-        // Redireciona para a próxima página após um pequeno atraso
-        setTimeout(() => {
-          window.location.href = "Sup1.html";
-        }, 100);
+              if (document.getElementById("supplierForm").checkValidity()) {
+              
+                setTimeout(() => {
+                    window.location.href = "Sup2.html";
+                }, 100);
+                return true; // Permite que o formulário seja submetido
+              } else {
+              return false; // Impede o envio do formulário se a validação falhar
+          }
       }
     </script>
   </body>
