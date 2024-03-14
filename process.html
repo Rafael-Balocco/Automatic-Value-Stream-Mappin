@@ -36,7 +36,7 @@
           <div class="flex-container">
             <a href="inventory.html"><button>Next Page</button></a>
           </div>  
-          <form id="processForm" autocomplete="off">
+          <form id="processForm" action="/submit-form-ProcessInfo"  method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">>
             <div id="process0" class="process"> <!-- Adiciona uma classe process -->
               <br>
                 <label for="processName">Process 1 Name:</label>
@@ -61,6 +61,9 @@
                 <br>
             </div>
             <button type = "button" id="addProcessButton" class="addProcessButton">Add another Process</button>
+            <div class="flex-container">
+              <button type="submit">Send / Next Page</button>
+            </div>
         </form>
         </div>
         
@@ -72,4 +75,18 @@
           </p>
     </footer>
     <script src="scriptProcess.js"></script>
+    <script src="scriptSupplier.js"></script>
+    <script>
+      function redirectToNextPage() {
+              if (document.getElementById("processForm").checkValidity()) {
+              
+                setTimeout(() => {
+                    window.location.href = "inventory.html";
+                }, 100);
+                return true; // Permite que o formulário seja submetido
+              } else {
+              return false; // Impede o envio do formulário se a validação falhar
+          }
+      }
+    </script>
   </body>
