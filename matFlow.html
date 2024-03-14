@@ -36,7 +36,7 @@
           <div class="flex-container">
             <a href="infoFlow.html"><button>Next Page</button></a>
           </div>
-          <form id="consumerMatForm">
+          <form id="consumerMatForm" action="/submit-form-CustomerMatInfo" method="POST" autocomplete="off">
             <div id = "consumerMat1" class = "consumerMat">
               <br>
               <label for="transportMode">Transport Mode:</label>
@@ -59,6 +59,9 @@
               <br>
               <label for="quantityShift">Quantity per Shift:</label>
               <input type="number" class="quantityShift" name="quantityShift" required>
+            </div>
+            <div class="flex-container">
+              <button type="submit">Send / Next Page</button>
             </div>
           </form>
         </div>
