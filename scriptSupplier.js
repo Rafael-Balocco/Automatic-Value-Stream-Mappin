@@ -22,7 +22,7 @@ function addSupplier(buttonElement) {
         <label for="enterpriseName">Supplier ${supplierCount} Name:</label>
         <input type="text" class="enterpriseName" name="enterpriseName" required>   
         <label for="creatorName">What it Supplies:</label>
-        <input type="text" class="creatorName" name="creatorName">
+        <input type="text" class="supplierName" name="supplierName">
         <button type="button" class="removeSupplierButton" >Remove Supplier</button>
         <button type="button" class="addSupplierButton" onclick="addSupplier(this)">Add another Supplier</button>
     `;
