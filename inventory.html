@@ -36,7 +36,7 @@
           <div class="flex-container">
             <a href="matFlow.html"><button>Next Page</button></a>
           </div>
-          <form id="inventoryForm" autocomplete="off">
+          <form id="inventoryForm" action="/submit-form-InventoryInfo"  method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">>>
             <div id="inventory0" class="inventory">
               <br>
               <label for="relatedProcess">Process 1 Inventory:</label>
@@ -44,6 +44,9 @@
               <br>
             </div>
             <button type = "button" id = "addInventoryButton" class = "addInventoryButton">Add Another Inventory</button>
+            <div class="flex-container">
+              <button type="submit">Send / Next Page</button>
+            </div>
           </form>
         </div>
         
@@ -55,5 +58,18 @@
           </p>
     </footer>
     <script src="scriptInventory.js"></script>
+    <script>
+      function redirectToNextPage() {
+              if (document.getElementById("inventoryForm").checkValidity()) {
+              
+                setTimeout(() => {
+                    window.location.href = "matFlow.html";
+                }, 100);
+                return true; // Permite que o formulário seja submetido
+              } else {
+              return false; // Impede o envio do formulário se a validação falhar
+          }
+      }
+    </script>
 
   </body>
