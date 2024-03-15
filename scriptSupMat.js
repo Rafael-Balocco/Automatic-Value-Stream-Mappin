@@ -20,9 +20,8 @@ function addMatSupplier(buttonElement) {
   newMatSupplier.innerHTML = `
   <h3>Supplier Number ${supplierMatCount}</h3>
   <br>
-  <label for="transportMode">Transport Mode:</label>
-    <form method="post">
-      <select name="Mode">
+  <label for="ModeSup">Transport Mode:</label>
+      <select name="ModeSup">
         <option value="none">Select an option</option>
         <option value="Airplane">Airplane</option>
         <option value="Bike">Bike</option>
@@ -39,13 +38,12 @@ function addMatSupplier(buttonElement) {
       <br>
       <label for="quantityShift">Quantity per Shift:</label>
       <input type="number" class="quantityShift" name="quantityShift" required>
-    </form>
   <br>
   <button type="button" class="removeMatSupplierButton"> Remove Supplier</button>
   <button type="button" class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
   `;
 
-  const formElement = document.getElementById("materialSupForm"); // Obtém o elemento do formulário
+  const formElement = document.getElementById("MatForm"); // Obtém o elemento do formulário
   formElement.appendChild(newMatSupplier); // Anexa o novo fornecedor dentro do formulário
 
   const removeButton = newMatSupplier.querySelector(".removeMatSupplierButton");

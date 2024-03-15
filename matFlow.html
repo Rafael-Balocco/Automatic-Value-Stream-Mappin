@@ -32,37 +32,11 @@
           </ul>
         </div>
         <div class="consumerTab">
-          <h2>Customer Material Flow</h2>
+          <h2>Supplier Material Flow</h2>
           <div class="flex-container">
             <a href="infoFlow.html"><button>Next Page</button></a>
           </div>
           <form id="MatForm" action="/submit-form-MatInfo" method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">
-            <div id = "consumerMat1" class = "consumerMat">
-                <br>
-                <label for="ModeCustomer">Transport Mode:</label>
-                  <select name="ModeCustomer">
-                    <option value="none">Select an option</option>
-                    <option value="Airplane">Airplane</option>
-                    <option value="Bike">Bike</option>
-                    <option value="Car">Car</option>
-                    <option value="Multi">Multi Modal</option>
-                    <option value="Ship">Ship</option>
-                    <option value="Train">Train</option>
-                    <option value="Truck">Truck</option>
-                  </select>
-                <br>
-                <br>
-              <label for="shiftPeriocCustomer">Shift Period:</label>
-              <input type="text" class="customerShift" name="customerShift" required>
-              <br>
-              <label for="quantityShift">Quantity per Shift:</label>
-              <input type="number" class="quantityShiftCustomer" name="quantityShiftCustomer" required>
-            </div>
-        </div>
-
-        
-        <div class="tab">
-          <h2>Supplier Material Flow</h2>
             <div id="matSup0" class = "matSup">
               <br>
               <h3>Supplier Number 1</h3>
@@ -93,6 +67,32 @@
               <button type="submit">Send / Next Page</button>
             </div>
         </div>
+
+        <div class="tab">
+          <h2>Customer Material Flow</h2>
+          <div id = "consumerMat1" class = "consumerMat">
+            <br>
+            <label for="ModeCustomer">Transport Mode:</label>
+              <select name="ModeCustomer">
+                <option value="none">Select an option</option>
+                <option value="Airplane">Airplane</option>
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+                <option value="Multi">Multi Modal</option>
+                <option value="Ship">Ship</option>
+                <option value="Train">Train</option>
+                <option value="Truck">Truck</option>
+              </select>
+            <br>
+            <br>
+          <label for="shiftPeriocCustomer">Shift Period:</label>
+          <input type="text" class="customerShift" name="customerShift" required>
+          <br>
+          <label for="quantityShift">Quantity per Shift:</label>
+          <input type="number" class="quantityShiftCustomer" name="quantityShiftCustomer" required>
+        </div>
+    </div>
+          
       </form>
         
       </main>
