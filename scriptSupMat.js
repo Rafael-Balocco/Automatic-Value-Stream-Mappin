@@ -21,7 +21,7 @@ function addMatSupplier(buttonElement) {
   <h3>Supplier Number ${supplierMatCount}</h3>
   <br>
   <label for="ModeSup">Transport Mode:</label>
-      <select name="ModeSup">
+      <select name="ModeSup" required>
         <option value="none">Select an option</option>
         <option value="Airplane">Airplane</option>
         <option value="Bike">Bike</option>
@@ -34,10 +34,10 @@ function addMatSupplier(buttonElement) {
       <br>
       <br>
       <label for="enterpriseName">Shift Period:</label>
-      <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+      <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" >
       <br>
       <label for="quantityShift">Quantity per Shift:</label>
-      <input type="number" class="quantityShift" name="quantityShift" required>
+      <input type="number" class="quantityShift" name="quantityShift" >
   <br>
   <button type="button" class="removeMatSupplierButton"> Remove Supplier</button>
   <button type="button" class="addMatSupplierButton" onclick="addMatSupplier(this)">Add Another Supplier</button>
