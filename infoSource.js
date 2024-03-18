@@ -6,6 +6,30 @@ function myFunction() {
   document.getElementById("supplier&MRP-"+infoCount).style.display="none";
   document.getElementById("process&MRP-"+infoCount).style.display="none";
   document.getElementById(val).style.display="block";
+
+
+  var selectedOption = document.getElementById("options-in-menu-" + infoCount).value;
+  var flows = ["customer&MRP-" + infoCount, "supplier&MRP-" + infoCount, "process&MRP-" + infoCount];
+
+    // Esconder todos os fluxos e remover atributos "required"
+    flows.forEach(function(flow) {
+        document.getElementById(flow).style.display = "none";
+        var requiredFields = document.getElementById(flow).querySelectorAll("[required]");
+        requiredFields.forEach(function(field) {
+            field.removeAttribute("required");
+        });
+    });
+
+    // Exibir o fluxo selecionado e adicionar atributos "required" aos campos relevantes
+    var selectedFlow = document.getElementById(selectedOption);
+    if (selectedFlow) {
+        selectedFlow.style.display = "block";
+        var requiredFields = selectedFlow.querySelectorAll("[required]");
+        requiredFields.forEach(function(field) {
+            field.setAttribute("required", true);
+        });
+    }
+
 }
 
 function addInfo(buttonElement) {
@@ -28,8 +52,8 @@ function addInfo(buttonElement) {
   newInfoFlow.classList.add("infoFlow");
   newInfoFlow.innerHTML = `
     <label for="infoType">Connection ${infoCount}</label>
-    <select id="options-in-menu-${infoCount}">
-      <option value="none">Select an option</option>
+    <select id="options-in-menu-${infoCount}" name = "options-in-menu-${infoCount}">
+      <option value="" disabled selected hidden>Select an option</option>
       <option value="customer&MRP-${infoCount}">Between Customer and Production Control</option>
       <option value="supplier&MRP-${infoCount}">Between Supplier and Production Control</option>
       <option value="process&MRP-${infoCount}">Between Process and Production Control</option>
@@ -40,35 +64,28 @@ function addInfo(buttonElement) {
     <br>
     <h3>Flow Between Customer and Production Control</h3>
     <br>
-    <label for="infoType">Type of Information:</label>
-    <form method="post">
-      <select name="Mode">
-        <option value="none">Select an option</option>
+    <label for="typeCus">Type of Information:</label>
+      <select name="typeCus" required>
+        <option value="" disabled selected hidden>Select an option</option>
         <option value="eletronic">Eletronic (Email, Message ...)</option>
         <option value="physical">Physical (Document, Told ...)</option>
       </select>
-      <br>
-    </form>
     
     <br>
     <br>
 
-    <label for="period">Period (Specify the Unit):</label>
-    <input type="text" class = "period" name="period" required>
+    <label for="periodCus">Period (Specify the Unit):</label>
+    <input type="text" class = "periodCus" name="periodCus">
     <br>
-    <label for="content">Information Content:</label>
-    <input type="text" class="content" name="period" required>
+    <label for="contentCus">Information Content:</label>
+    <input type="text" class="contentCus" name="contentCus">
     <br>
-    <label for="receive">Who receive the Information:</label>
-    <form method="post">
-      <select name="receive">
-        <option value="none">Select an option</option>
-        <option value="eletronic">Production Control</option>
-        <option value="physical">Customer</option>
+    <label for="receiveCus">Who receive the Information:</label>
+      <select name="receiveCus">
+        <option value="" disabled selected hidden>Select an option</option>
+        <option value="Production Control">Production Control</option>
+        <option value="Customer">Customer</option>
       </select>
-    </form>
-
-    <br>
     
     </div>
 
@@ -76,31 +93,27 @@ function addInfo(buttonElement) {
     <br>
     <h3>Flow Between Supplier and Production Control</h3>
     <br>
-    <label for="infoType">Type of Information:</label>
-    <form method="post">
-      <select name="Mode">
-        <option value="none">Select an option</option>
+    <label for="typeSup">Type of Information:</label>
+      <select name="typeSup">
+        <option value="" disabled selected hidden>Select an option</option>
         <option value="eletronic">Eletronic (Email, Message ...)</option>
         <option value="physical">Physical (Document, Told ...)</option>
       </select>
-    </form>
 
     <br>
 
-    <label for="period">Period (Specify the Unit):</label>
-    <input type="text" class="period" name="period" required>
+    <label for="periodSup">Period (Specify the Unit):</label>
+    <input type="text" class="periodSup" name="periodSup">
     <br>
-    <label for="content">Information Content:</label>
-    <input type="text" class="content" name="period" required>
+    <label for="contentSup">Information Content:</label>
+    <input type="text" class="contentSup" name="contentSup">
     <br>
-    <label for="receive">Who receive the Information:</label>
-    <form method="post">
-      <select name="receive">
-        <option value="none">Select an option</option>
-        <option value="eletronic">Production Control</option>
-        <option value="physical">Supplier</option>
+    <label for="receiveSup">Who receive the Information:</label>
+      <select name="receiveSup" required>
+        <option value="" disabled selected hidden>Select an option</option>
+        <option value="Production Control">Production Control</option>
+        <option value="Supplier">Supplier</option>
       </select>
-    </form>
     <br>
 
     <label for="supName">Supplier Number (Same in Supplier Tab):</label>
@@ -113,31 +126,27 @@ function addInfo(buttonElement) {
     <br>
     <h3>Flow Between Process and Production Control</h3>
     <br>
-    <label for="infoType">Type of Information:</label>
-    <form method="post">
-      <select name="Mode">
-        <option value="none">Select an option</option>
+    <label for="typeProcess">Type of Information:</label>
+      <select name="typeProcess" required>
+        <option value="" disabled selected hidden>Select an option</option>
         <option value="eletronic">Eletronic (Email, Message ...)</option>
         <option value="physical">Physical (Document, Told ...)</option>
       </select>
-    </form>
 
     <br>
 
-    <label for="period">Period (Specify the Unit):</label>
-    <input type="text" class="period" name="period" required>
+    <label for="periodProcess">Period (Specify the Unit):</label>
+    <input type="text" class="periodProcess" name="periodProcess">
     <br>
-    <label for="content">Information Content:</label>
-    <input type="text" class="content" name="content" required>
+    <label for="contentProcess">Information Content:</label>
+    <input type="text" class="contentProcess" name="contentProcess">
     <br>
-    <label for="receive">Who receive the Information:</label>
-    <form method="post">
-      <select name="receive">
-        <option value="none">Select an option</option>
-        <option value="eletronic">Production Control</option>
-        <option value="physical">Process</option>
+    <label for="receiveProcess">Who receive the Information:</label>
+      <select name="receiveProcess">
+        <option value="" disabled selected hidden>Select an option</option>
+        <option value="Production Control">Production Control</option>
+        <option value="Process">Process</option>
       </select>
-    </form>
     <br>
     <label for="processNumber">Process Number:</label>
     <input type="number" class="processNumber" name="processNumber" required>
