@@ -43,7 +43,7 @@
               <br>
               <label for="ModeSup">Transport Mode:</label>
                 <select name="ModeSup">
-                  <option value="none">Select an option</option>
+                  <option value="" disabled selected hidden>Select an option</option>
                   <option value="Airplane">Airplane</option>
                   <option value="Bike">Bike</option>
                   <option value="Car">Car</option>
@@ -55,10 +55,10 @@
               <br>
               <br>
               <label for="enterpriseName">Shift Period:</label>
-              <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow" required>
+              <input type="text" class="enterpriseMatFlow" name="enterpriseMatFlow">
               <br>
               <label for="quantityShift">Quantity per Shift:</label>
-              <input type="number" class="quantityShift" name="quantityShift" required>
+              <input type="number" class="quantityShift" name="quantityShift">
               <br>
               <br>
             </div>
@@ -73,8 +73,8 @@
           <div id = "consumerMat1" class = "consumerMat">
             <br>
             <label for="ModeCustomer">Transport Mode:</label>
-              <select name="ModeCustomer">
-                <option value="none">Select an option</option>
+              <select name="ModeCustomer" required>
+                <option value="" disabled selected hidden>Select an option</option>
                 <option value="Airplane">Airplane</option>
                 <option value="Bike">Bike</option>
                 <option value="Car">Car</option>
@@ -86,10 +86,10 @@
             <br>
             <br>
           <label for="shiftPeriocCustomer">Shift Period:</label>
-          <input type="text" class="customerShift" name="customerShift" required>
+          <input type="text" class="customerShift" name="customerShift">
           <br>
           <label for="quantityShift">Quantity per Shift:</label>
-          <input type="number" class="quantityShiftCustomer" name="quantityShiftCustomer" required>
+          <input type="number" class="quantityShiftCustomer" name="quantityShiftCustomer">
         </div>
     </div>
           

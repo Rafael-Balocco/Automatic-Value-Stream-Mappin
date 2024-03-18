@@ -43,7 +43,7 @@
               <br>
               <label for="infoType">Connection 1</label>
                   <select id="options-in-menu-1" onchange="myFunction()">
-                    <option value="none">Select an option</option>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="customer&MRP-1">Between Customer and Production Control</option>
                     <option value="supplier&MRP-1">Between Supplier and Production Control</option>
                     <option value="process&MRP-1">Between Process and Production Control</option>
@@ -54,31 +54,27 @@
                 <h3>Flow Between Customer and Production Control</h3>
                 <br>
                 <label for="infoType">Type of Information:</label>
-                <form method="post">
-                  <select name="Mode">
-                    <option value="none">Select an option</option>
+                  <select name="Mode" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Eletronic (Email, Message ...)</option>
                     <option value="physical">Physical (Document, Told ...)</option>
                   </select>
-                </form>
                   
                 <br>
                 <br>
 
                 <label for="period">Period (Specify the Unit):</label>
-                <input type="text" class="period" name="period" required>
+                <input type="text" class="period" name="period">
                 <br>
                 <label for="content">Information Content:</label>
-                <input type="text" class="content" name="content" required>
+                <input type="text" class="content" name="content">
                 <br>
                 <label for="receive">Who receive the Information:</label>
-                <form method="post">
-                  <select name="receive">
-                    <option value="none">Select an option</option>
+                  <select name="receive" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Production Control</option>
                     <option value="physical">Customer</option>
                   </select>
-                </form>
 
               </div>
 
@@ -87,30 +83,26 @@
                 <h3>Flow Between Supplier and Production Control</h3>
                 <br>
                 <label for="infoType">Type of Information:</label>
-                <form method="post">
-                  <select name="Mode">
-                    <option value="none">Select an option</option>
+                  <select name="Mode" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Eletronic (Email, Message ...)</option>
                     <option value="physical">Physical (Document, Told ...)</option>
                   </select>
-                </form>
                 
                 <br>
 
                 <label for="period">Period (Specify the Unit):</label>
-                <input type="text" class="period" name="period" required>
+                <input type="text" class="period" name="period" >
                 <br>
                 <label for="content">Information Content:</label>
-                <input type="text" class="content" name="period" required>
+                <input type="text" class="content" name="period" >
                 <br>
                 <label for="receive">Who receive the Information:</label>
-                <form method="post">
-                  <select name="receive">
-                    <option value="none">Select an option</option>
+                  <select name="receive" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Production Control</option>
                     <option value="physical">Supplier</option>
                   </select>
-                </form>
                 <br>
                 
                 <label for="supName">Supplier Number (Same in Supplier Tab):</label>
@@ -123,30 +115,26 @@
                 <h3>Flow Between Process and Production Control</h3>
                 <br>
                 <label for="infoType">Type of Information:</label>
-                <form method="post">
-                  <select name="Mode">
-                    <option value="none">Select an option</option>
+                  <select name="Mode" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Eletronic (Email, Message ...)</option>
                     <option value="physical">Physical (Document, Told ...)</option>
                   </select>
-                </form>
                 
                 <br>
 
                 <label for="period">Period (Specify the Unit):</label>
-                <input type="text" class="period" name="period" required>
+                <input type="text" class="period" name="period" >
                 <br>
                 <label for="content">Information Content:</label>
-                <input type="text" class="content" name="content" required>
+                <input type="text" class="content" name="content" >
                 <br>
                 <label for="receive">Who receive the Information:</label>
-                <form method="post">
-                  <select name="receive">
-                    <option value="none">Select an option</option>
+                  <select name="receive" required>
+                    <option value="" disabled selected hidden>Select an option</option>
                     <option value="eletronic">Production Control</option>
                     <option value="physical">Process</option>
                   </select>
-                </form>
                 <br>
                 <label for="processNumber">Process Number:</label>
                 <input type="number" class="processNumber" name="processNumber" required>
