@@ -64,7 +64,7 @@
             </div>
             <button type = "button" id="addMatSupplierButton" class="addMatSupplierButton">Add Another Supplier</button>
             <div class="flex-container">
-              <button type="submit">Send / Next Page</button>
+              <button type="submit" onclick ="clicked(event)">Send / Next Page</button>
             </div>
         </div>
 
@@ -116,6 +116,21 @@
               return false; // Impede o envio do formulário se a validação falhar
           }
       }
+
+      function clicked(e) {
+        if (document.getElementById("MatForm").checkValidity()) {
+            if (!confirmPopup()) {
+                e.preventDefault();
+            }
+        }
+      }
+
+      function confirmPopup() {
+
+        var confirmation = confirm("Check the The Inputs Before Sending\n\nYou Will NOT be able to change it later\n\nContinue?");
+        return confirmation;
+      }
+
     </script>
 
 </body>

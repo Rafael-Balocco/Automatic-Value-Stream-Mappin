@@ -44,7 +44,7 @@
             <label for="demand">Demand per Day:</label>
             <input type="number" id="demand" name="demand" min="0" required>
             <div class="flex-container">
-              <button type="submit">Send / Next Page</button>
+              <button type="submit" onclick ="clicked(event)">Send / Next Page</button>
             </div>
         </form>    
         </div>
@@ -68,6 +68,19 @@
               } else {
               return false; // Impede o envio do formulário se a validação falhar
           }
+      }
+      function clicked(e) {
+        if (document.getElementById("CustomerForm").checkValidity()) {
+            if (!confirmPopup()) {
+                e.preventDefault();
+            }
+        }
+      }
+
+      function confirmPopup() {
+
+        var confirmation = confirm("Check the The Inputs Before Sending\n\nYou Will NOT be able to change it later\n\nContinue?");
+        return confirmation;
       }
     </script>
 

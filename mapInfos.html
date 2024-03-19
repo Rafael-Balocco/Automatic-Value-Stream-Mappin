@@ -43,7 +43,7 @@
             <input type="text" id="creatorName" name="creatorName" required>
             <br>
             <div class="flex-container">
-              <button type="submit">Send / Next Page</button>
+              <button type="submit" onclick ="clicked(event)">Send / Next Page</button>
             </div>
         </form>
       </div>
@@ -55,6 +55,7 @@
             Copyright &copy; 2022 SMART LAB. All rights reserved.
           </p>
     </footer>
+
     <script>
       function redirectToNextPage() {
         if (document.getElementById("mapInfoForm").checkValidity()) {
@@ -65,8 +66,22 @@
           return true; // Permite que o formulário seja submetido
         } else {
         return false; // Impede o envio do formulário se a validação falhar
-    }
-}
+        }
+      }
+
+      function clicked(e) {
+        if (document.getElementById("mapInfoForm").checkValidity()) {
+            if (!confirmPopup()) {
+                e.preventDefault();
+            }
+        }
+      }
+
+      function confirmPopup() {
+
+        var confirmation = confirm("Check the The Inputs Before Sending\n\nYou Will NOT be able to change it later\n\nContinue?");
+        return confirmation;
+      }
     </script>
   </body>
 </html>
