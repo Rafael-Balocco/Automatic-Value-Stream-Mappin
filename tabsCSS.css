@@ -61,7 +61,18 @@
 .addSupplierButton:hover,
 .addInfoButton:hover{
     background-color: #333333; /* Darker grey background on hover */
-    border-color: #333333; /* Darker grey border on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Remove outline on focus */
+    border-color: #000000;
+}
+
+.removeInfoButton:focus,
+.removeMatSupplierButton:focus,
+.removeInventoryButton:focus,
+.removeSupplierButton:focus,
+.removeProcessButton:focus{
+    background-color: rgb(255, 0, 0);;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Remove outline on focus */
+    border-color: #ff0000;
 }
 
 .addSupplierButton:focus,
@@ -69,7 +80,9 @@
 .addProcessButton:focus,
 .addSupplierButton:focus,
 .addInfoButton:focus{
-    outline: none; /* Remove outline on focus */
+    background-color: #333333;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Remove outline on focus */
+    border-color: #000000;
 }
 
 .flex-container {

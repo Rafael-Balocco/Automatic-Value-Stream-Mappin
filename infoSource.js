@@ -101,6 +101,7 @@ function addInfo(buttonElement) {
       </select>
 
     <br>
+    <br>
 
     <label for="periodSup">Period (Specify the Unit):</label>
     <input type="text" class="periodSup" name="periodSup">
@@ -115,7 +116,7 @@ function addInfo(buttonElement) {
         <option value="Supplier">Supplier</option>
       </select>
     <br>
-
+    <br>
     <label for="supName">Supplier Number (Same in Supplier Tab):</label>
     <input type="number" class="supName" name="supName" required> 
 
@@ -134,6 +135,7 @@ function addInfo(buttonElement) {
       </select>
 
     <br>
+    <br>
 
     <label for="periodProcess">Period (Specify the Unit):</label>
     <input type="text" class="periodProcess" name="periodProcess">
@@ -147,6 +149,7 @@ function addInfo(buttonElement) {
         <option value="Production Control">Production Control</option>
         <option value="Process">Process</option>
       </select>
+    <br>
     <br>
     <label for="processNumber">Process Number:</label>
     <input type="number" class="processNumber" name="processNumber" required>

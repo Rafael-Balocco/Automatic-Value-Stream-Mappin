@@ -22,12 +22,12 @@
     <main>
         <div class="tabContainer">
             <ul>
-              <li><a href="mapInfos.html">Map Infos</a></li>
-              <li><a href="Sup1.html">Supplier</a></li>
-              <li><a href="Sup2.html">Customer</a></li>
-              <li><a href="process.html">Process Creation</a></li>
-              <li><a href="inventory.html">Inventory</a></li>
-              <li><a href="matFlow.html">Material Flow Data</a></li>
+              <li style="background-color: #4CBB17;"><a>Map Infos</a></li>
+              <li style="background-color: #4CBB17;"><a>Supplier</a></li>
+              <li style="background-color: #4CBB17;"><a>Customer</a></li>
+              <li style="background-color: #4CBB17;"><a>Process Creation</a></li>
+              <li style="background-color: #4CBB17;"><a>Inventory</a></li>
+              <li style="background-color: #4CBB17;"><a>Material Flow Data</a></li>
               <li style="background-color:rgb(0, 99, 228);"><a href="infoFlow.html"  style="color: white;">Informational Flow Data</a></li> 
             </ul>
         </div>
@@ -90,6 +90,7 @@
                   </select>
                 
                 <br>
+                <br>
 
                 <label for="periodSup">Period (Specify the Unit):</label>
                 <input type="text" class="periodSup" name="periodSup" >
@@ -103,6 +104,7 @@
                     <option value="Production Control">Production Control</option>
                     <option value="Supplier">Supplier</option>
                   </select>
+                <br>
                 <br>
                 
                 <label for="supName">Supplier Number (Same in Supplier Tab):</label>
@@ -122,7 +124,7 @@
                   </select>
                 
                 <br>
-
+                <br>
                 <label for="periodProcess">Period (Specify the Unit):</label>
                 <input type="text" class="periodProcess" name="periodProcess" >
                 <br>
@@ -136,6 +138,7 @@
                     <option value="Process">Process</option>
                   </select>
                 <br>
+                <br>
                 <label for="processNumber">Process Number:</label>
                 <input type="number" class="processNumber" name="processNumber" required>
               </div>
@@ -144,7 +147,7 @@
             <br>
             <button type = "button" id="addInfoButton" onclick="this.style.display = 'none';" class="addInfoButton">Add Another Information</button>
             <div class="flex-container">
-              <button type="submit" onclick ="clicked(event)">Send / Next Page</button>
+              <button type="submit" onclick ="clicked(event)">Generate Map</button>
             </div>
           </form> 
         </div>

@@ -157,14 +157,6 @@ a.nav-link:active {
     font-weight:700;
   }
   
-  .tabContainer ul li:hover {
-    /* Estilos para os links quando o mouse passa por cima */
-    background-color: rgb(0, 99, 228); /* Altera o fundo ao passar o mouse */
-  }
-
-  .tabContainer ul li:hover a {
-    color: white; /* Change text color to white on hover */
-  }
 
   .background-section {
     display: block;
