@@ -1,103 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Automatic Value Stream Mapping</title>
-    <link href="stylesMonster.css" rel="stylesheet"/>
-    <link href="tabsCSS.css" rel="stylesheet"/>
-  </head>
-  <body>
-    <header>
-        <a href="home.html"><img src="../images/SMART_logo.png" alt="Logo" class="logo-image"></a>
-        <h1><a href="home.html" class="nav-link">Automatic Value Stream Mapping</a></h1>        
-        <nav>
-              <ul>
-              <li><a href="https://sites.ualberta.ca/~rafiq1/" target="_blank">SMART LAB</a></li>
-              <li><a href="#">Former Maps</a></li>
-              <li><a href="authors.html" target="_blank">Authors</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="tabContainer">
-            <ul>
-              <li style="background-color: #4CBB17;"><a>Map Infos</a></li>
-              <li style="background-color: #4CBB17;"><a>Supplier</a></li>
-              <li style="background-color: #4CBB17;"><a>Customer</a></li>
-              <li style="background-color:rgb(0, 99, 228);"><a href="process.html" style="color: white;">Process Creation</a></li>
-              <li><a>Inventory</a></li>
-              <li><a>Material Flow Data</a></li>
-              <li><a>Informational Flow Data</a></li>     
-          </ul>
-        </div>
-        <div class="tab">
-          <h2>Process in Order</h2>
-          <form id="processForm" action="/submit-form-ProcessInfo"  method="POST" autocomplete="off" onsubmit="return redirectToNextPage()">
-            <div id="process0" class="process"> <!-- Adiciona uma classe process -->
-              <br>
-                <label for="processName">Process 1 Name:</label>
-                <input type="text" class="processName" name="processName" required>
-                <br>
-                <br>
-                <label for="cycleTime">Cycle Time (Seconds):</label>
-                <input type="number" class="cycleTime" name="cycleTime" required>
-                <br>
-                <br>
-                <label for="availableTime">Available Time (Seconds):</label>
-                <input type="number" class="availableTime" name="availableTime">
-                <br>
-                <br>
-                <label for="upTime">Up Time (%):</label>
-                <input type="number" class="upTime" name="upTime">
-                <br>
-                <br>
-                <label for="scrapRate">Scrap Rate (%):</label>
-                <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
-                <br>
-                <br>
-            </div>
-            <button type = "button" id="addProcessButton" class="addProcessButton">Add another Process</button>
-            <div class="flex-container">
-              <button type="submit" onclick ="clicked(event)">Send / Next Page</button>
-            </div>
-        </form>
-        </div>
-        
-    </main>
 
-    <footer>
-          <p class="company-info">
-            Copyright &copy; 2022 SMART LAB. All rights reserved.
-          </p>
-    </footer>
-    <script src="scriptProcess.js"></script>
-    <script src="scriptSupplier.js"></script>
-    <script>
-      function redirectToNextPage() {
-              if (document.getElementById("processForm").checkValidity()) {
-              
-                setTimeout(() => {
-                    window.location.href = "inventory.html";
-                }, 100);
-                return true; // Permite que o formulário seja submetido
-              } else {
-              return false; // Impede o envio do formulário se a validação falhar
-          }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatic Value Stream Mapping</title>
+  <link href="stylesMonster.css" rel="stylesheet" />
+  <link href="tabsCSS.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <a href="home.html"><img src="../images/SMART_logo.png" alt="Logo" class="logo-image"></a>
+    <h1><a href="home.html" class="nav-link">Automatic Value Stream Mapping</a></h1>
+    <nav>
+      <ul>
+        <li><a href="https://sites.ualberta.ca/~rafiq1/" target="_blank">SMART LAB</a></li>
+        <li><a href="#">Former Maps</a></li>
+        <li><a href="authors.html" target="_blank">Authors</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="tabContainer">
+      <ul>
+        <li style="background-color: #4CBB17;"><a>Map Infos</a></li>
+        <li style="background-color: #4CBB17;"><a>Supplier</a></li>
+        <li style="background-color: #4CBB17;"><a>Customer</a></li>
+        <li style="background-color:rgb(0, 99, 228);"><a href="process.html" style="color: white;">Process Creation</a>
+        </li>
+        <li><a>Inventory</a></li>
+        <li><a>Material Flow Data</a></li>
+        <li><a>Informational Flow Data</a></li>
+      </ul>
+    </div>
+    <div class="tab">
+      <h2>Process in Order</h2>
+      <form id="processForm" action="/submit-form-ProcessInfo" method="POST" autocomplete="off"
+        onsubmit="return redirectToNextPage()">
+        <div id="process0" class="process"> <!-- Adiciona uma classe process -->
+          <br>
+          <label for="processName">Process 1 Name:</label>
+          <input type="text" class="processName" name="processName" required>
+          <br>
+          <br>
+          <label for="cycleTime">Cycle Time (Seconds):</label>
+          <input type="number" class="cycleTime" name="cycleTime" required>
+          <br>
+          <br>
+          <label for="availableTime">Available Time (Seconds):</label>
+          <input type="number" class="availableTime" name="availableTime">
+          <br>
+          <br>
+          <label for="upTime">Up Time (%):</label>
+          <input type="number" class="upTime" name="upTime">
+          <br>
+          <br>
+          <label for="scrapRate">Scrap Rate (%):</label>
+          <input type="number" class="scrapRate" name="scrapRate" min="0" max="100" step="0.01">
+          <br>
+          <br>
+        </div>
+        <button type="button" id="addProcessButton" class="addProcessButton">Add another Process</button>
+        <div class="flex-container">
+          <button type="submit" onclick="clicked(event)">Send / Next Page</button>
+        </div>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="company-info">
+      Copyright &copy; 2022 SMART LAB. All rights reserved.
+    </p>
+  </footer>
+  <script src="scriptProcess.js"></script>
+  <script src="scriptSupplier.js"></script>
+  <script>
+    function redirectToNextPage() {
+      if (document.getElementById("processForm").checkValidity()) {
+
+        setTimeout(() => {
+          window.location.href = "inventory.html";
+        }, 100);
+        return true; // Permite que o formulário seja submetido
+      } else {
+        return false; // Impede o envio do formulário se a validação falhar
       }
+    }
 
-      function clicked(e) {
-        if (document.getElementById("processForm").checkValidity()) {
-            if (!confirmPopup()) {
-                e.preventDefault();
-            }
+    function clicked(e) {
+      if (document.getElementById("processForm").checkValidity()) {
+        if (!confirmPopup()) {
+          e.preventDefault();
         }
       }
+    }
 
-      function confirmPopup() {
+    function confirmPopup() {
 
-        var confirmation = confirm("Check the The Inputs Before Sending\n\nYou Will NOT be able to change it later\n\nContinue?");
-        return confirmation;
-      }
-    </script>
-  </body>
+      var confirmation = confirm("Check the The Inputs Before Sending\n\nYou Will NOT be able to change it later\n\nContinue?");
+      return confirmation;
+    }
+  </script>
+</body>
