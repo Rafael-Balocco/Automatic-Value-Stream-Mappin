@@ -5,11 +5,11 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 
 type FormValues = {
-  enterpriseName: string
-  creatorName: string
+    CustomerName: string
+    demand: string
 }
 
-export const MapInfo = () => {
+export const Customer = () => {
 
   const navigate = useNavigate(); // Instancia o hook useNavigate
   const form = useForm<FormValues>();
@@ -18,7 +18,8 @@ export const MapInfo = () => {
 
   const onSubmit = (data:FormValues) =>{
     console.log('Form Submitted:', data);
-    navigate('/supplier'); // Redireciona para a página Sup1.html
+    navigate('/process'); // Redireciona para a página Sup1.html
+
   }
 
 
@@ -28,9 +29,9 @@ export const MapInfo = () => {
     <main>
         <div className="tabContainer">
           <ul>
-            <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a href="mapInfos.html" style={{ color: 'white' }}>Map Infos</a></li>
-            <li><a>Supplier</a></li>
-            <li><a>Customer</a></li>
+            <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Map Infos</a></li>
+            <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Supplier</a></li>
+            <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Customer</a></li>
             <li><a>Process Creation</a></li>
             <li><a>Inventory</a></li>
             <li><a>Material Flow Data</a></li>
@@ -38,21 +39,21 @@ export const MapInfo = () => {
           </ul>
         </div>
         <div className="tab">
-          <h2>Basic Information</h2>
+          <h2>Customer</h2>
 
-          <form id="mapInfoForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+          <form id="customerForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
             <br />
-            <label htmlFor="enterpriseName">Enterprise Name:</label>
-            <input type="text" id="enterpriseName" {...register("enterpriseName")}/>
+            <label htmlFor="CustomerName">Customer Name:</label>
+            <input type="text" id="CustomerName" {...register("CustomerName",{
+                required:{
+                    value:true,
+                    message:"Customer Name is Required"
+                }
+            })}/>
+            <p className='errorsValidation'>{errors.CustomerName?.message}</p>
             <br />
-            <label htmlFor="creatorName">Creator Name:</label>
-            <input type="text" id="creatorName" {...register("creatorName",{
-              required: {
-                value: true,
-                message: "Creator Name is Required",
-              },
-            })} />
-            <p className='errorsValidation'>{errors.creatorName?.message}</p>
+            <label htmlFor="demand">Daily Demand:</label>
+            <input type="text" id="demand" {...register("demand")} />
             <br />
             <div className="flex-container">
               <button type="submit">Send / Next Page</button>

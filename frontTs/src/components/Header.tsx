@@ -4,8 +4,8 @@ import logo from '../images/SMART_logo.png';
 const Header = () => {
   return (
     <header>
-      <a href="home.html"><img src={logo} alt="Logo" className="logo-image" /></a>
-      <h1><a href="home.html" className="nav-link">Automatic Value Stream Mapping</a></h1>
+      <a href="/home"><img src={logo} alt="Logo" className="logo-image" /></a>
+      <h1><a href="/home" className="nav-link">Automatic Value Stream Mapping</a></h1>
       <nav>
         <ul>
           <li><a href="https://sites.ualberta.ca/~rafiq1/" target="_blank" rel="noopener noreferrer">SMART LAB</a></li>

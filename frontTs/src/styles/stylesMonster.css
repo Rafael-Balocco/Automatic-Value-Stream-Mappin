@@ -126,6 +126,13 @@ a.nav-link:active {
     min-height: 93vh;
   }
 
+  .errorsValidation{
+    color: rgb(229, 0, 0);
+    text-align: left;
+    font-size: 15px;
+    font-weight: bolder;
+  }
+
   .tabContainer ul {
     /* Estilos para a lista não ordenada dentro do contêiner de abas */
     list-style-type: none; /* Remove os marcadores de lista */

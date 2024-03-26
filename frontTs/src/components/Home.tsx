@@ -21,7 +21,7 @@ export const Home = () => {
       </div>
       <img src= {background} alt="background" className="background-section" />
       <div className="center-container">
-        <a href="mapInfos.html" className="start-button">Start The Process!</a>
+        <a href="mapInfos" className="start-button">Start The Process!</a>
       </div>
     </main>
     <Footer />
