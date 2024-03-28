@@ -6,6 +6,12 @@
     background-color: #f5f5f5;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+}
+
+.divisionLine{
+    border-bottom: 1px solid #ccc; /* Adiciona uma borda inferior */
+    padding-bottom: 20px; /* Espaçamento entre os suppliers */
 }
 
 .buttonsSupplier {

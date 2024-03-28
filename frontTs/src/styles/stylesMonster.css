@@ -87,6 +87,10 @@ header nav ul li a {
     color: #333;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 /* Estilos para os links na barra de navegação */
 a.nav-link:link {
     color: #000000;
