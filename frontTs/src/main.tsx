@@ -6,7 +6,7 @@ import App from './App.tsx'
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App numberOfProcess={0} />
+      <App />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

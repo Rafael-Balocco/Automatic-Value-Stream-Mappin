@@ -8,6 +8,9 @@ import {Supplier} from './components/Supplier'
 import {Customer} from './components/Customer'
 import {Process} from './components/Process'
 import { Inventory } from "./components/Inventory";
+import { ProcessProvider } from "./contexts/processContext";
+import {MatFlow} from "./components/MatFlow"
+import { SupplierProvider } from "./contexts/supplierContext";
 
 interface AppProps {
   numberOfProcess: number;
@@ -17,23 +20,37 @@ function App({ numberOfProcess }: AppProps) {
   const location = useLocation ();
 
   return (
-    <Routes>
-      <Route path="/home/*" element={<Home />} />
-      <Route path="/*" element={<Home />} />
-      <Route path="/mapInfos/*" element={<MapInfo />} />
-      <Route path="/supplier/*" element={<Supplier />} />
-      <Route path="/customer/*" element={<Customer />} />
-      <Route
-        path="/process/*"
-        element={<Process />}
-        />
-      {location.pathname === '/inventory' && (
-      <Route
-        path="/inventory/*"
-        element={<Inventory numberOfProcess={numberOfProcess} />}
-      />
-      )}
-    </Routes>
+      <ProcessProvider>
+      <SupplierProvider>
+        <Routes>
+          <Route path="/home/*" element={<Home />} />
+          <Route path="/*" element={<Home />} />
+          <Route path="/mapInfos/*" element={<MapInfo />} />
+          <Route path="/supplier/*" element={<Supplier />} />
+          <Route path="/customer/*" element={<Customer />} />
+
+          <Route
+            path="/process/*"
+            element={<Process />}
+            />
+          {location.pathname === '/inventory' && (
+          <Route
+            path="/inventory/*"
+            element={<Inventory />}
+          />
+          )}
+
+          {location.pathname === '/MaterialFlow' && (
+            <Route
+              path="/MaterialFlow/*"
+              element={<MatFlow />}
+            />
+          )}
+
+          
+        </Routes>
+      </SupplierProvider>
+      </ProcessProvider>
   )
 }
 

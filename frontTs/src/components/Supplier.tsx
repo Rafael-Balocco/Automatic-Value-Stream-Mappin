@@ -2,6 +2,8 @@
     import Header from './Header';
     import Footer from './Footer';
     import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+    import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
+    import React from 'react';
 
 
     type FormValues = {
@@ -11,7 +13,7 @@
         }[]
     }
 
-    export const Supplier = () => {
+    export const Supplier:React.FC = () => { 
 
         const form = useForm<FormValues>({
             defaultValues:{
@@ -22,16 +24,42 @@
         const { register, control, formState, handleSubmit} = form;
         const {errors} = formState;
         const navigate = useNavigate(); // Instancia o hook useNavigate
+        const {numberOfSuppliers, updateNumberOfSuppliers} = useSupplierContext();
         
         const {fields, append, remove} = useFieldArray({
             name:'supNumbers',
             control
-        })
+        });
 
         const onSubmit = (data:FormValues) =>{
+            parentToChild();
             console.log('Form Submitted:', data);
-            navigate('/customer'); // Redireciona para a página Sup1.html
-        }
+            const newNumberOfSuppliers = numberOfSuppliers;
+            updateNumberOfSuppliers(newNumberOfSuppliers);
+            console.log("The number of supplier is ", newNumberOfSuppliers );
+            navigate('/customer');
+        };
+
+        const handleAppendAndIncrement = () => {
+            // Adiciona um novo processo usando o append
+            append({supplierName: "", whatSupplies: "" });
+            
+            // Incrementa o índice
+            updateNumberOfSuppliers(numberOfSuppliers + 1);
+        };
+        
+        const handleRemoveAndDecrement = (index:number) => {
+            // Remove o processo usando o índice fornecido
+            remove(index);
+            
+            // Decrementa o índice
+            updateNumberOfSuppliers (numberOfSuppliers - 1);
+        };
+
+        const parentToChild = () =>{
+            updateNumberOfSuppliers(numberOfSuppliers);
+            console.log("Salvando o seguinte índice: ", numberOfSuppliers);
+        };
 
         return (
             <div>
@@ -72,7 +100,7 @@
                                             <br />
                                             {
                                                 index >0 && (
-                                                    <button type = "button" id="removeSupplierButton" className="removeSupplierButton" onClick={() => remove(index)}>Remove Supplier</button> 
+                                                    <button type = "button" id="removeSupplierButton" className="removeSupplierButton" onClick={() => handleRemoveAndDecrement(index)}>Remove Supplier</button> 
                                                 )
                                             }
                                             <br/>
@@ -80,7 +108,7 @@
                                     );
                                 })}
                                 <br/>
-                                <button type = "button" id="addSupplierButton" className="addSupplierButton" onClick={() => append({supplierName: "", whatSupplies: "" })}>Add Supplier</button> 
+                                <button type = "button" id="addSupplierButton" className="addSupplierButton" onClick={handleAppendAndIncrement}>Add Supplier</button> 
                             </div>
 
                             <div className="flex-container">

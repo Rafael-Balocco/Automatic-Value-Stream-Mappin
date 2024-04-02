@@ -4,7 +4,7 @@
     import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
     import { useState } from 'react';
     import React from 'react'; 
-    import { Inventory } from './Inventory';
+    import { ProcessContext, useProcessContext, ProcessProvider } from '../contexts/processContext';
     import App from '../App'
 
 
@@ -22,7 +22,7 @@
 
     }
 
-    export const Process:React.FC = () => {
+    export const Process:React.FC = () => { 
 
         const form = useForm<FormValues>({
             defaultValues:{
@@ -33,6 +33,9 @@
         const { register, control, formState, handleSubmit} = form;
         const {errors} = formState;
         const navigate = useNavigate(); // Instancia o hook useNavigate
+
+        const {numberOfProcess, updateNumberOfProcess} = useProcessContext();
+        console.log(numberOfProcess);
         
         const {fields, append, remove} = useFieldArray({
             name:'proNumbers',
@@ -42,19 +45,19 @@
         const onSubmit = (dataForm:FormValues) =>{
             parentToChild();
             console.log('Form Submitted:', dataForm);
-            const numberOfProcess = indexProcess; // Defina a variável com o valor desejado
-            console.log(numberOfProcess)
-            navigate('/inventory', { state: { numberOfProcess } });
+            const newNumberOfProcess = numberOfProcess;
+            updateNumberOfProcess(newNumberOfProcess);
+            console.log("The number of processes is ", newNumberOfProcess );
+            navigate('/inventory');
         }
         
-        const [indexProcess, setIndex] = useState(1);
         
         const handleAppendAndIncrement = () => {
             // Adiciona um novo processo usando o append
             append({processName: '', cycleTime: null, availableTime:null, upTime:null, scrapRate: null });
             
             // Incrementa o índice
-            setIndex(indexProcess + 1);
+            updateNumberOfProcess(numberOfProcess + 1);
         };
         
         const handleRemoveAndDecrement = (index:number) => {
@@ -62,12 +65,12 @@
             remove(index);
             
             // Decrementa o índice
-            setIndex(indexProcess - 1);
+            updateNumberOfProcess(numberOfProcess - 1);
         };
 
         const parentToChild = () =>{
-            console.log("Salvando o seguinte índice: ", indexProcess);
-            setIndex(indexProcess);
+            updateNumberOfProcess(numberOfProcess);
+            console.log("Salvando o seguinte índice: ", numberOfProcess);
         }
         
         
@@ -201,7 +204,7 @@
                             </div>
 
                             <div className="flex-container">
-                            <button type="submit">Send / Next Page</button>
+                                <button type="submit">Send / Next Page</button>
                             </div>
                         </div>
                     </form>
