@@ -11,6 +11,7 @@ import { Inventory } from "./components/Inventory";
 import { ProcessProvider } from "./contexts/processContext";
 import {MatFlow} from "./components/MatFlow"
 import { SupplierProvider } from "./contexts/supplierContext";
+import { InfoFlow } from "./components/infoFlow";
 
 interface AppProps {
   numberOfProcess: number;
@@ -44,6 +45,13 @@ function App({ numberOfProcess }: AppProps) {
             <Route
               path="/MaterialFlow/*"
               element={<MatFlow />}
+            />
+          )}
+
+          {location.pathname === '/InfoFlow' && (
+            <Route
+            path="/InfoFlow/*"
+            element = {<InfoFlow/>}
             />
           )}
 

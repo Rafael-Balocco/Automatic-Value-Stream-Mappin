@@ -52,7 +52,6 @@ export const Inventory: React.FC = () => {
               }
           } as const )} />
           <p className='errorsValidation'>{errors?.inventories?.[j]?.processINumber?.message}</p>                                            
-          <br />
         </div>
       );
       if(j < numberOfProcess -1){
