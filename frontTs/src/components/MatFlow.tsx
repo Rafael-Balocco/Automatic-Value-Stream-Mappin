@@ -44,7 +44,7 @@ export const MatFlow: React.FC = () =>{
 
     const onSubmit = (dataForm:FormValues) =>{
         console.log('Form Submitted:', dataForm);
-        navigate('/MaterialFlow');
+        navigate('/InfoFlow');
       }
 
     const renderSuppliers = () => {
