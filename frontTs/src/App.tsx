@@ -12,6 +12,7 @@ import { ProcessProvider } from "./contexts/processContext";
 import {MatFlow} from "./components/MatFlow"
 import { SupplierProvider } from "./contexts/supplierContext";
 import { InfoFlow } from "./components/infoFlow";
+import { MapInfoProvider } from "./contexts/allMapInfoContext";
 
 interface AppProps {
   numberOfProcess: number;
@@ -23,6 +24,7 @@ function App({ numberOfProcess }: AppProps) {
   return (
       <ProcessProvider>
       <SupplierProvider>
+      <MapInfoProvider>
         <Routes>
           <Route path="/home/*" element={<Home />} />
           <Route path="/*" element={<Home />} />
@@ -56,7 +58,8 @@ function App({ numberOfProcess }: AppProps) {
           )}
 
           
-        </Routes>
+        </Routes> 
+      </MapInfoProvider>
       </SupplierProvider>
       </ProcessProvider>
   )

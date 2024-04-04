@@ -3,6 +3,8 @@ import {useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import axios from "axios";
+import { useMapInfoContext } from '../contexts/allMapInfoContext';
 
 type FormValues = {
   enterpriseName: string
@@ -12,14 +14,18 @@ type FormValues = {
 export const MapInfo = () => {
 
   const navigate = useNavigate(); // Instancia o hook useNavigate
-  const form = useForm<FormValues>();
-  const { register, formState, handleSubmit} = form;
+  const { formData, updateFormData } = useMapInfoContext(); // Use o contexto do componente MapInfo
+  const { register, formState, handleSubmit} = useForm({ defaultValues: formData });
   const {errors} = formState;
 
-  const onSubmit = (data:FormValues) =>{
-    console.log('Form Submitted:', data);
-    navigate('/supplier'); // Redireciona para a página Sup1.html
-  }
+  const onSubmit = async (data: FormValues) => {
+    try {
+      console.log('Form Submitted:', data);
+      updateFormData(data)
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
 
 
   return (

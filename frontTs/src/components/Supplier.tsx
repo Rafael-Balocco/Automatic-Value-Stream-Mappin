@@ -1,9 +1,10 @@
     import {useForm, useFieldArray} from 'react-hook-form'
     import Header from './Header';
     import Footer from './Footer';
-    import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+    import { Router, useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
     import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
     import React from 'react';
+    import axios from 'axios';
 
 
     type FormValues = {
@@ -31,13 +32,19 @@
             control
         });
 
-        const onSubmit = (data:FormValues) =>{
-            parentToChild();
-            console.log('Form Submitted:', data);
-            const newNumberOfSuppliers = numberOfSuppliers;
-            updateNumberOfSuppliers(newNumberOfSuppliers);
-            console.log("The number of supplier is ", newNumberOfSuppliers );
-            navigate('/customer');
+        const onSubmit = async (data:FormValues) =>{
+            try{
+                parentToChild();
+                const newNumberOfSuppliers = numberOfSuppliers;
+                updateNumberOfSuppliers(newNumberOfSuppliers);
+                console.log("dentro de supplier:",data)
+                await axios.post('http://localhost:3000/api/supplier', data); // Envie os dados para o backend
+                navigate('/customer');
+
+            }
+            catch (error){
+                console.log('Error submiting form:', error);
+            }
         };
 
         const handleAppendAndIncrement = () => {
@@ -58,7 +65,6 @@
 
         const parentToChild = () =>{
             updateNumberOfSuppliers(numberOfSuppliers);
-            console.log("Salvando o seguinte índice: ", numberOfSuppliers);
         };
 
         return (
