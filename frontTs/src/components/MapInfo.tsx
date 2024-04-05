@@ -22,6 +22,7 @@ export const MapInfo = () => {
     try {
       console.log('Form Submitted:', data);
       updateFormData(data)
+      navigate('/Supplier')
     } catch (error) {
       console.error('Error submitting form:', error);
     }

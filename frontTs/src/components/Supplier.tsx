@@ -5,7 +5,6 @@
     import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
     import React from 'react';
     import axios from 'axios';
-    import { useAllSupplierContext } from '../contexts/allSupplierContext';
 
 
     type FormValues = {
@@ -23,7 +22,6 @@
             },
         });
         
-        const { suppliers, addSupplier, removeSupplier } = useAllSupplierContext(); // Use o contexto do componente Supplier
         const { register, control, formState, handleSubmit} = form;
         const {errors} = formState;
         const navigate = useNavigate(); // Instancia o hook useNavigate
@@ -38,9 +36,7 @@
             try{
                 parentToChild();
                 const newNumberOfSuppliers = numberOfSuppliers;
-                updateNumberOfSuppliers(newNumberOfSuppliers);
-                console.log("dentro de supplier:",data)
-                
+                updateNumberOfSuppliers(newNumberOfSuppliers);                
                 navigate('/customer');
 
             }
@@ -68,6 +64,10 @@
         const parentToChild = () =>{
             updateNumberOfSuppliers(numberOfSuppliers);
         };
+
+        const handlePrevious = () =>{
+            navigate('/MapInfo')
+        }
 
         return (
             <div>
@@ -120,11 +120,14 @@
                             </div>
 
                             <div className="flex-container">
-                            <button type="submit">Send / Next Page</button>
+                                <button type="submit">Send / Next Page</button>
+                            </div>
+                            <div>
+                                <button type="button" onClick={handlePrevious}>Previous</button>
                             </div>
                         </div>
                     </form>
-            </main>
+                </main>
             <Footer />
         </div>
     )

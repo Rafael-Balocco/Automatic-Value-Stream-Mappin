@@ -4,6 +4,7 @@ import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import {useCustomerMaterialFlowContext} from '../contexts/customerMatContext'
 
 enum Mode {
     Airplane = 'Airplane',
@@ -41,11 +42,21 @@ export const MatFlow: React.FC = () =>{
     const navigate = useNavigate(); // Instancia o hook useNavigate
     const { register, control, formState, handleSubmit} = form;
     const {errors} = formState;
+    const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
-    const onSubmit = (dataForm:FormValues) =>{
-        console.log('Form Submitted:', dataForm);
-        navigate('/InfoFlow');
-      }
+
+    
+
+    const onSubmit = async (dataForm:FormValues) => {
+        try {
+          console.log('Form Submitted:', dataForm.customer);
+          updateCusFormData(dataForm.customer); // Atualiza os dados do formulário no contexto
+          navigate('/infoFlow') 
+          // Redireciona para a próxima página do formulário
+        } catch (error) {
+          console.error('Error submitting form:', error);
+        }
+      };
 
     const renderSuppliers = () => {
         const suppliers = [];
@@ -91,6 +102,10 @@ export const MatFlow: React.FC = () =>{
         }
         return suppliers;
       };
+
+      const handlePrevious = () =>{
+        navigate('/Inventory')
+      }
 
     return(
         <div>
@@ -151,6 +166,10 @@ export const MatFlow: React.FC = () =>{
                     <button type="submit" >Send / Next Page</button>
                     </div>
                 </div>
+
+            <div>
+              <button type="button" onClick={handlePrevious}>Previous</button>
+            </div>
             </form>
             
             </main>

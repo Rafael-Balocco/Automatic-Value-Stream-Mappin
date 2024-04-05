@@ -3,6 +3,7 @@ import {useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useCustomerContext } from '../contexts/customerContext';
 
 type FormValues = {
     CustomerName: string
@@ -15,11 +16,22 @@ export const Customer = () => {
   const form = useForm<FormValues>();
   const { register, formState, handleSubmit} = form;
   const {errors} = formState;
+  const {formData, updateFormData} = useCustomerContext();
 
-  const onSubmit = (data:FormValues) =>{
-    console.log('Form Submitted:', data);
-    navigate('/process'); // Redireciona para a página Sup1.html
+  const onSubmit = async (data:FormValues) =>{
+    try{
+      console.log('Form Submitted:', data);
+      updateFormData(data)
+      navigate('/process'); // Redireciona para a página Sup1.html
+    }
+    catch(error){
+      console.log("Error submitting form", error)
+    }
 
+  }
+
+  const handlePrevious = () =>{
+    navigate('/Supplier')
   }
 
 
@@ -64,9 +76,13 @@ export const Customer = () => {
             <div className="flex-container">
               <button type="submit">Send / Next Page</button>
             </div>
+
+            <div>
+              <button type="button" onClick={handlePrevious}>Previous</button>
+            </div>
+
           </form>
         </div>
-
       </main>
     <Footer />
   </div>
