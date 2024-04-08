@@ -1,10 +1,10 @@
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import React from 'react';
 import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import {useCustomerMaterialFlowContext} from '../contexts/customerMatContext'
+import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext'
 
 enum Mode {
     Airplane = 'Airplane',
@@ -17,62 +17,62 @@ enum Mode {
 }
 
 type FormValues = {
-    customer:{
+    customer: {
         modeCustomer: Mode | "Select an Option";
         periodShiftCustomer: number | null;
         quantityShiftCustomer: number | null;
     }
     supplier: {
-        modeSupplier:Mode | "Select an Option";
+        modeSupplier: Mode | "Select an Option";
         periodShiftSupplier: number | null;
-        quantityShiftSupplier:number | null;
+        quantityShiftSupplier: number | null;
     }[]
 }
 
-export const MatFlow: React.FC = () =>{
+export const MatFlow: React.FC = () => {
 
     const form = useForm<FormValues>({
-        defaultValues:{
-            customer:{modeCustomer: "Select an Option", periodShiftCustomer: null, quantityShiftCustomer: null},
-            supplier:[{modeSupplier: "Select an Option", periodShiftSupplier: null, quantityShiftSupplier:null}]
+        defaultValues: {
+            customer: { modeCustomer: "Select an Option", periodShiftCustomer: null, quantityShiftCustomer: null },
+            supplier: [{ modeSupplier: "Select an Option", periodShiftSupplier: null, quantityShiftSupplier: null }]
         },
-      });
+    });
 
     const { numberOfSuppliers } = useSupplierContext();
     const navigate = useNavigate(); // Instancia o hook useNavigate
-    const { register, control, formState, handleSubmit} = form;
-    const {errors} = formState;
+    const { register, control, formState, handleSubmit } = form;
+    const { errors } = formState;
     const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
 
-    
 
-    const onSubmit = async (dataForm:FormValues) => {
+
+    const onSubmit = async (dataForm: FormValues) => {
         try {
-          console.log('Form Submitted:', dataForm.customer);
-          updateCusFormData(dataForm.customer); // Atualiza os dados do formulário no contexto
-          navigate('/infoFlow') 
-          // Redireciona para a próxima página do formulário
+            console.log('Form Submitted:', dataForm.customer);
+            updateCusFormData(dataForm.customer); // Atualiza os dados do formulário no contexto
+            navigate('/infoFlow')
+            // Redireciona para a próxima página do formulário
         } catch (error) {
-          console.error('Error submitting form:', error);
+            console.error('Error submitting form:', error);
         }
-      };
+    };
 
     const renderSuppliers = () => {
         const suppliers = [];
         for (let j = 0; j < numberOfSuppliers; j++) {
-          suppliers.push(
-            <div key={`SupMatFlow${j}`} id={`SupMatFlow${j}`} className="SupMatFlow">
-                <br />
-                <h3>Supplier Number {j+1}</h3>
-                <br/>
-                <label htmlFor = {`supplier.${j}.modeSupplier`}>Transport Mode:</label>
+            suppliers.push(
+                <div key={`SupMatFlow${j}`} id={`SupMatFlow${j}`} className="SupMatFlow">
+                    <br />
+                    <h3>Supplier Number {j + 1}</h3>
+                    <br />
+                    <label htmlFor={`supplier.${j}.modeSupplier`}>Transport Mode:</label>
                     <select {...register(`supplier.${j}.modeSupplier`, {
-                        required:{
-                            value:true,
+                        required: {
+                            value: true,
                             message: "Supplier's Mode of Transportation is Required!"
                         }
-                    } as const )}>
+                    } as const)}>
                         <option value="" disabled hidden>Select an option</option>
                         <option value="Airplane">Airplane</option>
                         <option value="Bike">Bike</option>
@@ -82,98 +82,100 @@ export const MatFlow: React.FC = () =>{
                         <option value="Train">Train</option>
                         <option value="Truck">Truck</option>
                     </select>
-                    <p className='errorsValidation'>{errors?.supplier?.[j]?.modeSupplier?.message}</p>  
-                <br />
-                <br />
-                <label htmlFor={`supplier.${j}.periodShiftSupplier`}>Shift Period:</label>
-                <input type="text" 
-                {...register(`supplier.${j}.periodShiftSupplier`)} />
-                
-                <label htmlFor={`supplier.${j}.quantityShiftSupplier`}>Quantity per Shift:</label>
-                <input type="text" 
-                {...register(`supplier.${j}.quantityShiftSupplier`)} />
-            </div>
-          );
-          if(j < numberOfSuppliers -1){
-            suppliers.push(
-                <div className='divisionLine'></div>
-            )
-          }
+                    <p className='errorsValidation'>{errors?.supplier?.[j]?.modeSupplier?.message}</p>
+                    <br />
+                    <br />
+                    <label htmlFor={`supplier.${j}.periodShiftSupplier`}>Shift Period:</label>
+                    <input type="text"
+                        {...register(`supplier.${j}.periodShiftSupplier`)} />
+
+                    <label htmlFor={`supplier.${j}.quantityShiftSupplier`}>Quantity per Shift:</label>
+                    <input type="text"
+                        {...register(`supplier.${j}.quantityShiftSupplier`)} />
+                </div>
+            );
+            if (j < numberOfSuppliers - 1) {
+                suppliers.push(
+                    <div className='divisionLine'></div>
+                )
+            }
         }
         return suppliers;
-      };
+    };
 
-      const handlePrevious = () =>{
+    const handlePrevious = () => {
         navigate('/Inventory')
-      }
+    }
 
-    return(
+    return (
         <div>
-            <Header/>
+            <Header />
             <main>
-            <div className="tabContainer">
-                <ul>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Map Infos</a></li>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Supplier</a></li>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Customer</a></li>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Process Creation</a></li>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Inventory</a></li>
-                    <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Material Flow Data</a></li>
-                    <li><a>Informational Flow Data</a></li>
-                </ul>
-            </div>
+                <div className="tabContainer">
+                    <ul>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Map Infos</a></li>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Supplier</a></li>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Customer</a></li>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Process Creation</a></li>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Inventory</a></li>
+                        <li style={{ backgroundColor: 'rgb(0, 99, 228)' }}><a style={{ color: 'white' }}>Material Flow Data</a></li>
+                        <li><a>Informational Flow Data</a></li>
+                    </ul>
+                </div>
 
-            <form id="MatForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
-                <div className='consumerTab'>
-                    <h2>Customer Material Flow</h2>
-                    <div className='consumerMat'>
-                        <br/>
-                        <label htmlFor = {`customer.modeCustomer`}>Transport Mode:</label>
-                        <select {...register(`customer.modeCustomer`, {
-                            required:{
-                                value:true,
-                                message: "Customer's Mode of Transportation is Required!"
-                            }
-                        } as const )}>
-                            <option value="" disabled hidden>Select an option</option>
-                            <option value="Airplane">Airplane</option>
-                            <option value="Bike">Bike</option>
-                            <option value="Car">Car</option>
-                            <option value="Multi">Multi Modal</option>
-                            <option value="Ship">Ship</option>
-                            <option value="Train">Train</option>
-                            <option value="Truck">Truck</option>
-                        </select>
-                        <p className='errorsValidation'>{errors?.customer?.modeCustomer?.message}</p>  
-                        <br />
-                        <br />
-                        <label htmlFor={`customer.periodShiftCustomer`}>Shift Period:</label>
-                        <input type="text" 
-                        {...register(`customer.periodShiftCustomer`)} />
+                <form id="MatForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+                    <div className='consumerTab'>
+                        <div className="flex-container">
+                            <button type="submit" >Next</button>
+                        </div>
+
+                        <div className='previousButton'>
+                            <button type="button" onClick={handlePrevious}>Previous</button>
+                        </div>
+                        <br /><br />
                         
-                        <label htmlFor={`customer.quantityShiftCustomer`}>Quantity per Shift:</label>
-                        <input type="text" 
-                        {...register(`customer.quantityShiftCustomer`)} />
+                        <h2>Customer Material Flow</h2>
+                        <div className='consumerMat'>
+                            <br />
+                            <label htmlFor={`customer.modeCustomer`}>Transport Mode:</label>
+                            <select {...register(`customer.modeCustomer`, {
+                                required: {
+                                    value: true,
+                                    message: "Customer's Mode of Transportation is Required!"
+                                }
+                            } as const)}>
+                                <option value="" disabled hidden>Select an option</option>
+                                <option value="Airplane">Airplane</option>
+                                <option value="Bike">Bike</option>
+                                <option value="Car">Car</option>
+                                <option value="Multi">Multi Modal</option>
+                                <option value="Ship">Ship</option>
+                                <option value="Train">Train</option>
+                                <option value="Truck">Truck</option>
+                            </select>
+                            <p className='errorsValidation'>{errors?.customer?.modeCustomer?.message}</p>
+                            <br />
+                            <br />
+                            <label htmlFor={`customer.periodShiftCustomer`}>Shift Period:</label>
+                            <input type="text"
+                                {...register(`customer.periodShiftCustomer`)} />
+
+                            <label htmlFor={`customer.quantityShiftCustomer`}>Quantity per Shift:</label>
+                            <input type="text"
+                                {...register(`customer.quantityShiftCustomer`)} />
+                        </div>
                     </div>
-                </div>
-                <div className='tab'>
-                    <h2>Supplier Material Flow</h2>
-                    <div className='matSupContainer'>
-                        {renderSuppliers()}
+                    <div className='tab'>
+                        <h2>Supplier Material Flow</h2>
+                        <div className='matSupContainer'>
+                            {renderSuppliers()}
+                        </div>
                     </div>
 
-                    <div className="flex-container">
-                    <button type="submit" >Send / Next Page</button>
-                    </div>
-                </div>
+                </form>
 
-            <div>
-              <button type="button" onClick={handlePrevious}>Previous</button>
-            </div>
-            </form>
-            
             </main>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

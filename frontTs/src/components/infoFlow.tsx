@@ -285,8 +285,12 @@ export const InfoFlow: React.FC = () => {
             </ul>
             </div>
             <div className='tab'>
-            <h2>Informational Flow</h2>
             <form id="inventoryForm" autoComplete="off" onSubmit={handleSubmit(onSubmit)} noValidate>
+                <div className="flex-container">
+                    <button type="submit">Next</button>
+                </div>
+                <br/><br/>
+            <h2>Informational Flow</h2>
                 
                 {fields.map((field, index) =>(
                     <div key= {field.id}>
@@ -300,15 +304,12 @@ export const InfoFlow: React.FC = () => {
                             <option value="process&MRP-1">Between Process and Production Control</option>
                         </select>
                         {selectedOptions[index] && renderSelectedForm(index)}
-                        <br/>
+                        <br/><br/>
                         <button type="button" id="removeProcessButton" className="removeProcessButton" onClick={() => handleRemoveAndDecrement(index)}>Remove Process</button>
                         <br/><br/>
                     </div>
                 ))}
                 <button type="button" id="addProcessButton" className="addProcessButton" onClick={() => handleAdd()}>Add Item</button>
-                <div className="flex-container">
-                    <button type="submit">Send / Next Page</button>
-                </div>
             </form>
             </div>
         </main>

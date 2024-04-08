@@ -45,10 +45,15 @@ export const MapInfo = () => {
           </ul>
         </div>
         <div className="tab">
-          <h2>Basic Information</h2>
 
           <form id="mapInfoForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
-            <br />
+            <div className="flex-container">
+              <button type="submit">Next</button>
+            </div>
+            <br/><br/>
+
+          <h2>Basic Information</h2>
+            <br /><br/>
             <label htmlFor="enterpriseName">Enterprise Name:</label>
             <input type="text" id="enterpriseName" {...register("enterpriseName")}/>
             <br />
@@ -61,9 +66,6 @@ export const MapInfo = () => {
             })} />
             <p className='errorsValidation'>{errors.creatorName?.message}</p>
             <br />
-            <div className="flex-container">
-              <button type="submit">Send / Next Page</button>
-            </div>
           </form>
         </div>
 

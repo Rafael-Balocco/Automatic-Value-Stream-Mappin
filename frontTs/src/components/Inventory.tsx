@@ -1,4 +1,4 @@
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import React from 'react';
 import { useProcessContext } from '../contexts/processContext';
 import Header from './Header';
@@ -7,23 +7,23 @@ import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 
 
 type FormValues = {
-  inventories:{
+  inventories: {
     processINumber: number | null;
   }[]
 }
 
 export const Inventory: React.FC = () => {
-  
+
   const form = useForm<FormValues>({
-    defaultValues:{
-      inventories:[{processINumber:null}] 
+    defaultValues: {
+      inventories: [{ processINumber: null }]
     },
   });
-  
+
   const { numberOfProcess } = useProcessContext();
   const navigate = useNavigate(); // Instancia o hook useNavigate
-  const { register, control, formState, handleSubmit} = form;
-  const {errors} = formState;
+  const { register, control, formState, handleSubmit } = form;
+  const { errors } = formState;
 
 
   const renderInventory = () => {
@@ -33,15 +33,15 @@ export const Inventory: React.FC = () => {
         <div key={`inventory${j}`} id={`inventory${j}`} className="inventory">
           <br />
           <label htmlFor={`inventories.${j}.processINumber`}>Process {j + 1} Inventory:</label>
-          <input type="number" 
-          {...register(`inventories.${j}.processINumber`, {
-            required: {
-              value: true,
-              message: "Inventory is Required, and MUST receive only numbers",
-            },
-              validate: value =>{
-                if(value !=null){
-                  if (value<0){
+          <input type="number"
+            {...register(`inventories.${j}.processINumber`, {
+              required: {
+                value: true,
+                message: "Inventory is Required, and MUST receive only numbers",
+              },
+              validate: value => {
+                if (value != null) {
+                  if (value < 0) {
                     return 'Inventory must be positive!'
                   }
                   if (isNaN(Number(value))) {
@@ -50,11 +50,11 @@ export const Inventory: React.FC = () => {
                   return true;
                 }
               }
-          } as const )} />
-          <p className='errorsValidation'>{errors?.inventories?.[j]?.processINumber?.message}</p>                                            
+            } as const)} />
+          <p className='errorsValidation'>{errors?.inventories?.[j]?.processINumber?.message}</p>
         </div>
       );
-      if(j < numberOfProcess -1){
+      if (j < numberOfProcess - 1) {
         inventories.push(
           <div className='divisionLine'></div>
         )
@@ -63,14 +63,18 @@ export const Inventory: React.FC = () => {
     return inventories;
   };
 
-  const onSubmit = (dataForm:FormValues) =>{
+  const onSubmit = (dataForm: FormValues) => {
     console.log('Form Submitted:', dataForm);
     navigate('/MaterialFlow');
   }
 
+  const handlePrevious = () => {
+    navigate('/process')
+  }
+
   return (
     <div>
-      <Header/>
+      <Header />
       <main>
         <div className="tabContainer">
           <ul>
@@ -84,18 +88,22 @@ export const Inventory: React.FC = () => {
           </ul>
         </div>
         <div className='tab'>
-          <h2>Inventory</h2>
           <form id="inventoryForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+            <div className="flex-container">
+              <button type="submit">Next</button>
+            </div>
+            <div className='previousButton'>
+              <button type="button" onClick={handlePrevious}>Previous</button>
+            </div>
+            <br /><br />
+            <h2>Inventory</h2>
             <div className='inventory'>
               {renderInventory()}
-            </div>
-            <div className="flex-container">
-              <button type="submit">Send / Next Page</button>
             </div>
           </form>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

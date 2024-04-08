@@ -91,6 +91,8 @@
     border-color: #000000;
 }
 
+
+
 .flex-container {
     position: absolute;
     top: 170px;
@@ -98,32 +100,44 @@
     margin: 10px;
   }
 
-.flex-container button {
+.flex-container button,
+.previousButton button {
     margin-left: 200px; /* Adjust the margin as needed */
     float: right; /* Float the button to the right */
+    display: inline-block;
+    width: 80px; /* Defina a mesma largura para todos os botões */
+    height: 30px; /* Defina uma altura fixa para o botão */
+    border: 2px solid rgb(0, 99, 228); 
+    background-color: rgb(0, 99, 228); 
+    color: #ffffff; /* White text */
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.flex-container button{
-  display: inline-block;
-  padding: 5px 10px;
-  border: 2px solid rgb(0, 99, 228); 
-  background-color: rgb(0, 99, 228); 
-  color: #ffffff; /* White text */
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+.previousButton button{
+    float: left;
 }
 
-.flex-container button:hover {
+.previousButton {
+    position: absolute;
+    top: 170px;
+    left: -80px;
+    margin: 10px;
+  }
+
+.flex-container button:hover,
+.previousButton button:hover {
     background-color: #004d9e; /* Darker blue background on hover */
     border-color: #004d9e; /* Darker blue border on hover */
     color: #ffffff; /* White text on hover */
   }
   
-  .flex-container button:focus {
+  .flex-container button:focus,
+  .previousButton button:focus {
     outline: none; /* Remove outline on focus */
   }
 
