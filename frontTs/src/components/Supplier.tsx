@@ -1,11 +1,10 @@
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm, useFieldArray,  } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { Router, useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
 import React from 'react';
-import { useEffect } from 'react';
-import SupplierForm from './SupplierForm'; // Importe o novo componente
+import { useEffect, useState } from 'react';
 import { useAllSupplierContext } from '../contexts/supHandlerContext';
 
 export type FormValues = {
@@ -16,7 +15,13 @@ export type FormValues = {
 }
 
 export const Supplier: React.FC = () => {
-    
+
+    const form = useForm<FormValues>({
+        defaultValues:{
+            supNumbers:[{supplierName: '', whatSupplies: ''}]
+        },
+    });
+
     const { suppliers, updateSupplier } = useAllSupplierContext();
     const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
     const { register, control, formState, handleSubmit, setValue } = useForm();
@@ -24,46 +29,54 @@ export const Supplier: React.FC = () => {
     const navigate = useNavigate(); // Instancia o hook useNavigate
 
     useEffect(() => {
+        if (numberOfSuppliers === 0) {
+            console.log("Está vazio????")
+            handleAppendAndIncrement();
+        }
+      }, [suppliers]);
+    
+    useEffect(() => {
         // Atualiza os defaultValues do formulário sempre que suppliers mudar
         setValue('supNumbers', suppliers);
-      }, [suppliers, setValue]);
+    }, [suppliers, setValue]);
 
     const { fields, append, remove } = useFieldArray({
         name: "supNumbers",
         control
     });
-    
+
     const onSubmit = async (data: any) => {
         try {
             parentToChild();
             const newNumberOfSuppliers = numberOfSuppliers;
-            console.log(numberOfSuppliers)
             updateNumberOfSuppliers(newNumberOfSuppliers);
-            for(let i = 0 ; i < numberOfSuppliers; i++ ){
-                console.log(i)
+            console.log("Number of Suppliers:", numberOfSuppliers);
+            for (let i = 0; i < numberOfSuppliers; i++) {
                 const updatedSupplier = {
                     supplierName: data.supNumbers[i].supplierName,
                     whatSupplies: data.supNumbers[i].whatSupplies
                 };
                 updateSupplier(i, updatedSupplier);
-                console.log(updatedSupplier)
-            } 
+                console.log("Supplier:", updatedSupplier, "atualizado na posição:", i)
+            }
             navigate('/customer')
-
+            
         }
         catch (error) {
             console.log('Error submiting form:', error);
         }
     };
 
+    
     const handleAppendAndIncrement = () => {
-        // Adiciona um novo processo usando o append
+        // Adiciona um novo processo usando o append    
         append({ supplierName: "", whatSupplies: "" });
-
+        
         // Incrementa o índice
         updateNumberOfSuppliers(numberOfSuppliers + 1);
     };
 
+    
     const handleRemoveAndDecrement = (index: number) => {
         // Remove o processo usando o índice fornecido
         remove(index);
@@ -79,8 +92,7 @@ export const Supplier: React.FC = () => {
     const handlePrevious = () => {
         navigate('/mapInfos')
     }
-
-
+    
 
 
     return (
@@ -109,14 +121,43 @@ export const Supplier: React.FC = () => {
                         <br /><br />
                         <div>
                             {fields.map((field, index) => (
-                                <SupplierForm
-                                    key={field.id}
-                                    field={field}
-                                    index={index}
-                                    register={register}
-                                    errors={errors}
-                                    handleRemoveAndDecrement={handleRemoveAndDecrement}
-                                />
+                                <div className='form-control' key={field.id}>
+                                    <h2>Supplier Number {index + 1}</h2>
+                                    <br /><br />
+                                    <label htmlFor={`supNumbers.${index}.supplierName`}>Supplier Name:</label>
+                                    <input
+                                        type="text"
+                                        {...register(`supNumbers.${index}.supplierName`, {
+                                            required: {
+                                                value: true,
+                                                message: "Supplier Name is Required",
+                                            },
+                                        } as const)}
+                                    />
+                                    <p className='errorsValidation'>{errors?.supNumbers?.[index]?.supplierName?.message}</p>
+                                    <br />
+                                    <label htmlFor={`supNumbers.${index}.whatSupplies`}>What it Supplies:</label>
+                                    <input
+                                        type="text"
+                                        id="whatSupplies"
+                                        {...register(`supNumbers.${index}.whatSupplies` as const)}
+                                    />
+                                    <br />
+                                    {
+                                        index > 0 && (
+                                            <button
+                                                type="button"
+                                                id="removeSupplierButton"
+                                                className="removeSupplierButton"
+                                                onClick={() => handleRemoveAndDecrement(index)}
+                                            >
+                                                Remove Supplier
+                                            </button>
+                                        )
+                                    }
+                                    <br />
+                                </div>
+
                             ))}
                             <br />
                             <button type="button" id="addSupplierButton" className="addSupplierButton" onClick={handleAppendAndIncrement}>Add Supplier</button>
@@ -124,7 +165,7 @@ export const Supplier: React.FC = () => {
                     </div>
                 </form>
                 <div>
-                <h2>Estado do Fornecedor</h2>
+                    <h2>Estado do Fornecedor</h2>
                     <pre>{JSON.stringify(suppliers, null, 2)}</pre>
                 </div>
             </main>

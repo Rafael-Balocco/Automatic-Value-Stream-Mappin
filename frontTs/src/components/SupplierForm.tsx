@@ -9,7 +9,6 @@ interface SupplierFormProps {
 }
 
 const SupplierForm: React.FC<SupplierFormProps> = ({ field, index, register, errors, handleRemoveAndDecrement }) => {
-    
     return (
         <div className='form-control' key={field.id}>
             <h2>Supplier Number {index + 1}</h2>
