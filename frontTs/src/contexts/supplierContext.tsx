@@ -17,7 +17,7 @@ export const SupplierContext = createContext<SupplierContextState | null>(null);
 
 // Crie o provider do contexto
 export const SupplierProvider: React.FC <MyComponentProps> = ({ children }) => {
-  const [numberOfSuppliers, setNumberOfSuppliers] = useState<number>(1);
+  const [numberOfSuppliers, setNumberOfSuppliers] = useState<number>(0);
 
   // Função para atualizar o valor de "numberOfSuppliers"
   const updateNumberOfSuppliers = (newNumberOfSuppliers: number) => {

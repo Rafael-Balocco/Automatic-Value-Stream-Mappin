@@ -4,10 +4,11 @@ import Footer from './Footer';
 import { Router, useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
 import React from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import SupplierForm from './SupplierForm'; // Importe o novo componente
+import { useAllSupplierContext } from '../contexts/supHandlerContext';
 
-type FormValues = {
+export type FormValues = {
     supNumbers: {
         supplierName: string;
         whatSupplies: string;
@@ -15,29 +16,40 @@ type FormValues = {
 }
 
 export const Supplier: React.FC = () => {
-
-    const form = useForm<FormValues>({
-        defaultValues: {
-            supNumbers: [{ supplierName: '', whatSupplies: '' }]
-        },
-    });
-
-    const { register, control, formState, handleSubmit } = form;
+    
+    const { suppliers, updateSupplier } = useAllSupplierContext();
+    const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
+    const { register, control, formState, handleSubmit, setValue } = useForm();
     const { errors } = formState;
     const navigate = useNavigate(); // Instancia o hook useNavigate
-    const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
+
+    useEffect(() => {
+        // Atualiza os defaultValues do formulário sempre que suppliers mudar
+        setValue('supNumbers', suppliers);
+      }, [suppliers, setValue]);
 
     const { fields, append, remove } = useFieldArray({
-        name: 'supNumbers',
+        name: "supNumbers",
         control
     });
-
-    const onSubmit = async (data: FormValues) => {
+    
+    const onSubmit = async (data: any) => {
         try {
             parentToChild();
             const newNumberOfSuppliers = numberOfSuppliers;
-            console.log(data)
+            console.log(numberOfSuppliers)
             updateNumberOfSuppliers(newNumberOfSuppliers);
+            for(let i = 0 ; i < numberOfSuppliers; i++ ){
+                console.log(i)
+                const updatedSupplier = {
+                    supplierName: data.supNumbers[i].supplierName,
+                    whatSupplies: data.supNumbers[i].whatSupplies
+                };
+                updateSupplier(i, updatedSupplier);
+                console.log(updatedSupplier)
+            } 
+            navigate('/customer')
+
         }
         catch (error) {
             console.log('Error submiting form:', error);
@@ -68,6 +80,9 @@ export const Supplier: React.FC = () => {
         navigate('/mapInfos')
     }
 
+
+
+
     return (
         <div>
             <Header />
@@ -83,7 +98,7 @@ export const Supplier: React.FC = () => {
                         <li><a>Informational Flow Data</a></li>
                     </ul>
                 </div>
-                <form id="supplierForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+                <form id="supplierForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className="tab">
                         <div className="flex-container">
                             <button type="submit">Next Page</button>
@@ -106,9 +121,12 @@ export const Supplier: React.FC = () => {
                             <br />
                             <button type="button" id="addSupplierButton" className="addSupplierButton" onClick={handleAppendAndIncrement}>Add Supplier</button>
                         </div>
-
                     </div>
                 </form>
+                <div>
+                <h2>Estado do Fornecedor</h2>
+                    <pre>{JSON.stringify(suppliers, null, 2)}</pre>
+                </div>
             </main>
             <Footer />
         </div>

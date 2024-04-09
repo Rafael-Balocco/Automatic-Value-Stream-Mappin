@@ -20,12 +20,13 @@ import { SupplierProvider } from "./contexts/supplierContext";
 import { MapInfoProvider } from "./contexts/allMapInfoContext";
 import { CustomerProvider } from "./contexts/customerContext";
 import { CustomerMaterialFlowProvider } from "./contexts/customerMatContext";
-
+import { AllSupplierProvider } from "./contexts/supHandlerContext";
 
 function App () {
 
   return (
       <ProcessProvider>
+      <AllSupplierProvider>
       <SupplierProvider>
       <MapInfoProvider>
       <CustomerProvider>
@@ -65,6 +66,7 @@ function App () {
       </CustomerProvider>
       </MapInfoProvider>
       </SupplierProvider>
+      </AllSupplierProvider>
       </ProcessProvider>
   )
 }
