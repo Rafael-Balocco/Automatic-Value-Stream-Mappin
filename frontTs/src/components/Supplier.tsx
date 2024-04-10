@@ -166,10 +166,6 @@ export const Supplier: React.FC = () => {
                         </div>
                     </div>
                 </form>
-                <div>
-                    <h2>Estado do Fornecedor</h2>
-                    <pre>{JSON.stringify(suppliers, null, 2)}</pre>
-                </div>
             </main>
             <Footer />
         </div>
