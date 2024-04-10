@@ -32,6 +32,18 @@ export const Supplier: React.FC = () => {
     });
 
     useEffect(() => {
+        if (numberOfSuppliers === 0) {
+            handleAppendAndIncrement();
+            const updatedSupplier = {
+                supplierName: '',
+                whatSupplies: ''
+            };
+            console.log(updatedSupplier)
+            updateSupplier(0, updatedSupplier);
+        }
+    }, []);
+
+    useEffect(() => {
         // Atualizar os valores do formulário com os valores dos fornecedores sempre que eles mudarem
         setValue('supNumbers', suppliers);
     }, [suppliers, setValue]);
@@ -41,7 +53,6 @@ export const Supplier: React.FC = () => {
             parentToChild();
             const newNumberOfSuppliers = numberOfSuppliers;
             updateNumberOfSuppliers(newNumberOfSuppliers);
-            console.log("Number of Suppliers:", numberOfSuppliers);
             for (let i = 0; i < numberOfSuppliers; i++) {
                 const updatedSupplier = {
                     supplierName: data.supNumbers[i].supplierName,
@@ -60,7 +71,7 @@ export const Supplier: React.FC = () => {
 
     
     const handleAppendAndIncrement = () => {
-        // Adiciona um novo processo usando o append    
+        console.log(suppliers)
         append({ supplierName: "", whatSupplies: "" });
         
         // Incrementa o índice
