@@ -1,10 +1,10 @@
 import { useForm, useFieldArray,  } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { Router, useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
+import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useSupplierContext } from '../contexts/supplierContext';
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAllSupplierContext } from '../contexts/supHandlerContext';
 
 export type FormValues = {
@@ -16,34 +16,25 @@ export type FormValues = {
 
 export const Supplier: React.FC = () => {
 
-    const form = useForm<FormValues>({
-        defaultValues:{
-            supNumbers:[{supplierName: '', whatSupplies: ''}]
-        },
-    });
-
     const { suppliers, updateSupplier } = useAllSupplierContext();
     const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
-    const { register, control, formState, handleSubmit, setValue } = useForm();
+    const { register, control, formState, handleSubmit, setValue } = useForm<FormValues>({
+        defaultValues: {
+            supNumbers: suppliers.length > 0 ? suppliers : [{ supplierName: '', whatSupplies: '' }] // Verifica se há fornecedores; se não, adiciona um fornecedor vazio
+        }
+    });
     const { errors } = formState;
     const navigate = useNavigate(); // Instancia o hook useNavigate
 
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'supNumbers'
+    });
+
     useEffect(() => {
-        if (numberOfSuppliers === 0) {
-            console.log("Está vazio????")
-            handleAppendAndIncrement();
-        }
-      }, [suppliers]);
-    
-    useEffect(() => {
-        // Atualiza os defaultValues do formulário sempre que suppliers mudar
+        // Atualizar os valores do formulário com os valores dos fornecedores sempre que eles mudarem
         setValue('supNumbers', suppliers);
     }, [suppliers, setValue]);
-
-    const { fields, append, remove } = useFieldArray({
-        name: "supNumbers",
-        control
-    });
 
     const onSubmit = async (data: any) => {
         try {
