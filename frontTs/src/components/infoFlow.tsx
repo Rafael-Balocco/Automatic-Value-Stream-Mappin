@@ -224,6 +224,7 @@ export const InfoFlow: React.FC = () => {
 
         }
     });
+    const navigate = useNavigate();
     const {errors} = formState;
     
     const {fields, append, remove} = useFieldArray({
@@ -267,6 +268,9 @@ export const InfoFlow: React.FC = () => {
         console.log("index é ", index)
     };
 
+    const handlePrevious = () =>{
+        navigate('/MaterialFlow')
+    }
     
 
   return (
@@ -289,6 +293,9 @@ export const InfoFlow: React.FC = () => {
                 <div className="flex-container">
                     <button type="submit">Next</button>
                 </div>
+                <div className='previousButton'>
+                            <button type="button" onClick={handlePrevious}>Previous</button>
+                        </div>
                 <br/><br/>
             <h2>Informational Flow</h2>
                 

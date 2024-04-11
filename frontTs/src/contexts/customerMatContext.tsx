@@ -1,12 +1,8 @@
 // CustomerMaterialFlowContext.tsx
 import React, { createContext, useContext, useState } from 'react';
+import { FormValues } from '../components/MatFlow';
 
 // Definir o tipo de dados do formulário para o componente de material do cliente
-type CustomerMaterialFlowFormValues = {
-  modeCustomer: string;
-  periodShiftCustomer: number|null;
-  quantityShiftCustomer: number|null;
-};
 
 interface MyComponentProps {
     // Other props...
@@ -15,8 +11,8 @@ interface MyComponentProps {
 
 // Definir o tipo para o contexto do componente de material do cliente
 export type CustomerMaterialFlowContextType = {
-  CusformData: CustomerMaterialFlowFormValues;
-  updateCusFormData: (data: CustomerMaterialFlowFormValues) => void;
+  CusformData: FormValues['customer'];
+  updateCusFormData: (data: FormValues['customer']) => void;
 };
 
 // Criar o contexto para o componente de material do cliente
@@ -24,13 +20,13 @@ const CustomerMaterialFlowContext = createContext<CustomerMaterialFlowContextTyp
 
 // Provedor do contexto do componente de material do cliente
 export const CustomerMaterialFlowProvider: React.FC <MyComponentProps> = ({ children }) => {
-  const [CusformData, setCusFormData] = useState<CustomerMaterialFlowFormValues>({
-    modeCustomer: '',
+  const [CusformData, setCusFormData] = useState<FormValues['customer']>({
+    modeCustomer: "Select an Option",
     periodShiftCustomer: null,
-    quantityShiftCustomer: null,
+    quantityShiftCustomer: null
   });
 
-  const updateCusFormData = (data: CustomerMaterialFlowFormValues) => {
+  const updateCusFormData = (data: FormValues['customer']) => {
     setCusFormData({ ...CusformData, ...data });
   };
 
