@@ -3,8 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { useSupplierContext } from '../contexts/supplierContext';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAllSupplierContext } from '../contexts/supHandlerContext';
 
 export type FormValues = {
@@ -115,7 +114,7 @@ export const Supplier: React.FC = () => {
                 <form id="supplierForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className="tab">
                         <div className="flex-container">
-                            <button type="submit">Next Page</button>
+                            <button type="submit">Submit / Next Page</button>
                         </div>
                         <div className='previousButton'>
                             <button type="button" onClick={handlePrevious}>Previous</button>
