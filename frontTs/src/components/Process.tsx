@@ -234,6 +234,7 @@ export const Process: React.FC = () => {
                                             }
 
 
+                                            <div className='divisionLine'></div>
                                             <br />
                                         </div>
                                     );

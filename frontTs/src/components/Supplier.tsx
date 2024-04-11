@@ -156,6 +156,7 @@ export const Supplier: React.FC = () => {
                                             </button>
                                         )
                                     }
+                                    <div className='divisionLine'></div>
                                     <br />
                                 </div>
 
