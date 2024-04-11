@@ -23,59 +23,68 @@ import { AllSupplierProvider } from "./contexts/supHandlerContext";
 import { AllProcessProvider } from './contexts/proHandlerContext';
 import { AllInventoryProvider } from './contexts/inventoryContext';
 import { AllSupMatProvider } from './contexts/supMatContext';
+import { AllCusProdProvider } from './contexts/cusProdContext';
+import { AllSupProdProvider } from './contexts/supProdContext';
+import { AllProcProdProvider } from './contexts/proProdContext';
 
 function App() {
 
   return (
-    <AllSupMatProvider>
-    <AllInventoryProvider>
-        <AllProcessProvider>
-          <ProcessProvider>
-            <AllSupplierProvider>
-              <SupplierProvider>
-                <MapInfoProvider>
-                  <CustomerProvider>
-                    <CustomerMaterialFlowProvider>
+    <AllSupProdProvider>
+      <AllCusProdProvider>
+        <AllProcProdProvider>
+          <AllSupMatProvider>
+            <AllInventoryProvider>
+              <AllProcessProvider>
+                <ProcessProvider>
+                  <AllSupplierProvider>
+                    <SupplierProvider>
+                      <MapInfoProvider>
+                        <CustomerProvider>
+                          <CustomerMaterialFlowProvider>
 
-                      <Routes>
-                        <Route path="/home/*" element={<Home />} />
-                        <Route path="/*" element={<Home />} />
-                        <Route path="/mapInfos/*" element={<MapInfo />} />
-                        <Route path="/supplier/*" element={<Supplier />} />
-                        <Route path="/customer/*" element={<Customer />} />
+                            <Routes>
+                              <Route path="/home/*" element={<Home />} />
+                              <Route path="/*" element={<Home />} />
+                              <Route path="/mapInfos/*" element={<MapInfo />} />
+                              <Route path="/supplier/*" element={<Supplier />} />
+                              <Route path="/customer/*" element={<Customer />} />
 
-                        <Route
-                          path="/process/*"
-                          element={<Process />}
-                        />
-
-
-                        <Route
-                          path="/inventory/*"
-                          element={<Inventory />}
-                        />
+                              <Route
+                                path="/process/*"
+                                element={<Process />}
+                              />
 
 
-                        <Route
-                          path="/MaterialFlow/*"
-                          element={<MatFlow />}
-                        />
+                              <Route
+                                path="/inventory/*"
+                                element={<Inventory />}
+                              />
 
-                        <Route
-                          path="/InfoFlow/*"
-                          element={<InfoFlow />}
-                        />
 
-                      </Routes>
-                    </CustomerMaterialFlowProvider>
-                  </CustomerProvider>
-                </MapInfoProvider>
-              </SupplierProvider>
-            </AllSupplierProvider>
-          </ProcessProvider>
-        </AllProcessProvider>
-      </AllInventoryProvider>
-    </AllSupMatProvider>
+                              <Route
+                                path="/MaterialFlow/*"
+                                element={<MatFlow />}
+                              />
+
+                              <Route
+                                path="/InfoFlow/*"
+                                element={<InfoFlow />}
+                              />
+
+                            </Routes>
+                          </CustomerMaterialFlowProvider>
+                        </CustomerProvider>
+                      </MapInfoProvider>
+                    </SupplierProvider>
+                  </AllSupplierProvider>
+                </ProcessProvider>
+              </AllProcessProvider>
+            </AllInventoryProvider>
+          </AllSupMatProvider>
+        </AllProcProdProvider>
+      </AllCusProdProvider>
+    </AllSupProdProvider>
   )
 }
 
