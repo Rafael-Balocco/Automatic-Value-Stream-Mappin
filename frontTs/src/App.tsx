@@ -11,6 +11,7 @@ import { Customer } from './components/Customer'
 import { Process } from './components/Process'
 import { Inventory } from "./components/Inventory";
 import { MatFlow } from "./components/MatFlow"
+import {ShowDataComponent} from './components/reviewForm'
 
 //contexts
 import { ProcessProvider } from "./contexts/processContext";
@@ -71,6 +72,8 @@ function App() {
                                 path="/InfoFlow/*"
                                 element={<InfoFlow />}
                               />
+
+                              <Route path= "/review/" element ={<ShowDataComponent/>}/>
 
                             </Routes>
                           </CustomerMaterialFlowProvider>

@@ -92,7 +92,6 @@
 }
 
 
-
 .flex-container {
     position: absolute;
     top: 170px;
@@ -103,9 +102,8 @@
 .flex-container button,
 .previousButton button {
     margin-left: 200px; /* Adjust the margin as needed */
-    float: right; /* Float the button to the right */
     display: inline-block;
-    width: 80px; /* Defina a mesma largura para todos os botões */
+    width: 100px; /* Defina a mesma largura para todos os botões */
     height: 30px; /* Defina uma altura fixa para o botão */
     border: 2px solid rgb(0, 99, 228); 
     background-color: rgb(0, 99, 228); 
@@ -118,9 +116,6 @@
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.previousButton button{
-    float: left;
-}
 
 .previousButton {
     position: absolute;
@@ -198,3 +193,60 @@ input[type="text"] {
     border-top: 1px solid #ccc; /* Adiciona uma linha divisória cinza acima de todos os grupos de campos, exceto o primeiro */
     padding-top: 20px; /* Adiciona um espaço acima da linha divisória para separá-la dos campos acima */
 }
+.data-review-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  .data-review-container h2 {
+    margin-top: 30px;
+  }
+  
+  .form-data-section,
+  .customer-form-data-section,
+  .suppliers-section,
+  .processes-section,
+  .inventories-section,
+  .material-flow-section,
+  .production-section {
+    margin-top: 40px;
+  }
+  
+  .supplier-item,
+  .process-item,
+  .inventory-item,
+  .supplier-material-item,
+  .customer-production-item,
+  .supplier-production-item,
+  .process-production-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .supplier-item h3,
+  .process-item h3,
+  .inventory-item h3,
+  .supplier-material-item h3,
+  .customer-production-item h3,
+  .supplier-production-item h3,
+  .process-production-item h3 {
+    margin-top: 0;
+  }
+  
+  .supplier-item p,
+  .process-item p,
+  .inventory-item p,
+  .supplier-material-item p,
+  .customer-production-item p,
+  .supplier-production-item p,
+  .process-production-item p {
+    margin: 5px 0;
+  }
+  
+  .customer-production-item,
+  .supplier-production-item,
+  .process-production-item {
+    margin-top: 40px;
+  }

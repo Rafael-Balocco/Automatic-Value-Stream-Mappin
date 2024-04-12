@@ -4,21 +4,20 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { useProcessContext } from '../contexts/processContext';
 import { useSupplierContext } from '../contexts/supplierContext';
-import React, { useState, useEffect } from 'react';
-import finalResultImage from '../images/Final Result.png';
+import React, { useState} from 'react';
 import { useAllCusProdContext } from '../contexts/cusProdContext';
 import { useAllProcProdContext } from '../contexts/proProdContext';
 import { useAllSupProdContext } from '../contexts/supProdContext';
 
 export type FormValues ={
     customerProd:{
-        typeCus: "physical" | "eletronic" | "Select an Option";
+        typeCus: "physical" | "eletronic" | "Select an Option" | undefined;
         receiveCus: "Production Control" | "Supplier" | "Select an Option";
         periodCus: string | null;
         contentCus:string | null;
     }[]
     supplierProd:{
-        typeSup: "physical" | "eletronic" | "Select an Option";
+        typeSup: "physical" | "eletronic" | "Select an Option" | undefined;
         receiveSup: "Production Control" | "Supplier" | "Select an Option";
         periodSup: string | null;
         contentSup:string | null;
@@ -26,7 +25,7 @@ export type FormValues ={
 
     }[]
     processProd:{
-        typeProcess: "physical" | "eletronic" | "Select an Option";
+        typeProcess: "physical" | "eletronic" | "Select an Option" | undefined ;
         receiveProcess: "Production Control" | "Process" | "Select an Option";
         periodProcess: string| null;
         contentProcess: string | null;
@@ -226,12 +225,12 @@ export const InfoFlow: React.FC = () => {
     const {ProcProds, updateProcProd} = useAllProcProdContext();
     const navigate = useNavigate();
     
-    const {register,control, handleSubmit, formState, setValue} = useForm<FormValues>({
+    const {register,control, handleSubmit, formState} = useForm<FormValues>({
         defaultValues:{
             selectbox:[{connection:"Select an Option"}],
-            supplierProd:[{typeSup:"Select an Option", receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
-            processProd:[{typeProcess:"Select an Option", receiveProcess: "Select an Option", periodProcess: null, contentProcess: null, processNumber: null}],
-            customerProd:[{typeCus:"Select an Option", receiveCus: "Select an Option", periodCus: null, contentCus: null}]
+            supplierProd:[{typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
+            processProd:[{typeProcess: undefined, receiveProcess: "Select an Option", periodProcess: null, contentProcess: null, processNumber: null}],
+            customerProd:[{typeCus: undefined, receiveCus: "Select an Option", periodCus: null, contentCus: null}]
 
         }
     });
@@ -253,6 +252,7 @@ export const InfoFlow: React.FC = () => {
                 console.log("Round", i)
                 
                 if(data.customerProd[i]?.typeCus !== undefined){
+                    console.log("entra em customer")
                     const updatedCusProd = {
                         typeCus: data.customerProd[i].typeCus,
                         receiveCus: data.customerProd[i].receiveCus,
@@ -266,6 +266,7 @@ export const InfoFlow: React.FC = () => {
                 }
 
                 else if(data.supplierProd[i]?.typeSup !== undefined){
+                    console.log("entra em supplier")
                     const updatedSupProd = {
                         typeSup: data.supplierProd[i].typeSup,
                         receiveSup: data.supplierProd[i].receiveSup,
@@ -280,6 +281,7 @@ export const InfoFlow: React.FC = () => {
                 }
             
                 else if(data.processProd[i]?.typeProcess !== undefined){
+                    console.log("entra em proc")
                     const updatedProcProd = {
                         typeProcess: data.processProd[i].typeProcess,
                         receiveProcess: data.processProd[i].receiveProcess,
@@ -290,12 +292,13 @@ export const InfoFlow: React.FC = () => {
                     updateProcProd(numProc, updatedProcProd);
                     console.log("Processo", data.processProd[i], "Adicionado em ", numProc);
                     numProc++;
-                    console.log("novo numProc: ",numSup);   
+                    console.log("novo numProc: ",numProc);   
                 }
                 else{
                     console.log("Conexão ", i, "falhou")
                 }
             }
+            navigate('/review')
             
         } catch (error) {
             console.log("Error submitting", error)
@@ -352,7 +355,7 @@ export const InfoFlow: React.FC = () => {
             <div className='tab'>
             <form id="inventoryForm" autoComplete="off" onSubmit={handleSubmit((data) => onSubmit(data))} noValidate>
                 <div className="flex-container">
-                    <button type="submit">Next</button>
+                    <button type="submit">Submit / Next</button>
                 </div>
                 <div className='previousButton'>
                             <button type="button" onClick={handlePrevious}>Previous</button>

@@ -138,7 +138,7 @@ export const MatFlow: React.FC = () => {
                 <form id="MatForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className='consumerTab'>
                         <div className="flex-container">
-                            <button type="submit" >Next</button>
+                            <button type="submit" >Submit / Next</button>
                         </div>
 
                         <div className='previousButton'>

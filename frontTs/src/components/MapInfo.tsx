@@ -48,7 +48,7 @@ export const MapInfo = () => {
 
           <form id="mapInfoForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
             <div className="flex-container">
-              <button type="submit">Next</button>
+              <button type="submit">Submit / Next</button>
             </div>
             <br/><br/>
 

@@ -113,8 +113,9 @@ export const Supplier: React.FC = () => {
                 </div>
                 <form id="supplierForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className="tab">
+                        
                         <div className="flex-container">
-                            <button type="submit">Submit / Next Page</button>
+                            <button type="submit">Submit / Next</button>
                         </div>
                         <div className='previousButton'>
                             <button type="button" onClick={handlePrevious}>Previous</button>

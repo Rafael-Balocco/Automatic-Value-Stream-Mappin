@@ -12,14 +12,14 @@ type FormValues = {
 export const Customer = () => {
 
   const navigate = useNavigate(); // Instancia o hook useNavigate
-  const {formData, updateFormData} = useCustomerContext();
-  const { register, formState, handleSubmit} = useForm({ defaultValues: formData });
+  const {customerForm, updatecustomerForm} = useCustomerContext();
+  const { register, formState, handleSubmit} = useForm({ defaultValues: customerForm });
   const {errors} = formState;
 
   const onSubmit = async (data:FormValues) =>{
     try{
       console.log('Form Submitted:', data);
-      updateFormData(data)
+      updatecustomerForm(data)
       navigate('/process'); // Redireciona para a página Sup1.html
     }
     catch(error){
@@ -52,7 +52,7 @@ export const Customer = () => {
 
           <form id="customerForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
           <div className="flex-container">
-            <button type="submit">Next</button>
+            <button type="submit">Submit / Next</button>
           </div>
           <div className='previousButton'>
             <button type="button" onClick={handlePrevious}>Previous</button>

@@ -104,7 +104,7 @@ export const Inventory: React.FC = () => {
         <div className='tab'>
           <form id="inventoryForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
             <div className="flex-container">
-              <button type="submit">Next</button>
+              <button type="submit">Submit / Next</button>
             </div>
             <div className='previousButton'>
               <button type="button" onClick={handlePrevious}>Previous</button>
