@@ -1,4 +1,5 @@
 import React from 'react';
+import DataSubmissionComponent from './DataSubmission';
 import { useAllCusProdContext } from '../contexts/cusProdContext';
 import { useAllProcProdContext } from '../contexts/proProdContext';
 import { useAllSupProdContext } from '../contexts/supProdContext';
@@ -128,6 +129,7 @@ export const ShowDataComponent: React.FC = () => {
                     ))}
                 </div>
             </div>
+            <DataSubmissionComponent/>
         </div>
     );
 }
