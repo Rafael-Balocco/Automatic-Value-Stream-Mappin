@@ -68,7 +68,7 @@ export const Process: React.FC = () => {
                     cycleTime: data.proNumbers[i].cycleTime,
                     availableTime: data.proNumbers[i].availableTime,
                     upTime: data.proNumbers[i].upTime,
-                    scrapRate: data.proNumbers[i].scrapRat
+                    scrapRate: data.proNumbers[i].scrapRate
                 };
                 updateProcess(i, updatedProcess);
                 console.log("Process:", updatedProcess, "atualizado na posição: ", i)
