@@ -4,7 +4,7 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { useProcessContext } from '../contexts/processContext';
 import { useSupplierContext } from '../contexts/supplierContext';
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { useAllCusProdContext } from '../contexts/cusProdContext';
 import { useAllProcProdContext } from '../contexts/proProdContext';
 import { useAllSupProdContext } from '../contexts/supProdContext';
@@ -37,8 +37,17 @@ export type FormValues ={
     }[]
 }
 
-
-const CustomerProductionForm: React.FC<{index:number, register: any, errors:any}> = ({index, register, errors}) => {
+const CustomerProductionForm: React.FC<{index:number, register: any, errors:any, lastVisited:number[], setLastVisited:any}> = ({index, register, errors,lastVisited, setLastVisited}) => {
+    
+    useEffect(()=>{
+        setLastVisited((prevState:any) =>{
+            const newState = [...prevState];
+            newState[index] = 1;
+            console.log(`Valor na posição ${index}:`, newState[index]); 
+            return newState;
+        });
+    }, [])
+    
     return (
         <div className={`customer&MRP.${index}`}>
             <br/>
@@ -80,7 +89,17 @@ const CustomerProductionForm: React.FC<{index:number, register: any, errors:any}
     );
   };
   
- const SupplierProductionForm: React.FC<{index:number, register: any, errors:any, numberOfSuppliers:number }> = ({index, register, errors, numberOfSuppliers}) => {
+ const SupplierProductionForm: React.FC<{index:number, register: any, errors:any, numberOfSuppliers:number, lastVisited:number[], setLastVisited:any }> = ({index, register, errors, numberOfSuppliers,lastVisited, setLastVisited}) => {
+    
+     useEffect(()=>{
+        setLastVisited((prevState:any) =>{
+            const newState = [...prevState];
+            newState[index] = 2;
+            console.log(`Valor na posição ${index}:`, newState[index]); 
+            return newState;
+        });
+    }, [])
+    
     return(
         <div>
             <div className={`supplier&production${index}`}>
@@ -144,7 +163,17 @@ const CustomerProductionForm: React.FC<{index:number, register: any, errors:any}
     );
 };
 
-export const ProcessProductionForm: React.FC<{index:number, register: any, errors:any, numberOfProcess:number}> = ({index, register, errors, numberOfProcess}) => {
+export const ProcessProductionForm: React.FC<{index:number, register: any, errors:any, numberOfProcess:number, lastVisited:number[], setLastVisited:any}> = ({index, register, errors, numberOfProcess, lastVisited, setLastVisited}) => {
+    
+    useEffect(()=>{
+        setLastVisited((prevState: any) =>{
+            const newState = [...prevState];
+            newState[index] = 3;
+            console.log(`Valor na posição ${index}:`, newState[index]); 
+            return newState;
+        });
+    }, [])
+    
     return(
             <div className={`process&MRP.${index}`}>
             <br/>
@@ -166,8 +195,8 @@ export const ProcessProductionForm: React.FC<{index:number, register: any, error
             <label htmlFor={`receiveProcess.${index}`}>Who receive the Information:</label>
             <select {...register(`processProd.${index}.receiveProcess`, {
                 required:{
-                value:true,
-                message: "Receiver is Required!"
+                    value:true,
+                    message: "Receiver is Required!"
                 }
             } as const)}>
                 <option value="" disabled hidden>Select an option</option>
@@ -206,7 +235,7 @@ export const ProcessProductionForm: React.FC<{index:number, register: any, error
         </div>
     
     )}
-
+    
 
 export const InfoFlow: React.FC = () => {
     
@@ -224,6 +253,7 @@ export const InfoFlow: React.FC = () => {
     const {SupProds, updateSupProd} = useAllSupProdContext();
     const {ProcProds, updateProcProd} = useAllProcProdContext();
     const navigate = useNavigate();
+    const [lastVisited, setLastVisited] = useState<number[]>([]);
     
     const {register,control, handleSubmit, formState} = useForm<FormValues>({
         defaultValues:{
@@ -251,7 +281,7 @@ export const InfoFlow: React.FC = () => {
             for(let i = 0 ; i < numConections ; i++){
                 console.log("Round", i)
                 
-                if(data.customerProd[i]?.typeCus !== undefined){
+                if(lastVisited[i] === 1){
                     console.log("entra em customer")
                     const updatedCusProd = {
                         typeCus: data.customerProd[i].typeCus,
@@ -265,7 +295,7 @@ export const InfoFlow: React.FC = () => {
                     console.log("novo numCus: ",numCus);   
                 }
 
-                else if(data.supplierProd[i]?.typeSup !== undefined){
+                else if(lastVisited[i] === 2){
                     console.log("entra em supplier")
                     const updatedSupProd = {
                         typeSup: data.supplierProd[i].typeSup,
@@ -280,7 +310,7 @@ export const InfoFlow: React.FC = () => {
                     console.log("novo numSup: ",numSup);   
                 }
             
-                else if(data.processProd[i]?.typeProcess !== undefined){
+                else if(lastVisited[i] === 3){
                     console.log("entra em proc")
                     const updatedProcProd = {
                         typeProcess: data.processProd[i].typeProcess,
@@ -309,11 +339,11 @@ export const InfoFlow: React.FC = () => {
     const renderSelectedForm = (index:number) => {
         switch (selectedOptions[index]) {
           case "customer&MRP-1":
-            return <CustomerProductionForm index={index} register={register} errors = {errors}/>;
+            return <CustomerProductionForm index={index} register={register} errors = {errors} lastVisited = {lastVisited} setLastVisited = {setLastVisited}/>;
           case "supplier&MRP-1":
-            return <SupplierProductionForm index={index} register={register} errors = {errors} numberOfSuppliers = {numberOfSuppliers} />;
+            return <SupplierProductionForm index={index} register={register} errors = {errors} numberOfSuppliers = {numberOfSuppliers} lastVisited = {lastVisited} setLastVisited = {setLastVisited} />;
           case "process&MRP-1":
-            return <ProcessProductionForm index={index} register={register} errors = {errors} numberOfProcess = {numberOfProcess}/>;
+            return <ProcessProductionForm index={index} register={register} errors = {errors} numberOfProcess = {numberOfProcess} lastVisited = {lastVisited} setLastVisited = {setLastVisited}/>;
         }
       };
 
