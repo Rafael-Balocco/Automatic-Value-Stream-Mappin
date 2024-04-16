@@ -1,21 +1,23 @@
 import {useFieldArray, useForm} from 'react-hook-form'
-import React, { useState } from 'react';
-import { useProcessContext } from '../contexts/processContext';
-import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';
 import Footer from './Footer';
-import finalResultImage from '../images/Final Result.png';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useProcessContext } from '../contexts/processContext';
+import { useSupplierContext } from '../contexts/supplierContext';
+import React, { useState} from 'react';
+import { useAllCusProdContext } from '../contexts/cusProdContext';
+import { useAllProcProdContext } from '../contexts/proProdContext';
+import { useAllSupProdContext } from '../contexts/supProdContext';
 
-type FormValues ={
+export type FormValues ={
     customerProd:{
-        typeCus: "physical" | "eletronic" | "Select an Option";
+        typeCus: "physical" | "eletronic" | "Select an Option" | undefined;
         receiveCus: "Production Control" | "Supplier" | "Select an Option";
         periodCus: string | null;
         contentCus:string | null;
     }[]
     supplierProd:{
-        typeSup: "physical" | "eletronic" | "Select an Option";
+        typeSup: "physical" | "eletronic" | "Select an Option" | undefined;
         receiveSup: "Production Control" | "Supplier" | "Select an Option";
         periodSup: string | null;
         contentSup:string | null;
@@ -23,7 +25,7 @@ type FormValues ={
 
     }[]
     processProd:{
-        typeProcess: "physical" | "eletronic" | "Select an Option";
+        typeProcess: "physical" | "eletronic" | "Select an Option" | undefined ;
         receiveProcess: "Production Control" | "Process" | "Select an Option";
         periodProcess: string| null;
         contentProcess: string | null;
@@ -207,7 +209,7 @@ export const ProcessProductionForm: React.FC<{index:number, register: any, error
 
 
 export const InfoFlow: React.FC = () => {
-  
+    
     
     const handleOptionChange = (index:number, value:string) => {
         const newSelectedOptions = [...selectedOptions]
@@ -215,30 +217,93 @@ export const InfoFlow: React.FC = () => {
         setSelectedOptions(newSelectedOptions)
     };
     
-    const {register,control,handleSubmit, formState} = useForm<FormValues>({
+    const [numConections, setNumConections] = useState (1);
+    const { numberOfProcess } = useProcessContext();
+    const {numberOfSuppliers} = useSupplierContext();
+    const{CusProds, updateCusProd} = useAllCusProdContext();
+    const {SupProds, updateSupProd} = useAllSupProdContext();
+    const {ProcProds, updateProcProd} = useAllProcProdContext();
+    const navigate = useNavigate();
+    
+    const {register,control, handleSubmit, formState} = useForm<FormValues>({
         defaultValues:{
             selectbox:[{connection:"Select an Option"}],
-            supplierProd:[{typeSup:"Select an Option", receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
-            processProd:[{typeProcess:"Select an Option", receiveProcess: "Select an Option", periodProcess: null, contentProcess: null, processNumber: null}],
-            customerProd:[{typeCus:"Select an Option", receiveCus: "Select an Option", periodCus: null, contentCus: null}]
+            supplierProd:[{typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
+            processProd:[{typeProcess: undefined, receiveProcess: "Select an Option", periodProcess: null, contentProcess: null, processNumber: null}],
+            customerProd:[{typeCus: undefined, receiveCus: "Select an Option", periodCus: null, contentCus: null}]
 
         }
     });
+
     const {errors} = formState;
-    
     const {fields, append, remove} = useFieldArray({
         control,
         name: 'selectbox',
     });
-    
     const [selectedOptions, setSelectedOptions] = useState(fields.map(() => ""));
-    const [numConections, setNumConections] = useState (1);
-    const { numberOfProcess } = useProcessContext();
-    const {numberOfSuppliers} = useSupplierContext();
-    
-    const onSubmit = () => {
-        window.location.href = finalResultImage;
-    };
+
+    const onSubmit = async (data:any) =>{
+        try {
+            let numSup = 0;
+            let numCus = 0;
+            let numProc = 0;
+
+            for(let i = 0 ; i < numConections ; i++){
+                console.log("Round", i)
+                
+                if(data.customerProd[i]?.typeCus !== undefined){
+                    console.log("entra em customer")
+                    const updatedCusProd = {
+                        typeCus: data.customerProd[i].typeCus,
+                        receiveCus: data.customerProd[i].receiveCus,
+                        periodCus: data.customerProd[i].periodCus,
+                        contentCus: data.customerProd[i].contentCus
+                    };
+                    updateCusProd(numCus, updatedCusProd);
+                    console.log("Customer", data.customerProd[i], "Adicionado em ", numCus);
+                    numCus++;
+                    console.log("novo numCus: ",numCus);   
+                }
+
+                else if(data.supplierProd[i]?.typeSup !== undefined){
+                    console.log("entra em supplier")
+                    const updatedSupProd = {
+                        typeSup: data.supplierProd[i].typeSup,
+                        receiveSup: data.supplierProd[i].receiveSup,
+                        periodSup: data.supplierProd[i].periodSup,
+                        contentSup: data.supplierProd[i].contentSup,
+                        supNumber: data.supplierProd[i].supNumber
+                    };
+                    updateSupProd(numSup, updatedSupProd);
+                    console.log("Suuplier", data.supplierProd[i], "Adicionado em ", numSup);
+                    numSup++;
+                    console.log("novo numSup: ",numSup);   
+                }
+            
+                else if(data.processProd[i]?.typeProcess !== undefined){
+                    console.log("entra em proc")
+                    const updatedProcProd = {
+                        typeProcess: data.processProd[i].typeProcess,
+                        receiveProcess: data.processProd[i].receiveProcess,
+                        periodProcess: data.processProd[i].periodProcess,
+                        contentProcess: data.processProd[i].contentProcess,
+                        processNumber: data.processProd[i].processNumber
+                    };
+                    updateProcProd(numProc, updatedProcProd);
+                    console.log("Processo", data.processProd[i], "Adicionado em ", numProc);
+                    numProc++;
+                    console.log("novo numProc: ",numProc);   
+                }
+                else{
+                    console.log("Conexão ", i, "falhou")
+                }
+            }
+            navigate('/review')
+            
+        } catch (error) {
+            console.log("Error submitting", error)
+        }
+    }
     
     
     const renderSelectedForm = (index:number) => {
@@ -267,6 +332,9 @@ export const InfoFlow: React.FC = () => {
         console.log("index é ", index)
     };
 
+    const handlePrevious = () =>{
+        navigate('/MaterialFlow')
+    }
     
 
   return (
@@ -285,10 +353,13 @@ export const InfoFlow: React.FC = () => {
             </ul>
             </div>
             <div className='tab'>
-            <form id="inventoryForm" autoComplete="off" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form id="inventoryForm" autoComplete="off" onSubmit={handleSubmit((data) => onSubmit(data))} noValidate>
                 <div className="flex-container">
-                    <button type="submit">Next</button>
+                    <button type="submit">Submit / Next</button>
                 </div>
+                <div className='previousButton'>
+                            <button type="button" onClick={handlePrevious}>Previous</button>
+                        </div>
                 <br/><br/>
             <h2>Informational Flow</h2>
                 
@@ -296,9 +367,7 @@ export const InfoFlow: React.FC = () => {
                     <div key= {field.id}>
                         <label htmlFor="infoType">Connection {index+1}</label>
                         <select  className="options-in-menu-1" value={selectedOptions[index]} onChange={(e) => handleOptionChange(index, e.target.value)}>
-                            <option value="" disabled hidden>
-                            Select an option
-                            </option>
+                            <option value="" disabled hidden selected> Select an option </option>
                             <option value="customer&MRP-1">Between Customer and Production Control</option>
                             <option value="supplier&MRP-1">Between Supplier and Production Control</option>
                             <option value="process&MRP-1">Between Process and Production Control</option>

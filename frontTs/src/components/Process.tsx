@@ -2,13 +2,12 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import { useState } from 'react';
-import React from 'react';
-import { ProcessContext, useProcessContext, ProcessProvider } from '../contexts/processContext';
-import App from '../App'
+import React, {useEffect} from 'react';
+import { useProcessContext } from '../contexts/processContext';
+import { useAllProcessContext } from '../contexts/proHandlerContext';
 
 
-type FormValues = {
+export type FormValues = {
     proNumbers: {
         processName: string;
         cycleTime: number | null;
@@ -16,48 +15,81 @@ type FormValues = {
         upTime: number | null;
         scrapRate: number | null;
     }[]
-    index: number;
-    indexProcess: number;
-    numberOfProcess: number;
-
 }
 
 export const Process: React.FC = () => {
-
-    const form = useForm<FormValues>({
+    
+    const {processes, updateProcess} = useAllProcessContext();
+    const { numberOfProcess, updateNumberOfProcess } = useProcessContext();
+    
+    const { register, control, formState, handleSubmit, setValue} = useForm<FormValues>({
         defaultValues: {
-            proNumbers: [{ processName: '', cycleTime: null, availableTime: null, upTime: null, scrapRate: null }]
-        },
+            proNumbers: processes.length > 0 ? processes: [{ processName: '', cycleTime: null, availableTime: null, upTime: null, scrapRate: null }]
+        }
     });
 
-    const { register, control, formState, handleSubmit } = form;
     const { errors } = formState;
     const navigate = useNavigate(); // Instancia o hook useNavigate
-
-    const { numberOfProcess, updateNumberOfProcess } = useProcessContext();
-    console.log(numberOfProcess);
-
+    
     const { fields, append, remove } = useFieldArray({
-        name: 'proNumbers',
-        control
-    })
+        control,
+        name: 'proNumbers'
+    });
+    
+    useEffect(() => {
+        if(numberOfProcess === 0){
+            handleAppendAndIncrement();
+            const updatedProcess = {
+                processName: '',
+                cycleTime: null,
+                availableTime: null,
+                upTime: null,
+                scrapRate: null
+            }
+            console.log(updatedProcess);
+            updateProcess(0,updatedProcess);
+        }
+    }, []);
 
-    const onSubmit = (dataForm: FormValues) => {
-        parentToChild();
-        console.log('Form Submitted:', dataForm);
-        const newNumberOfProcess = numberOfProcess;
-        updateNumberOfProcess(newNumberOfProcess);
-        console.log("The number of processes is ", newNumberOfProcess);
-        navigate('/inventory');
+    useEffect(()=>{
+
+        setValue('proNumbers', processes);
+    }, [processes, setValue]);
+
+    const onSubmit = async (data:any) =>{
+        try{
+            parentToChild();
+            const newNumberOfProcess = numberOfProcess;
+            console.log("Número de processos salvos:", numberOfProcess)
+            updateNumberOfProcess(newNumberOfProcess);
+            for(let i = 0; i < numberOfProcess; i++){
+                const updatedProcess = {
+                    processName: data.proNumbers[i].processName,
+                    cycleTime: data.proNumbers[i].cycleTime,
+                    availableTime: data.proNumbers[i].availableTime,
+                    upTime: data.proNumbers[i].upTime,
+                    scrapRate: data.proNumbers[i].scrapRate
+                };
+                updateProcess(i, updatedProcess);
+                console.log("Process:", updatedProcess, "atualizado na posição: ", i)
+            }
+            navigate('/inventory')
+
+        }
+        catch(error){
+            console.log("Error Submiting Process Form:", error)
+        }
     }
+
 
 
     const handleAppendAndIncrement = () => {
         // Adiciona um novo processo usando o append
         append({ processName: '', cycleTime: null, availableTime: null, upTime: null, scrapRate: null });
-
+        
         // Incrementa o índice
         updateNumberOfProcess(numberOfProcess + 1);
+        console.log("Chamou o Append, npumero de processos é: ", numberOfProcess);
     };
 
     const handleRemoveAndDecrement = (index: number) => {
@@ -70,7 +102,6 @@ export const Process: React.FC = () => {
 
     const parentToChild = () => {
         updateNumberOfProcess(numberOfProcess);
-        console.log("Salvando o seguinte índice: ", numberOfProcess);
     }
 
     const handlePrevious = () => {
@@ -93,10 +124,10 @@ export const Process: React.FC = () => {
                         <li><a>Informational Flow Data</a></li>
                     </ul>
                 </div>
-                <form id="processForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+                <form id="processForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className="tab">
                         <div className="flex-container">
-                            <button type="submit">Next</button>
+                            <button type="submit">Submit / Next</button>
                         </div>
                         <div className='previousButton'>
                             <button type="button" onClick={handlePrevious}>Previous</button>
@@ -203,6 +234,7 @@ export const Process: React.FC = () => {
                                             }
 
 
+                                            <div className='divisionLine'></div>
                                             <br />
                                         </div>
                                     );

@@ -1,12 +1,13 @@
-import { useForm } from 'react-hook-form'
-import React from 'react';
-import { useProcessContext } from '../contexts/processContext';
+import { useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useProcessContext } from '../contexts/processContext';
+import React, {useEffect} from 'react';
+import { useAllInventoryContext } from '../contexts/inventoryContext';
 
 
-type FormValues = {
+export type FormValues = {
   inventories: {
     processINumber: number | null;
   }[]
@@ -14,16 +15,19 @@ type FormValues = {
 
 export const Inventory: React.FC = () => {
 
-  const form = useForm<FormValues>({
-    defaultValues: {
-      inventories: [{ processINumber: null }]
-    },
-  });
-
+  const {inventories, updateInventory} = useAllInventoryContext();
   const { numberOfProcess } = useProcessContext();
+  const { register, formState, handleSubmit,setValue} = useForm<FormValues>({
+    defaultValues:{
+      inventories: [{ processINumber: null }]
+    }
+  });
   const navigate = useNavigate(); // Instancia o hook useNavigate
-  const { register, control, formState, handleSubmit } = form;
   const { errors } = formState;
+
+  useEffect(()=>{
+    setValue('inventories', inventories)
+  }, [inventories, setValue] );
 
 
   const renderInventory = () => {
@@ -63,9 +67,19 @@ export const Inventory: React.FC = () => {
     return inventories;
   };
 
-  const onSubmit = (dataForm: FormValues) => {
-    console.log('Form Submitted:', dataForm);
-    navigate('/MaterialFlow');
+  const onSubmit = async (data:any) => {
+    try {
+      for(let i =0; i< numberOfProcess; i++){
+        const updatedInventory = {
+          processINumber: data.inventories[i].processINumber
+        };
+        updateInventory(i, updatedInventory);
+        console.log("Inventory: ", updatedInventory, " Salvo na posição ", i)
+      }
+      navigate("/MaterialFlow")
+    } catch (error) {
+      
+    }
   }
 
   const handlePrevious = () => {
@@ -88,9 +102,9 @@ export const Inventory: React.FC = () => {
           </ul>
         </div>
         <div className='tab'>
-          <form id="inventoryForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+          <form id="inventoryForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
             <div className="flex-container">
-              <button type="submit">Next</button>
+              <button type="submit">Submit / Next</button>
             </div>
             <div className='previousButton'>
               <button type="button" onClick={handlePrevious}>Previous</button>

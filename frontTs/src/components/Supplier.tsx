@@ -1,10 +1,9 @@
 import { useForm, useFieldArray,  } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { Router, useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import { SupplierContext, useSupplierContext, SupplierProvider } from '../contexts/supplierContext';
-import React from 'react';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useSupplierContext } from '../contexts/supplierContext';
+import React, { useEffect } from 'react';
 import { useAllSupplierContext } from '../contexts/supHandlerContext';
 
 export type FormValues = {
@@ -16,41 +15,43 @@ export type FormValues = {
 
 export const Supplier: React.FC = () => {
 
-    const form = useForm<FormValues>({
-        defaultValues:{
-            supNumbers:[{supplierName: '', whatSupplies: ''}]
-        },
-    });
-
     const { suppliers, updateSupplier } = useAllSupplierContext();
     const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
-    const { register, control, formState, handleSubmit, setValue } = useForm();
+    const { register, control, formState, handleSubmit, setValue } = useForm<FormValues>({
+        defaultValues: {
+            supNumbers: suppliers.length > 0 ? suppliers : [{ supplierName: '', whatSupplies: '' }] // Verifica se há fornecedores; se não, adiciona um fornecedor vazio
+        }
+    });
     const { errors } = formState;
     const navigate = useNavigate(); // Instancia o hook useNavigate
 
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: 'supNumbers'
+    });
+
     useEffect(() => {
         if (numberOfSuppliers === 0) {
-            console.log("Está vazio????")
             handleAppendAndIncrement();
+            const updatedSupplier = {
+                supplierName: '',
+                whatSupplies: ''
+            };
+            console.log(updatedSupplier)
+            updateSupplier(0, updatedSupplier);
         }
-      }, [suppliers]);
-    
+    }, []);
+
     useEffect(() => {
-        // Atualiza os defaultValues do formulário sempre que suppliers mudar
+        // Atualizar os valores do formulário com os valores dos fornecedores sempre que eles mudarem
         setValue('supNumbers', suppliers);
     }, [suppliers, setValue]);
-
-    const { fields, append, remove } = useFieldArray({
-        name: "supNumbers",
-        control
-    });
 
     const onSubmit = async (data: any) => {
         try {
             parentToChild();
             const newNumberOfSuppliers = numberOfSuppliers;
             updateNumberOfSuppliers(newNumberOfSuppliers);
-            console.log("Number of Suppliers:", numberOfSuppliers);
             for (let i = 0; i < numberOfSuppliers; i++) {
                 const updatedSupplier = {
                     supplierName: data.supNumbers[i].supplierName,
@@ -69,7 +70,7 @@ export const Supplier: React.FC = () => {
 
     
     const handleAppendAndIncrement = () => {
-        // Adiciona um novo processo usando o append    
+        console.log(suppliers)
         append({ supplierName: "", whatSupplies: "" });
         
         // Incrementa o índice
@@ -112,8 +113,9 @@ export const Supplier: React.FC = () => {
                 </div>
                 <form id="supplierForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className="tab">
+                        
                         <div className="flex-container">
-                            <button type="submit">Next Page</button>
+                            <button type="submit">Submit / Next</button>
                         </div>
                         <div className='previousButton'>
                             <button type="button" onClick={handlePrevious}>Previous</button>
@@ -155,6 +157,7 @@ export const Supplier: React.FC = () => {
                                             </button>
                                         )
                                     }
+                                    <div className='divisionLine'></div>
                                     <br />
                                 </div>
 
@@ -164,10 +167,6 @@ export const Supplier: React.FC = () => {
                         </div>
                     </div>
                 </form>
-                <div>
-                    <h2>Estado do Fornecedor</h2>
-                    <pre>{JSON.stringify(suppliers, null, 2)}</pre>
-                </div>
             </main>
             <Footer />
         </div>

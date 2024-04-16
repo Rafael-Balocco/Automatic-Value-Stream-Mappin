@@ -14,8 +14,8 @@ interface MyComponentProps {
 
 // Definir o tipo para o contexto do componente Customer
 export type CustomerContextType = {
-  formData: CustomerFormValues;
-  updateFormData: (data: CustomerFormValues) => void;
+  customerForm: CustomerFormValues;
+  updatecustomerForm: (data: CustomerFormValues) => void;
 };
 
 // Criar o contexto para o componente Customer
@@ -23,17 +23,17 @@ const CustomerContext = createContext<CustomerContextType | undefined>(undefined
 
 // Provedor do contexto do componente Customer
 export const CustomerProvider: React.FC <MyComponentProps> = ({ children }) => {
-  const [formData, setFormData] = useState<CustomerFormValues>({
+  const [customerForm, setcustomerForm] = useState<CustomerFormValues>({
     CustomerName: '',
     demand: '',
   });
 
-  const updateFormData = (data: CustomerFormValues) => {
-    setFormData({ ...formData, ...data });
+  const updatecustomerForm = (data: CustomerFormValues) => {
+    setcustomerForm({ ...customerForm, ...data });
   };
 
   return (
-    <CustomerContext.Provider value={{ formData, updateFormData }}>
+    <CustomerContext.Provider value={{ customerForm, updatecustomerForm }}>
       {children}
     </CustomerContext.Provider>
   );

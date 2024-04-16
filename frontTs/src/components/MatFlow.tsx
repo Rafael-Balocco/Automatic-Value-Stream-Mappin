@@ -1,10 +1,11 @@
-import { useForm } from 'react-hook-form'
-import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form'
+import React, { useEffect } from 'react';
 import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext'
+import { useAllSupMatContext } from '../contexts/supMatContext';
 
 enum Mode {
     Airplane = 'Airplane',
@@ -16,7 +17,7 @@ enum Mode {
     Truck = 'Truck',
 }
 
-type FormValues = {
+export type FormValues = {
     customer: {
         modeCustomer: Mode | "Select an Option";
         periodShiftCustomer: number | null;
@@ -31,26 +32,37 @@ type FormValues = {
 
 export const MatFlow: React.FC = () => {
 
-    const form = useForm<FormValues>({
+    const {SupMats, updateSupMat} = useAllSupMatContext();
+    const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const { numberOfSuppliers } = useSupplierContext();
+
+    const { register, formState, handleSubmit, setValue } = useForm<FormValues>({
         defaultValues: {
-            customer: { modeCustomer: "Select an Option", periodShiftCustomer: null, quantityShiftCustomer: null },
+            customer: CusformData,
             supplier: [{ modeSupplier: "Select an Option", periodShiftSupplier: null, quantityShiftSupplier: null }]
         },
-    });
-
-    const { numberOfSuppliers } = useSupplierContext();
-    const navigate = useNavigate(); // Instancia o hook useNavigate
-    const { register, control, formState, handleSubmit } = form;
+    })
     const { errors } = formState;
-    const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const navigate = useNavigate(); // Instancia o hook useNavigate
+
+    useEffect (() =>{
+        setValue('supplier', SupMats)
+    }, [SupMats, setValue]);
 
 
-
-
-    const onSubmit = async (dataForm: FormValues) => {
+    const onSubmit = async (data: any) => {
         try {
-            console.log('Form Submitted:', dataForm.customer);
-            updateCusFormData(dataForm.customer); // Atualiza os dados do formulário no contexto
+            console.log('Form Submitted:', data.customer);
+            updateCusFormData(data.customer); // Atualiza os dados do formulário no contexto
+            for(let i = 0 ; i < numberOfSuppliers ; i++){
+                const updatedSupMats = {
+                    modeSupplier: data.supplier[i].modeSupplier,
+                    periodShiftSupplier: data.supplier[i].periodShiftSupplier,
+                    quantityShiftSupplier: data.supplier[i].quantityShiftSupplier
+                }
+                updateSupMat(i, updatedSupMats)
+                console.log('Supplier: ', updatedSupMats, 'adicionado na posição', i);
+            }
             navigate('/infoFlow')
             // Redireciona para a próxima página do formulário
         } catch (error) {
@@ -123,10 +135,10 @@ export const MatFlow: React.FC = () => {
                     </ul>
                 </div>
 
-                <form id="MatForm" onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+                <form id="MatForm" onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off" noValidate>
                     <div className='consumerTab'>
                         <div className="flex-container">
-                            <button type="submit" >Next</button>
+                            <button type="submit" >Submit / Next</button>
                         </div>
 
                         <div className='previousButton'>
@@ -173,7 +185,6 @@ export const MatFlow: React.FC = () => {
                     </div>
 
                 </form>
-
             </main>
             <Footer />
         </div>

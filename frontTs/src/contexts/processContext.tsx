@@ -17,7 +17,7 @@ export const ProcessContext = createContext<ProcessContextState | null>(null);
 
 // Crie o provider do contexto
 export const ProcessProvider: React.FC <MyComponentProps> = ({ children }) => {
-  const [numberOfProcess, setNumberOfProcess] = useState<number>(1);
+  const [numberOfProcess, setNumberOfProcess] = useState<number>(0);
 
   // Função para atualizar o valor de "numberOfProcess"
   const updateNumberOfProcess = (newNumberOfProcess: number) => {
