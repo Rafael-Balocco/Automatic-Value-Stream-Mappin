@@ -30,7 +30,12 @@ export const TestJoint: React.FC = () => {
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
+    console.log("Processos salvos:", processes.length);
+
     useEffect(() => {
+
+        const rect: any[] = [];
+        const link: any[] =[];
 
         const graph = new dia.Graph();
 
@@ -51,7 +56,7 @@ export const TestJoint: React.FC = () => {
         canvas.current.appendChild(paper.el);
         paper.render();
 
-        const rect = new shapes.standard.Rectangle({
+        rect[0] = new shapes.standard.Rectangle({
             position: { x: 100, y: 30 },
             size: { width: 200, height: 100 },
             attrs: {
@@ -59,26 +64,29 @@ export const TestJoint: React.FC = () => {
                     fill: 'blue'
                 },
                 label: {
-                    text: formData.enterpriseName,
+                    text: processes[0].processName ,
                     fill: 'white',
                     fontSize: 20,
                 }
             }
         });
 
-        const rect2 = rect.clone()
-        rect2.translate(300, 0);
-        rect2.attr('label/text', formData.creatorName)
+        for(let i = 1; i < processes.length; i++){
+            rect[i] = rect[0].clone();
+            rect[i].translate(300*i, 0);
+            rect[i].attr('label/text', processes[i].processName);
+            rect[i].addTo(graph);
+
+            link [i]= new shapes.standard.Link();
+            link[i].source(rect[i-1]);
+            link[i].target(rect[i]);
+            link[i].addTo(graph);
+            
+        }
 
 
-        rect.addTo(graph);
-        rect2.addTo(graph)
+        rect[0].addTo(graph);
         paper.unfreeze();
-
-        const link = new shapes.standard.Link();
-        link.source(rect);
-        link.target(rect2);
-        link.addTo(graph);
 
         return () => {
             paper.remove();
