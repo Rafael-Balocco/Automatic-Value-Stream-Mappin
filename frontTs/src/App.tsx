@@ -13,7 +13,6 @@ import {  Inventory  } from "./components/Inventory";
 import {  MatFlow  } from "./components/MatFlow"
 import {ShowDataComponent} from './components/reviewForm'
 import {TestJoint} from './components/testJoint'
-import {ShowDataComponent} from './components/reviewForm'
 
 //contexts
 import { ProcessProvider } from "./contexts/processContext";
