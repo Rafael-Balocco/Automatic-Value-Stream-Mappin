@@ -1,18 +1,19 @@
 //regular imports
-import { Routes, Route } from 'react-router-dom';
+import {  Routes, Route  } from 'react-router-dom';
 import { Home } from "./components/Home";
 import './styles/stylesMonster.css';
 import './styles/tabsCSS.css';
 
 //components
-import { MapInfo } from './components/MapInfo';
-import { Supplier } from './components/Supplier'
-import { Customer } from './components/Customer'
-import { Process } from './components/Process'
-import { Inventory } from "./components/Inventory";
-import { MatFlow } from "./components/MatFlow"
+import {  MapInfo  } from './components/MapInfo';
+import {  Supplier  } from './components/Supplier'
+import {  Customer  } from './components/Customer'
+import {  Process  } from './components/Process'
+import {  Inventory  } from "./components/Inventory";
+import {  MatFlow  } from "./components/MatFlow"
 import {ShowDataComponent} from './components/reviewForm'
 import {TestJoint} from './components/testJoint'
+import {ShowDataComponent} from './components/reviewForm'
 
 //contexts
 import { ProcessProvider } from "./contexts/processContext";
@@ -57,6 +58,11 @@ function App() {
                                 element={<Process />}
                               />
 
+
+                              <Route
+                                path="/inventory/*"
+                                element={<Inventory />}
+                              />
 
                               <Route
                                 path="/inventory/*"

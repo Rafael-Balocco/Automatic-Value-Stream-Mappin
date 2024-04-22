@@ -11,13 +11,13 @@ import { useAllSupProdContext } from '../contexts/supProdContext';
 
 export type FormValues ={
     customerProd:{
-        typeCus: "physical" | "eletronic" | "Select an Option" | undefined;
+        typeCus: "physical" | "eletronic" | "Select an Option" | undefined | undefined;
         receiveCus: "Production Control" | "Supplier" | "Select an Option";
         periodCus: string | null;
         contentCus:string | null;
     }[]
     supplierProd:{
-        typeSup: "physical" | "eletronic" | "Select an Option" | undefined;
+        typeSup: "physical" | "eletronic" | "Select an Option" | undefined | undefined;
         receiveSup: "Production Control" | "Supplier" | "Select an Option";
         periodSup: string | null;
         contentSup:string | null;
@@ -25,7 +25,7 @@ export type FormValues ={
 
     }[]
     processProd:{
-        typeProcess: "physical" | "eletronic" | "Select an Option" | undefined ;
+        typeProcess: "physical" | "eletronic" | "Select an Option" | undefined  | undefined ;
         receiveProcess: "Production Control" | "Process" | "Select an Option";
         periodProcess: string| null;
         contentProcess: string | null;
