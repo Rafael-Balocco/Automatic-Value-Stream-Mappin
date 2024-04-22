@@ -77,7 +77,7 @@ function App() {
                               <Route path= "/review/*" element ={<ShowDataComponent/>}/>
 
                               <Route path='/result/*' element = {<TestJoint/>}/>
-/
+                              <Route path= "/review/" element ={<ShowDataComponent/>}/>
                             </Routes>
                           </CustomerMaterialFlowProvider>
                         </CustomerProvider>

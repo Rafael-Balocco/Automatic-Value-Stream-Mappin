@@ -261,9 +261,9 @@ export const InfoFlow: React.FC = () => {
             supplierProd:[{typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
             processProd:[{typeProcess: undefined, receiveProcess: "Select an Option", periodProcess: null, contentProcess: null, processNumber: null}],
             customerProd:[{typeCus: undefined, receiveCus: "Select an Option", periodCus: null, contentCus: null}]
-
         }
     });
+
 
     const {errors} = formState;
     const {fields, append, remove} = useFieldArray({
