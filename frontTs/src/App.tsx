@@ -12,6 +12,7 @@ import { Process } from './components/Process'
 import { Inventory } from "./components/Inventory";
 import { MatFlow } from "./components/MatFlow"
 import {ShowDataComponent} from './components/reviewForm'
+import {TestJoint} from './components/testJoint'
 
 //contexts
 import { ProcessProvider } from "./contexts/processContext";
@@ -73,8 +74,10 @@ function App() {
                                 element={<InfoFlow />}
                               />
 
-                              <Route path= "/review/" element ={<ShowDataComponent/>}/>
+                              <Route path= "/review/*" element ={<ShowDataComponent/>}/>
 
+                              <Route path='/result/*' element = {<TestJoint/>}/>
+/
                             </Routes>
                           </CustomerMaterialFlowProvider>
                         </CustomerProvider>

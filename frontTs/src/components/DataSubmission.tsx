@@ -45,6 +45,7 @@ const DataSubmissionComponent: React.FC = () => {
             const resposta = await axios.post('http://localhost:3000/api/enviar-dados', dados);
 
             console.log(resposta.data); // Exibir resposta do servidor
+            navigate('/result')
         } catch (error) {
             console.error('Erro ao enviar dados para o backend:', error);
         }
