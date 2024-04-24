@@ -15,6 +15,8 @@ import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
 
+const start = 500;
+
 export const TestJoint: React.FC = () => {
 
     const canvas: any = useRef(null);
@@ -32,7 +34,7 @@ export const TestJoint: React.FC = () => {
 
     const numProcess = processes.length;
 
-    console.log("Inventories", inventories[0].processINumber)
+    console.log("SupProds", SupProds)
 
     useEffect(() => {
 
@@ -54,7 +56,11 @@ export const TestJoint: React.FC = () => {
             async: true,
             sorting: dia.Paper.sorting.APPROX,
             gridSize: 1,
-            cellViewNamespace: shapes
+            cellViewNamespace: shapes,
+            interactive: {
+                linkMove: false,
+                labelMove: true
+            }
         });
 
         canvas.current.appendChild(paper.el);
@@ -194,7 +200,7 @@ export const TestJoint: React.FC = () => {
 
             for (let i = 0; i < processes.length; i++) {
                 procArray[i] = new Process({
-                    position: { x: 300 * (i + 1), y: 600 },
+                    position: { x: start * (i + 1), y: 600 },
                     name: 'p'[i],
                     z: 3,
                     attrs: {
@@ -238,7 +244,7 @@ export const TestJoint: React.FC = () => {
 
             for (i = 0; i < suppliers.length; i++) {
                 supArray[i] = new SupCus({
-                    position: { x: 150, y: 150 * (i + 1) },
+                    position: { x: start - 250, y: 150 * (i + 1) },
                     name: 's'[i],
                     z: 3,
                     attrs: {
@@ -265,7 +271,7 @@ export const TestJoint: React.FC = () => {
             }
 
             const customer = new SupCus({
-                position: { x: 300 * ((numProcess)) + 150, y: 150 },
+                position: { x: start * ((numProcess)) + 250, y: 150 },
                 name: 'c',
                 z: 3,
                 attrs: {
@@ -292,7 +298,7 @@ export const TestJoint: React.FC = () => {
 
         function prodControl() {
             const company = new SupCus({
-                position: { x: 300 * ((numProcess + 1) / 2), y: 100 },
+                position: { x: start * ((numProcess + 1) / 2), y: 100 },
                 name: 'p',
                 z: 3,
                 attrs: {
@@ -308,9 +314,10 @@ export const TestJoint: React.FC = () => {
                 }
             })
             company.addTo(graph);
+            return(company)
         }
 
-        prodControl();
+        const company = prodControl();
 
 
         function invFun() {
@@ -318,7 +325,7 @@ export const TestJoint: React.FC = () => {
 
             for (i; i <= (inventories.length-1); i++) {
                 invArray[i] = new Inventory({
-                    position: { x: 300 * (i+1) -120, y: 720 },
+                    position: { x: start * (i + 1) -120, y: 720 },
                     name: 'i',
                     z: 3,
                     size: { width: 100, height: 100 },
@@ -342,6 +349,7 @@ export const TestJoint: React.FC = () => {
         }
 
         invFun();
+        // Definição do link em formato de raio
 
         paper.unfreeze();
 
@@ -350,6 +358,10 @@ export const TestJoint: React.FC = () => {
         };
 
     }, []);
+
+
+
+
 
     return (
         <div className="canvas" ref={canvas} />
