@@ -30,15 +30,17 @@ export const TestJoint: React.FC = () => {
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
-    console.log("Processos salvos:", processes.length);
-    console.log("Suppliers:", suppliers)
+    const numProcess = processes.length;
+
+    console.log("Inventories", inventories[0].processINumber)
 
     useEffect(() => {
 
         const procArray: any[] = [];
-        const link: any[] =[];
-        const linkSup: any[] =[];
-        const supArray: any[] =[];
+        const link: any[] = [];
+        const linkSup: any[] = [];
+        const supArray: any[] = [];
+        const invArray: any[] = [];
         const graph = new dia.Graph();
 
         const paper = new dia.Paper({
@@ -164,13 +166,35 @@ export const TestJoint: React.FC = () => {
             }
         }
 
+        class Inventory extends ForeignObjectElement {
 
-        
-        function processLink(){
+            defaults() {
+                return {
+                    ...super.defaults(),
+                    type: 'inventory',
+                    size: {
+                        width: "calc(w)",
+                        height: "calc(h)"
+                    }
+                };
+            }
+
+            preinitialize() {
+                this.markup = util.svg/* xml */`
+                    <path d="M 50 10 L 90 90 L 10 90 Z" fill="yellow" stroke="black" />
+                    <text @selector ="label" text-anchor="middle" fill="black"/> 
+
+                `;
+            }
+        }
+
+
+
+        function processLink() {
 
             for (let i = 0; i < processes.length; i++) {
                 procArray[i] = new Process({
-                    position: { x: 300*(i+1), y: 600 },
+                    position: { x: 300 * (i + 1), y: 600 },
                     name: 'p'[i],
                     z: 3,
                     attrs: {
@@ -196,25 +220,25 @@ export const TestJoint: React.FC = () => {
                 });
                 procArray[i].addTo(graph);
 
-        }
-            for(let i =0; i <= (processes.length-2); i++){
+            }
+            for (let i = 0; i <= (processes.length - 2); i++) {
 
-                link [i]= new shapes.standard.Link();
+                link[i] = new shapes.standard.Link();
                 link[i].source(procArray[i]);
-                link[i].target(procArray[i+1]);
+                link[i].target(procArray[i + 1]);
                 link[i].addTo(graph);
             }
-            
+
         }
-        
+
         processLink();
 
-        function supCus(){
+        function supCus() {
             let i;
 
             for (i = 0; i < suppliers.length; i++) {
                 supArray[i] = new SupCus({
-                    position: { x: 150 , y: 100 * (i+1) },
+                    position: { x: 150, y: 150 * (i + 1) },
                     name: 's'[i],
                     z: 3,
                     attrs: {
@@ -225,40 +249,40 @@ export const TestJoint: React.FC = () => {
                             html: "Supplier"
                         },
                         nameSupplier: {
-                            props: { value: suppliers[i].supplierName}
+                            props: { value: suppliers[i].supplierName }
                         }
                     }
                 });
                 supArray[i].addTo(graph);
 
             }
-            for(i = 0; i <= (suppliers.length -1); i++){
+            for (i = 0; i <= (suppliers.length - 1); i++) {
 
-                linkSup[i]= new shapes.standard.Link();
+                linkSup[i] = new shapes.standard.Link();
                 linkSup[i].source(supArray[i]);
-                linkSup[i].target(procArray[i]);
+                linkSup[i].target(procArray[0]);
                 linkSup[i].addTo(graph);
             }
 
             const customer = new SupCus({
-                position: { x: 300*((processes.length))+150, y: 100 },
-                    name: 'c',
-                    z: 3,
-                    attrs: {
-                        body: {
-                            fill: '#EAECEA'
-                        },
-                        label: {
-                            html: "Customer"
-                        },
-                        nameSupplier: {
-                            props: { value: customerForm.CustomerName}
-                        }
+                position: { x: 300 * ((numProcess)) + 150, y: 150 },
+                name: 'c',
+                z: 3,
+                attrs: {
+                    body: {
+                        fill: '#EAECEA'
+                    },
+                    label: {
+                        html: "Customer"
+                    },
+                    nameSupplier: {
+                        props: { value: customerForm.CustomerName }
                     }
+                }
             })
             customer.addTo(graph);
-            linkSup[i]= new shapes.standard.Link();
-            linkSup[i].source(procArray[(procArray.length-1)]);
+            linkSup[i] = new shapes.standard.Link();
+            linkSup[i].source(procArray[(procArray.length - 1)]);
             linkSup[i].target(customer);
             linkSup[i].addTo(graph);
 
@@ -266,28 +290,58 @@ export const TestJoint: React.FC = () => {
 
         supCus();
 
-        function prodControl(){
+        function prodControl() {
             const company = new SupCus({
-                position: { x: 300*((processes.length+1) / 2) + 0.5, y: 100 },
-                    name: 'p',
-                    z: 3,
-                    attrs: {
-                        body: {
-                            fill: '#EAECEA'
-                        },
-                        label: {
-                            html: formData.enterpriseName
-                        },
-                        nameSupplier: {
-                            props: { value: formData.creatorName}
-                        }
+                position: { x: 300 * ((numProcess + 1) / 2), y: 100 },
+                name: 'p',
+                z: 3,
+                attrs: {
+                    body: {
+                        fill: '#EAECEA'
+                    },
+                    label: {
+                        html: formData.enterpriseName
+                    },
+                    nameSupplier: {
+                        props: { value: formData.creatorName }
                     }
+                }
             })
             company.addTo(graph);
         }
 
         prodControl();
 
+
+        function invFun() {
+            let i = 0;
+
+            for (i; i <= (inventories.length-1); i++) {
+                invArray[i] = new Inventory({
+                    position: { x: 300 * (i+1) -120, y: 720 },
+                    name: 'i',
+                    z: 3,
+                    size: { width: 100, height: 100 },
+                    attrs: {
+                        label: {
+                            x: "calc(w/2)",
+                            y: "calc(h/2)",
+                            text: inventories[i].processINumber?.toString(),
+                            textVerticalAnchor: "middle"
+                        },
+                        body: {
+                            width: 'calc(w)',
+                            height: 'calc(h)',
+                            fill: "yellow"
+                        }
+                    }
+                })
+                invArray[i].addTo(graph);
+            }
+
+        }
+
+        invFun();
 
         paper.unfreeze();
 
