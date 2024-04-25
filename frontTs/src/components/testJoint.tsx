@@ -195,6 +195,8 @@ export const TestJoint: React.FC = () => {
 
 
         function figMat(which: number, mode:string) {
+            let period = SupMats[which].periodShiftSupplier === undefined ?  '' : SupMats[which].periodShiftSupplier?.toString();
+            let quantity = SupMats[which].quantityShiftSupplier === undefined? '' : SupMats[which].periodShiftSupplier?.toString();
             const modeMap = {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
@@ -214,7 +216,6 @@ export const TestJoint: React.FC = () => {
                         position: { distance: 0.5, offset: { x: 20, y: 20 } },
                         attrs: {
                             text: {
-                                text: SupMats[which].periodShiftSupplier?.toString(), // Use the parameter here
                                 'font-size': 12,
                                 fill: 'black',
                                 'font-family': 'Arial, sans-serif'
@@ -225,7 +226,10 @@ export const TestJoint: React.FC = () => {
                 labelMarkup: [
                     '<g class="label">',
                     '<image href="' + chosen + '" width="130" height="130" x="-100" y="-125" />',
-                    '<text x="10" y="10" text-anchor="middle" alignment-baseline="middle">' + SupMats[which].periodShiftSupplier + '</text>', // Use the parameter here
+                    '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="25">',
+                        '<tspan>' + period + '</tspan>',
+                        '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
+                    '</text>',
                     '</g>'
                 ].join('')
             });
@@ -323,6 +327,10 @@ export const TestJoint: React.FC = () => {
                     }
                 }
             })
+
+            let period = CusformData.periodShiftCustomer === undefined ?  '' : CusformData.periodShiftCustomer?.toString();
+            let quantity = CusformData.quantityShiftCustomer === undefined? '' : CusformData.quantityShiftCustomer?.toString();
+
             customer.addTo(graph);
             const modeMap = {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
@@ -343,7 +351,6 @@ export const TestJoint: React.FC = () => {
                         position: { distance: 0.5, offset: { x: 20, y: 20 } },
                         attrs: {
                             text: {
-                                text: CusformData.periodShiftCustomer?.toString(), // Use the parameter here
                                 'font-size': 12,
                                 fill: 'black',
                                 'font-family': 'Arial, sans-serif'
@@ -353,10 +360,10 @@ export const TestJoint: React.FC = () => {
                 ],
                 labelMarkup: [
                     '<g class="label">',
-                    '<image href="' + chosen + '" width="130" height="130" x="-100" y="-125" />',
-                    '<text x="10" y="10" text-anchor="middle" alignment-baseline="middle">',
-                        '<tspan>' + CusformData.periodShiftCustomer?.toString() + '</tspan>',
-                        '<tspan x="10" dy="15">' + CusformData.quantityShiftCustomer?.toString() + '</tspan>', // Adjust dy for line spacing
+                    '<image href="' + chosen + '" width="130" height="130" x="-70" y="-125" />',
+                    '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="25">',
+                        '<tspan>' + period + '</tspan>',
+                        '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
                     '</text>',
                     '</g>'
                 ].join('')
