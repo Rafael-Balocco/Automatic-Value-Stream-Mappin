@@ -33,8 +33,7 @@ export const TestJoint: React.FC = () => {
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
     const numProcess = processes.length;
-
-    console.log("SupProds", SupProds)
+    console.log(SupMats)
 
     useEffect(() => {
 
@@ -195,6 +194,45 @@ export const TestJoint: React.FC = () => {
         }
 
 
+        function figMat(which: number, mode:string) {
+            const modeMap = {
+                Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
+                Bike: "https://www.svgrepo.com/show/487074/bike.svg",
+                Car: "https://www.svgrepo.com/show/533553/car-side.svg",
+                MultiModal: "https://www.svgrepo.com/show/522355/multimodal.svg",
+                Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
+                Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
+                Truck: "https://www.svgrepo.com/show/533567/truck.svg",
+              };
+              
+            const chosen = modeMap[(mode as keyof typeof modeMap)] || ""; // Type assertion              
+            var link = new shapes.standard.Link({
+                source: supArray[which],
+                target: procArray[0],
+                labels: [
+                    {
+                        position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                        attrs: {
+                            text: {
+                                text: SupMats[which].periodShiftSupplier?.toString(), // Use the parameter here
+                                'font-size': 12,
+                                fill: 'black',
+                                'font-family': 'Arial, sans-serif'
+                            }
+                        }
+                    }
+                ],
+                labelMarkup: [
+                    '<g class="label">',
+                    '<image href="' + chosen + '" width="130" height="130" x="-100" y="-125" />',
+                    '<text x="10" y="10" text-anchor="middle" alignment-baseline="middle">' + SupMats[which].periodShiftSupplier + '</text>', // Use the parameter here
+                    '</g>'
+                ].join('')
+            });
+            return link;
+        }
+
+
 
         function processLink() {
 
@@ -264,10 +302,9 @@ export const TestJoint: React.FC = () => {
             }
             for (i = 0; i <= (suppliers.length - 1); i++) {
 
-                linkSup[i] = new shapes.standard.Link();
-                linkSup[i].source(supArray[i]);
-                linkSup[i].target(procArray[0]);
-                linkSup[i].addTo(graph);
+                    linkSup[i] = figMat(i,SupMats[i].modeSupplier);
+                    linkSup[i].addTo(graph);
+                
             }
 
             const customer = new SupCus({
@@ -287,11 +324,44 @@ export const TestJoint: React.FC = () => {
                 }
             })
             customer.addTo(graph);
-            linkSup[i] = new shapes.standard.Link();
-            linkSup[i].source(procArray[(procArray.length - 1)]);
-            linkSup[i].target(customer);
-            linkSup[i].addTo(graph);
-
+            const modeMap = {
+                Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
+                Bike: "https://www.svgrepo.com/show/487074/bike.svg",
+                Car: "https://www.svgrepo.com/show/533553/car-side.svg",
+                MultiModal: "https://www.svgrepo.com/show/522355/multimodal.svg",
+                Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
+                Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
+                Truck: "https://www.svgrepo.com/show/533567/truck.svg",
+              };
+              
+            const chosen = modeMap[(CusformData.modeCustomer as keyof typeof modeMap)] || ""; // Type assertion              
+            var linkCus = new shapes.standard.Link({
+                source: customer,
+                target: procArray[(procArray.length -1)],
+                labels: [
+                    {
+                        position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                        attrs: {
+                            text: {
+                                text: CusformData.periodShiftCustomer?.toString(), // Use the parameter here
+                                'font-size': 12,
+                                fill: 'black',
+                                'font-family': 'Arial, sans-serif'
+                            }
+                        }
+                    }
+                ],
+                labelMarkup: [
+                    '<g class="label">',
+                    '<image href="' + chosen + '" width="130" height="130" x="-100" y="-125" />',
+                    '<text x="10" y="10" text-anchor="middle" alignment-baseline="middle">',
+                        '<tspan>' + CusformData.periodShiftCustomer?.toString() + '</tspan>',
+                        '<tspan x="10" dy="15">' + CusformData.quantityShiftCustomer?.toString() + '</tspan>', // Adjust dy for line spacing
+                    '</text>',
+                    '</g>'
+                ].join('')
+            });
+            linkCus.addTo(graph)
         }
 
         supCus();
@@ -314,18 +384,18 @@ export const TestJoint: React.FC = () => {
                 }
             })
             company.addTo(graph);
-            return(company)
+            return (company)
         }
 
-        const company = prodControl();
+        prodControl();
 
 
         function invFun() {
             let i = 0;
 
-            for (i; i <= (inventories.length-1); i++) {
+            for (i; i <= (inventories.length - 1); i++) {
                 invArray[i] = new Inventory({
-                    position: { x: start * (i + 1) -120, y: 720 },
+                    position: { x: start * (i + 1) - 120, y: 720 },
                     name: 'i',
                     z: 3,
                     size: { width: 100, height: 100 },
@@ -350,6 +420,7 @@ export const TestJoint: React.FC = () => {
 
         invFun();
         // Definição do link em formato de raio
+
 
         paper.unfreeze();
 
