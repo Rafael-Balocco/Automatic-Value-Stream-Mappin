@@ -42,6 +42,7 @@ export const TestJoint: React.FC = () => {
         const linkSup: any[] = [];
         const supArray: any[] = [];
         const invArray: any[] = [];
+        const company: any[] = [];
         const graph = new dia.Graph();
 
         const paper = new dia.Paper({
@@ -196,7 +197,7 @@ export const TestJoint: React.FC = () => {
 
         function figMat(which: number, mode:string) {
             let period = SupMats[which].periodShiftSupplier === undefined ?  '' : SupMats[which].periodShiftSupplier?.toString();
-            let quantity = SupMats[which].quantityShiftSupplier === undefined? '' : SupMats[which].periodShiftSupplier?.toString();
+            let quantity = SupMats[which].quantityShiftSupplier === undefined? '' : SupMats[which].quantityShiftSupplier?.toString();
             const modeMap = {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
@@ -372,9 +373,9 @@ export const TestJoint: React.FC = () => {
         }
 
         supCus();
-
+        
         function prodControl() {
-            const company = new SupCus({
+            company[0] = new SupCus({
                 position: { x: start * ((numProcess + 1) / 2), y: 100 },
                 name: 'p',
                 z: 3,
@@ -390,12 +391,10 @@ export const TestJoint: React.FC = () => {
                     }
                 }
             })
-            company.addTo(graph);
-            return (company)
+            company[0].addTo(graph);
         }
 
-        prodControl();
-
+        prodControl()
 
         function invFun() {
             let i = 0;
@@ -425,7 +424,67 @@ export const TestJoint: React.FC = () => {
 
         }
 
+        function procInvGlued (){
+            
+            for (let i = 0 ; i < procArray.length ; i++){
+                procArray[i].on ('change:position', function(){
+                    var proc1Position = procArray[i].position();
+                    invArray[i].position(proc1Position.x - 120, proc1Position.y +120)
+                })
+        
+                invArray[i].on ('change:position', function(){
+                    var proc1Position = invArray[i].position();
+                    procArray[i].position(proc1Position.x + 120, proc1Position.y -120)
+                })
+
+            }
+
+        }
+
+        let companyPos = company[0].position();
+        let supPos = supArray[0].position();
+
+        let meiox = supPos.x + (companyPos.x - supPos.x) /2;
+        let meioy = supPos.y + (supPos.y - companyPos.y) /2;
+
+        
+        var link2 = new shapes.standard.Link();
+        link2.source(company[0]);
+        link2.target(supArray[0]);
+        link2.vertices([
+            { x: meiox, y: meioy },
+            { x: meiox + 30, y: meioy +30 },
+        ]);
+        link2.addTo(graph);
+
         invFun();
+        procInvGlued();
+
+        function updateLinkVertices(link:any){
+            let companyPos = company[0].position();
+            let supPos = supArray[0].position();
+            let left= supPos.x <= companyPos.x ? supPos.x : companyPos.x; let right = supPos.x <= companyPos.x ? companyPos.x : supPos.x;
+            let upper= supPos.y <= companyPos.y ? supPos.y : companyPos.y; let lower = supPos.y <= companyPos.y ? companyPos.y : supPos.y;
+            console.log("Company", companyPos)
+            console.log("SupPos",supPos)
+
+            let meiox = left + 80 + ((right - left) / 2);
+            console.log("Meiox", meiox)
+            let meioy = lower + 60 - ((lower - upper) / 2);
+            console.log("Meioy", meioy)
+
+            link.vertices([
+                { x: meiox, y: meioy },
+                {x: meiox +30, y: meioy+30}
+            ]);    
+        }
+
+        company[0].on('change:position', function() {
+            updateLinkVertices(link2);
+        });
+        supArray[0].on('change:position', function() {
+            updateLinkVertices(link2);
+        });
         // Definição do link em formato de raio
 
 
