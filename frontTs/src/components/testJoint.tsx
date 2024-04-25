@@ -441,32 +441,16 @@ export const TestJoint: React.FC = () => {
 
         }
 
-        let companyPos = company[0].position();
-        let supPos = supArray[0].position();
 
-        let meiox = supPos.x + (companyPos.x - supPos.x) /2;
-        let meioy = supPos.y + (supPos.y - companyPos.y) /2;
-
-        
-        var link2 = new shapes.standard.Link();
-        link2.source(company[0]);
-        link2.target(supArray[0]);
-        link2.vertices([
-            { x: meiox, y: meioy },
-            { x: meiox + 30, y: meioy +30 },
-        ]);
-        link2.addTo(graph);
 
         invFun();
         procInvGlued();
 
-        function updateLinkVertices(link:any){
+        function updateLinkVertices(link:any, i:number){
             let companyPos = company[0].position();
-            let supPos = supArray[0].position();
+            let supPos = supArray[i].position();
             let left= supPos.x <= companyPos.x ? supPos.x : companyPos.x; let right = supPos.x <= companyPos.x ? companyPos.x : supPos.x;
             let upper= supPos.y <= companyPos.y ? supPos.y : companyPos.y; let lower = supPos.y <= companyPos.y ? companyPos.y : supPos.y;
-            console.log("Company", companyPos)
-            console.log("SupPos",supPos)
 
             let meiox = left + 80 + ((right - left) / 2);
             console.log("Meiox", meiox)
@@ -479,12 +463,40 @@ export const TestJoint: React.FC = () => {
             ]);    
         }
 
-        company[0].on('change:position', function() {
-            updateLinkVertices(link2);
-        });
-        supArray[0].on('change:position', function() {
-            updateLinkVertices(link2);
-        });
+        let SupProdArray:any [] = [];
+        
+        for(let i = 0 ; i< supArray.length ; i++){
+
+            let companyPos = company[0].position();
+            let supPos = supArray[i].position();
+            let left= supPos.x <= companyPos.x ? supPos.x : companyPos.x; let right = supPos.x <= companyPos.x ? companyPos.x : supPos.x;
+            let upper= supPos.y <= companyPos.y ? supPos.y : companyPos.y; let lower = supPos.y <= companyPos.y ? companyPos.y : supPos.y;
+
+            let meiox = left + 80 + ((right - left) / 2);
+            console.log("Meiox", meiox)
+            let meioy = lower + 60 - ((lower - upper) / 2);
+            console.log("Meioy", meioy)
+
+            SupProdArray[i] = new shapes.standard.Link();
+            SupProdArray[i].source(company[0]);
+            SupProdArray[i].target(supArray[i]);
+            SupProdArray[i].vertices([
+                { x: meiox, y: meioy },
+                { x: meiox + 30, y: meioy +30 },
+            ]);
+            SupProdArray[i].addTo(graph);
+
+
+
+            supArray[i].on('change:position', function() {
+                updateLinkVertices(SupProdArray[i],i);
+            });
+            company[0].on('change:position', function() {
+                updateLinkVertices(SupProdArray[i],i);
+            });
+
+        }
+
         // Definição do link em formato de raio
 
 
