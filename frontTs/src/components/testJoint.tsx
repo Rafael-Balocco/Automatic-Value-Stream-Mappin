@@ -577,6 +577,7 @@ export const TestJoint: React.FC = () => {
                 if (SupProds[i].typeSup === 'eletronic') {
                     eletronicLink(i, 1);
                 }
+            }    
             for(let i =0 ; i< ProcProds.length; i++ ){
                 if(ProcProds[i].typeProcess === 'eletronic'){
                     eletronicLink(i,2);
@@ -587,7 +588,6 @@ export const TestJoint: React.FC = () => {
                 if(CusProds[i].typeCus === 'eletronic'){
                     eletronicLink(i,3)
                 }
-            }
             }
         }
 
