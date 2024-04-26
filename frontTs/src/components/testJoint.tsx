@@ -33,7 +33,8 @@ export const TestJoint: React.FC = () => {
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
     const numProcess = processes.length;
-    console.log(SupMats)
+    console.log(ProcProds)
+
 
     useEffect(() => {
 
@@ -44,6 +45,10 @@ export const TestJoint: React.FC = () => {
         const invArray: any[] = [];
         const company: any[] = [];
         const graph = new dia.Graph();
+        let SupProdLink: any[] = [];
+        let ProcProdLink: any[] = [];
+        let CusProdLink : any[] = [];
+        const customer:any[] = [];
 
         const paper = new dia.Paper({
             width: 6000,
@@ -195,9 +200,9 @@ export const TestJoint: React.FC = () => {
         }
 
 
-        function figMat(which: number, mode:string) {
-            let period = SupMats[which].periodShiftSupplier === undefined ?  '' : SupMats[which].periodShiftSupplier?.toString();
-            let quantity = SupMats[which].quantityShiftSupplier === undefined? '' : SupMats[which].quantityShiftSupplier?.toString();
+        function figMat(which: number, mode: string) {
+            let period = SupMats[which].periodShiftSupplier === undefined ? '' : SupMats[which].periodShiftSupplier?.toString();
+            let quantity = SupMats[which].quantityShiftSupplier === undefined ? '' : SupMats[which].quantityShiftSupplier?.toString();
             const modeMap = {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
@@ -206,8 +211,8 @@ export const TestJoint: React.FC = () => {
                 Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
                 Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
                 Truck: "https://www.svgrepo.com/show/533567/truck.svg",
-              };
-              
+            };
+
             const chosen = modeMap[(mode as keyof typeof modeMap)] || ""; // Type assertion              
             var link = new shapes.standard.Link({
                 source: supArray[which],
@@ -228,8 +233,8 @@ export const TestJoint: React.FC = () => {
                     '<g class="label">',
                     '<image href="' + chosen + '" width="130" height="130" x="-100" y="-125" />',
                     '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="25">',
-                        '<tspan>' + period + '</tspan>',
-                        '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
+                    '<tspan>' + period + '</tspan>',
+                    '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
                     '</text>',
                     '</g>'
                 ].join('')
@@ -307,12 +312,12 @@ export const TestJoint: React.FC = () => {
             }
             for (i = 0; i <= (suppliers.length - 1); i++) {
 
-                    linkSup[i] = figMat(i,SupMats[i].modeSupplier);
-                    linkSup[i].addTo(graph);
-                
+                linkSup[i] = figMat(i, SupMats[i].modeSupplier);
+                linkSup[i].addTo(graph);
+
             }
 
-            const customer = new SupCus({
+            customer[0] = new SupCus({
                 position: { x: start * ((numProcess)) + 250, y: 150 },
                 name: 'c',
                 z: 3,
@@ -329,10 +334,10 @@ export const TestJoint: React.FC = () => {
                 }
             })
 
-            let period = CusformData.periodShiftCustomer === undefined ?  '' : CusformData.periodShiftCustomer?.toString();
-            let quantity = CusformData.quantityShiftCustomer === undefined? '' : CusformData.quantityShiftCustomer?.toString();
+            let period = CusformData.periodShiftCustomer === undefined ? '' : CusformData.periodShiftCustomer?.toString();
+            let quantity = CusformData.quantityShiftCustomer === undefined ? '' : CusformData.quantityShiftCustomer?.toString();
 
-            customer.addTo(graph);
+            customer[0].addTo(graph);
             const modeMap = {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
@@ -341,12 +346,12 @@ export const TestJoint: React.FC = () => {
                 Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
                 Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
                 Truck: "https://www.svgrepo.com/show/533567/truck.svg",
-              };
-              
+            };
+
             const chosen = modeMap[(CusformData.modeCustomer as keyof typeof modeMap)] || ""; // Type assertion              
             var linkCus = new shapes.standard.Link({
-                source: customer,
-                target: procArray[(procArray.length -1)],
+                source: customer[0],
+                target: procArray[(procArray.length - 1)],
                 labels: [
                     {
                         position: { distance: 0.5, offset: { x: 20, y: 20 } },
@@ -363,8 +368,8 @@ export const TestJoint: React.FC = () => {
                     '<g class="label">',
                     '<image href="' + chosen + '" width="130" height="130" x="-70" y="-125" />',
                     '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="25">',
-                        '<tspan>' + period + '</tspan>',
-                        '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
+                    '<tspan>' + period + '</tspan>',
+                    '<tspan x="40" dy="25">' + quantity + '</tspan>', // Adjust dy for line spacing
                     '</text>',
                     '</g>'
                 ].join('')
@@ -373,7 +378,7 @@ export const TestJoint: React.FC = () => {
         }
 
         supCus();
-        
+
         function prodControl() {
             company[0] = new SupCus({
                 position: { x: start * ((numProcess + 1) / 2), y: 100 },
@@ -424,77 +429,200 @@ export const TestJoint: React.FC = () => {
 
         }
 
-        function procInvGlued (){
-            
-            for (let i = 0 ; i < procArray.length ; i++){
-                procArray[i].on ('change:position', function(){
+        function procInvGlued() {
+
+            for (let i = 0; i < procArray.length; i++) {
+                procArray[i].on('change:position', function () {
                     var proc1Position = procArray[i].position();
-                    invArray[i].position(proc1Position.x - 120, proc1Position.y +120)
+                    invArray[i].position(proc1Position.x - 120, proc1Position.y + 120)
                 })
-        
-                invArray[i].on ('change:position', function(){
+
+                invArray[i].on('change:position', function () {
                     var proc1Position = invArray[i].position();
-                    procArray[i].position(proc1Position.x + 120, proc1Position.y -120)
+                    procArray[i].position(proc1Position.x + 120, proc1Position.y - 120)
                 })
 
             }
 
         }
 
-
-
         invFun();
         procInvGlued();
 
-        function updateLinkVertices(link:any, i:number){
+        function updateLinkVertices(link: any, which: number, id:number) {
             let companyPos = company[0].position();
-            let supPos = supArray[i].position();
-            let left= supPos.x <= companyPos.x ? supPos.x : companyPos.x; let right = supPos.x <= companyPos.x ? companyPos.x : supPos.x;
-            let upper= supPos.y <= companyPos.y ? supPos.y : companyPos.y; let lower = supPos.y <= companyPos.y ? companyPos.y : supPos.y;
+            let other;
+            let receiver;
+            let supNumber: number;
+            let processNumber:number;
+            let inverter = 1;
+            let otherPos;
+
+            if(id === 1){ //supplier
+                supNumber = SupProds[which].supNumber;
+                other = supArray[supNumber-1];
+                receiver = SupProds[which].receiveSup;
+                otherPos = other.position();
+                console.log('Other:', other);
+            }    
+            else if(id === 2 ){
+                processNumber = ProcProds[which].processNumber;
+                other = procArray[processNumber-1];
+                receiver = ProcProds[which].receiveProcess;
+                otherPos = other.position();
+                console.log('Other:', other);
+            }
+            else if(id ===3 ){
+                other = customer[0];
+                receiver = CusProds[which].receiveCus;
+                otherPos = other.position();
+                console.log('Other:', other);
+            } 
+
+            let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
+            let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
+            let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
+
+            if(target === company[0]) inverter =-1;
 
             let meiox = left + 80 + ((right - left) / 2);
             console.log("Meiox", meiox)
             let meioy = lower + 60 - ((lower - upper) / 2);
             console.log("Meioy", meioy)
-
             link.vertices([
                 { x: meiox, y: meioy },
-                {x: meiox +30, y: meioy+30}
-            ]);    
+                { x: meiox + (30*inverter), y: meioy + (30*inverter) }
+            ]);
         }
 
-        let SupProdArray:any [] = [];
+        function eletronicLink(which:number, id:number) {
+                let companyPos = company[0].position();
+                let other;
+                let receiver;
+                let supNumber: number;
+                let processNumber:number;
+                let inverter = 1;
+                let otherPos;
+                if(id === 1){ //supplier
+                    supNumber = SupProds[which].supNumber;
+                    other = supArray[supNumber-1];
+                    receiver = SupProds[which].receiveSup;
+                    otherPos = other.position();
+                    console.log('Other:', other);
+                }    
+                else if(id === 2 ){
+                    processNumber = ProcProds[which].processNumber;
+                    other = procArray[processNumber-1];
+                    receiver = ProcProds[which].receiveProcess;
+                    otherPos = other.position();
+                    console.log('Other:', other);
+                }
+                else if(id ===3 ){
+                    other = customer[0];
+                    receiver = CusProds[which].receiveCus;
+                    otherPos = other.position();
+                    console.log('Other:', other);
+                } 
+
+                let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
+                let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
+                let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
+
+                if(target === company[0]) inverter =-1;
+
+                let meiox = left + 80 + ((right - left) / 2);
+                console.log("Meiox", meiox)
+                let meioy = lower + 60 - ((lower - upper) / 2);
+                console.log("Meioy", meioy)
+
+                if(id === 1){
+                    SupProdLink[which] = new shapes.standard.Link();
+                    SupProdLink[which].source(source);
+                    SupProdLink[which].target(target);
+                    SupProdLink[which].vertices([
+                        { x: meiox, y: meioy },
+                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                    ]);
+                    SupProdLink[which].addTo(graph);
+                }
+
+                else if(id === 2){
+                    ProcProdLink[which] = new shapes.standard.Link();
+                    ProcProdLink[which].source(source);
+                    ProcProdLink[which].target(target);
+                    ProcProdLink[which].vertices([
+                        { x: meiox, y: meioy },
+                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                    ]);
+                    ProcProdLink[which].addTo(graph);
+                }
+                else if(id === 3){
+                    CusProdLink[which] = new shapes.standard.Link();
+                    CusProdLink[which].source(source);
+                    CusProdLink[which].target(target);
+                    CusProdLink[which].vertices([
+                        { x: meiox, y: meioy },
+                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                    ]);
+                    CusProdLink[which].addTo(graph);
+                }
+
+
+        }
         
-        for(let i = 0 ; i< supArray.length ; i++){
-
-            let companyPos = company[0].position();
-            let supPos = supArray[i].position();
-            let left= supPos.x <= companyPos.x ? supPos.x : companyPos.x; let right = supPos.x <= companyPos.x ? companyPos.x : supPos.x;
-            let upper= supPos.y <= companyPos.y ? supPos.y : companyPos.y; let lower = supPos.y <= companyPos.y ? companyPos.y : supPos.y;
-
-            let meiox = left + 80 + ((right - left) / 2);
-            console.log("Meiox", meiox)
-            let meioy = lower + 60 - ((lower - upper) / 2);
-            console.log("Meioy", meioy)
-
-            SupProdArray[i] = new shapes.standard.Link();
-            SupProdArray[i].source(company[0]);
-            SupProdArray[i].target(supArray[i]);
-            SupProdArray[i].vertices([
-                { x: meiox, y: meioy },
-                { x: meiox + 30, y: meioy +30 },
-            ]);
-            SupProdArray[i].addTo(graph);
 
 
+        function createInfoLink() {
+            for (let i = 0; i < SupProds.length; i++) {
+                if (SupProds[i].typeSup === 'eletronic') {
+                    eletronicLink(i, 1);
+                }
+            for(let i =0 ; i< ProcProds.length; i++ ){
+                if(ProcProds[i].typeProcess === 'eletronic'){
+                    eletronicLink(i,2);
+                }
 
-            supArray[i].on('change:position', function() {
-                updateLinkVertices(SupProdArray[i],i);
+            }
+            for(let i = 0 ; i< CusProds.length ; i++){
+                if(CusProds[i].typeCus === 'eletronic'){
+                    eletronicLink(i,3)
+                }
+            }
+            }
+        }
+
+        createInfoLink();
+
+        
+        for(let i = 0 ; i < procArray.length; i ++ ){
+            procArray[i].on('change:position', function () {
+                updateLinkVertices(ProcProdLink[i], i, 2);
             });
-            company[0].on('change:position', function() {
-                updateLinkVertices(SupProdArray[i],i);
+            
+            company[0].on('change:position', function () {
+                updateLinkVertices(ProcProdLink[i], i,2);
+            });
+            
+        }
+        
+        for( let i = 0 ; i < customer.length ; i++){
+            customer[0].on('change:position', function () {
+                updateLinkVertices(CusProdLink[i], i, 3);
+            });
+            
+            company[0].on('change:position', function () {
+                updateLinkVertices(CusProdLink[i], i,3);
+            });
+        }
+        for (let i = 0; i < supArray.length; i++) {
+
+            supArray[i].on('change:position', function () {
+                updateLinkVertices(SupProdLink[i], i, 1);
             });
 
+            company[0].on('change:position', function () {
+                updateLinkVertices(SupProdLink[i], i,1);
+            });
         }
 
         // Definição do link em formato de raio
