@@ -455,7 +455,8 @@ export const TestJoint: React.FC = () => {
             let receiver;
             let supNumber: number;
             let processNumber:number;
-            let inverter = 1;
+            let inverterx = 1;
+            let invertery = 1;
             let otherPos;
 
             if(id === 1){ //supplier
@@ -463,35 +464,34 @@ export const TestJoint: React.FC = () => {
                 other = supArray[supNumber-1];
                 receiver = SupProds[which].receiveSup;
                 otherPos = other.position();
-                console.log('Other:', other);
             }    
             else if(id === 2 ){
                 processNumber = ProcProds[which].processNumber;
                 other = procArray[processNumber-1];
                 receiver = ProcProds[which].receiveProcess;
                 otherPos = other.position();
-                console.log('Other:', other);
             }
             else if(id ===3 ){
                 other = customer[0];
                 receiver = CusProds[which].receiveCus;
                 otherPos = other.position();
-                console.log('Other:', other);
             } 
 
             let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
             let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
             let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
 
-            if(target === company[0]) inverter =-1;
-
+            if(source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y){
+                inverterx=-1;
+            }
+            
             let meiox = left + 80 + ((right - left) / 2);
             console.log("Meiox", meiox)
             let meioy = lower + 60 - ((lower - upper) / 2);
             console.log("Meioy", meioy)
             link.vertices([
                 { x: meiox, y: meioy },
-                { x: meiox + (30*inverter), y: meioy + (30*inverter) }
+                { x: meiox + (35*inverterx), y: meioy + (35*invertery) }
             ]);
         }
 
@@ -501,34 +501,34 @@ export const TestJoint: React.FC = () => {
                 let receiver;
                 let supNumber: number;
                 let processNumber:number;
-                let inverter = 1;
+                let inverterx = 1;
+                let invertery = 1;
                 let otherPos;
                 if(id === 1){ //supplier
                     supNumber = SupProds[which].supNumber;
                     other = supArray[supNumber-1];
                     receiver = SupProds[which].receiveSup;
                     otherPos = other.position();
-                    console.log('Other:', other);
                 }    
                 else if(id === 2 ){
                     processNumber = ProcProds[which].processNumber;
                     other = procArray[processNumber-1];
                     receiver = ProcProds[which].receiveProcess;
                     otherPos = other.position();
-                    console.log('Other:', other);
                 }
                 else if(id ===3 ){
                     other = customer[0];
                     receiver = CusProds[which].receiveCus;
                     otherPos = other.position();
-                    console.log('Other:', other);
                 } 
 
                 let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
                 let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
                 let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
 
-                if(target === company[0]) inverter =-1;
+                if(source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y){
+                    inverterx=-1;
+                }
 
                 let meiox = left + 80 + ((right - left) / 2);
                 console.log("Meiox", meiox)
@@ -541,7 +541,7 @@ export const TestJoint: React.FC = () => {
                     SupProdLink[which].target(target);
                     SupProdLink[which].vertices([
                         { x: meiox, y: meioy },
-                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
                     ]);
                     SupProdLink[which].addTo(graph);
                 }
@@ -552,7 +552,7 @@ export const TestJoint: React.FC = () => {
                     ProcProdLink[which].target(target);
                     ProcProdLink[which].vertices([
                         { x: meiox, y: meioy },
-                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
                     ]);
                     ProcProdLink[which].addTo(graph);
                 }
@@ -562,7 +562,7 @@ export const TestJoint: React.FC = () => {
                     CusProdLink[which].target(target);
                     CusProdLink[which].vertices([
                         { x: meiox, y: meioy },
-                        { x: meiox + (30*inverter), y: meioy + (30*inverter) },
+                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
                     ]);
                     CusProdLink[which].addTo(graph);
                 }
