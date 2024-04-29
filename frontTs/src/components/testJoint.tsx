@@ -16,6 +16,8 @@ import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
 
 const start = 500;
+const procWidth = 180;
+const procHeight = 240;
 
 export const TestJoint: React.FC = () => {
 
@@ -33,7 +35,6 @@ export const TestJoint: React.FC = () => {
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
 
     const numProcess = processes.length;
-    console.log(ProcProds)
 
 
     useEffect(() => {
@@ -47,8 +48,8 @@ export const TestJoint: React.FC = () => {
         const graph = new dia.Graph();
         let SupProdLink: any[] = [];
         let ProcProdLink: any[] = [];
-        let CusProdLink : any[] = [];
-        const customer:any[] = [];
+        let CusProdLink: any[] = [];
+        const customer: any[] = [];
 
         const paper = new dia.Paper({
             width: 6000,
@@ -102,8 +103,8 @@ export const TestJoint: React.FC = () => {
                     ...super.defaults(),
                     type: 'Process',
                     size: {
-                        width: 160,
-                        height: 240
+                        width: procWidth,
+                        height: procHeight
                     }
                 };
             }
@@ -151,7 +152,7 @@ export const TestJoint: React.FC = () => {
                     ...super.defaults(),
                     type: 'SupCus',
                     size: {
-                        width: 160,
+                        width: 180,
                         height: 120
                     }
                 };
@@ -449,127 +450,191 @@ export const TestJoint: React.FC = () => {
         invFun();
         procInvGlued();
 
-        function updateLinkVertices(link: any, which: number, id:number) {
+        function updateLinkVertices(link: any, which: number, id: number) {
             let companyPos = company[0].position();
             let other;
             let receiver;
             let supNumber: number;
-            let processNumber:number;
+            let processNumber: number;
             let inverterx = 1;
             let invertery = 1;
             let otherPos;
 
-            if(id === 1){ //supplier
+            if (id === 1) { //supplier
                 supNumber = SupProds[which].supNumber;
-                other = supArray[supNumber-1];
+                other = supArray[supNumber - 1];
                 receiver = SupProds[which].receiveSup;
                 otherPos = other.position();
-            }    
-            else if(id === 2 ){
+            }
+            else if (id === 2) {
                 processNumber = ProcProds[which].processNumber;
-                other = procArray[processNumber-1];
+                other = procArray[processNumber - 1];
                 receiver = ProcProds[which].receiveProcess;
                 otherPos = other.position();
             }
-            else if(id ===3 ){
+            else if (id === 3) {
                 other = customer[0];
                 receiver = CusProds[which].receiveCus;
                 otherPos = other.position();
-            } 
+            }
 
             let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
             let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
-            let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
+            let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
 
-            if(source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y){
-                inverterx=-1;
+            if (source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y) {
+                inverterx = -1;
             }
-            
+
             let meiox = left + 80 + ((right - left) / 2);
-            console.log("Meiox", meiox)
             let meioy = lower + 60 - ((lower - upper) / 2);
-            console.log("Meioy", meioy)
             link.vertices([
                 { x: meiox, y: meioy },
-                { x: meiox + (35*inverterx), y: meioy + (35*invertery) }
+                { x: meiox + (35 * inverterx), y: meioy + (35 * invertery) }
             ]);
         }
 
-        function eletronicLink(which:number, id:number) {
-                let companyPos = company[0].position();
-                let other;
-                let receiver;
-                let supNumber: number;
-                let processNumber:number;
-                let inverterx = 1;
-                let invertery = 1;
-                let otherPos;
-                if(id === 1){ //supplier
-                    supNumber = SupProds[which].supNumber;
-                    other = supArray[supNumber-1];
-                    receiver = SupProds[which].receiveSup;
-                    otherPos = other.position();
-                }    
-                else if(id === 2 ){
-                    processNumber = ProcProds[which].processNumber;
-                    other = procArray[processNumber-1];
-                    receiver = ProcProds[which].receiveProcess;
-                    otherPos = other.position();
-                }
-                else if(id ===3 ){
-                    other = customer[0];
-                    receiver = CusProds[which].receiveCus;
-                    otherPos = other.position();
-                } 
+        function eletronicLink(which: number, id: number) {
+            let companyPos = company[0].position();
+            let other;
+            let receiver;
+            let supNumber: number;
+            let processNumber: number;
+            let inverterx = 1;
+            let invertery = 1;
+            let otherPos;
+            if (id === 1) { //supplier
+                supNumber = SupProds[which].supNumber;
+                other = supArray[supNumber - 1];
+                receiver = SupProds[which].receiveSup;
+                otherPos = other.position();
+            }
+            else if (id === 2) {
+                processNumber = ProcProds[which].processNumber;
+                other = procArray[processNumber - 1];
+                receiver = ProcProds[which].receiveProcess;
+                otherPos = other.position();
+            }
+            else if (id === 3) {
+                other = customer[0];
+                receiver = CusProds[which].receiveCus;
+                otherPos = other.position();
+            }
 
-                let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
-                let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
-                let target = receiver === 'Production Control'? company[0] : other; let source = receiver === 'Production Control'? other : company[0];
+            let left = otherPos.x <= companyPos.x ? otherPos.x : companyPos.x; let right = otherPos.x <= companyPos.x ? companyPos.x : otherPos.x;
+            let upper = otherPos.y <= companyPos.y ? otherPos.y : companyPos.y; let lower = otherPos.y <= companyPos.y ? companyPos.y : otherPos.y;
+            let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
 
-                if(source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y){
-                    inverterx=-1;
-                }
+            if (source.position().x > target.position().x && source.position().y > target.position().y || source.position().x < target.position().x && source.position().y < target.position().y) {
+                inverterx = -1;
+            }
 
-                let meiox = left + 80 + ((right - left) / 2);
-                console.log("Meiox", meiox)
-                let meioy = lower + 60 - ((lower - upper) / 2);
-                console.log("Meioy", meioy)
-
-                if(id === 1){
-                    SupProdLink[which] = new shapes.standard.Link();
-                    SupProdLink[which].source(source);
-                    SupProdLink[which].target(target);
-                    SupProdLink[which].vertices([
+            let meiox = left + 80 + ((right - left) / 2);
+            let meioy = lower + 60 - ((lower - upper) / 2);
+            if (id === 1) {
+                SupProdLink[which] = new shapes.standard.Link({
+                    source: source,
+                    target: target,
+                    vertices: ([
                         { x: meiox, y: meioy },
-                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
-                    ]);
-                    SupProdLink[which].addTo(graph);
-                }
+                        { x: meiox + (35 * inverterx), y: meioy + (35 * invertery) },
+                    ]),
+                    labels: [
+                        {
+                            position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                            attrs: {
+                                text: {
+                                    'font-size': 10,
+                                    fill: 'black',
+                                    'font-family': 'Arial, sans-serif'
+                                }
+                            }
+                        }
+                    ],
+                    labelMarkup: [
+                        '<g class="label">',
+                        '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                        '<tspan>' + SupProds[which].periodSup + '</tspan>',
+                        '<tspan x="40" dy="25">' + SupProds[which].contentSup + '</tspan>', // Adjust dy for line spacing
+                        '</text>',
+                        '</g>'
 
-                else if(id === 2){
-                    ProcProdLink[which] = new shapes.standard.Link();
-                    ProcProdLink[which].source(source);
-                    ProcProdLink[which].target(target);
-                    ProcProdLink[which].vertices([
+                    ].join('')
+                });
+                SupProdLink[which].addTo(graph);
+
+            }
+
+            else if (id === 2) {
+                
+                ProcProdLink[which] = new shapes.standard.Link({
+                    source: source,
+                    target: target,
+                    vertices: ([
                         { x: meiox, y: meioy },
-                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
-                    ]);
-                    ProcProdLink[which].addTo(graph);
-                }
-                else if(id === 3){
-                    CusProdLink[which] = new shapes.standard.Link();
-                    CusProdLink[which].source(source);
-                    CusProdLink[which].target(target);
-                    CusProdLink[which].vertices([
+                        { x: meiox + (35 * inverterx), y: meioy + (35 * invertery) },
+                    ]),
+                    labels: [
+                        {
+                            position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                            attrs: {
+                                text: {
+                                    'font-size': 10,
+                                    fill: 'black',
+                                    'font-family': 'Arial, sans-serif'
+                                }
+                            }
+                        }
+                    ],
+                    labelMarkup: [
+                        '<g class="label">',
+                        '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                        '<tspan>' + ProcProds[which].periodProcess + '</tspan>',
+                        '<tspan x="40" dy="25">' + ProcProds[which].contentProcess + '</tspan>', // Adjust dy for line spacing
+                        '</text>',
+                        '</g>'
+
+                    ].join('')
+                });
+                ProcProdLink[which].addTo(graph);
+            }
+            else if (id === 3) {
+
+                CusProdLink[which] = new shapes.standard.Link({
+                    source: source,
+                    target: target,
+                    vertices: ([
                         { x: meiox, y: meioy },
-                        { x: meiox + (35*inverterx), y: meioy + (35*invertery) },
-                    ]);
-                    CusProdLink[which].addTo(graph);
-                }
+                        { x: meiox + (35 * inverterx), y: meioy + (35 * invertery) },
+                    ]),
+                    labels: [
+                        {
+                            position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                            attrs: {
+                                text: {
+                                    'font-size': 5,
+                                    fill: 'black',
+                                    'font-family': 'Arial, sans-serif'
+                                }
+                            }
+                        }
+                    ],
+                    labelMarkup: [
+                        '<g class="label">',
+                        '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                        '<tspan>' + CusProds[which].periodCus + '</tspan>',
+                        '<tspan x="40" dy="25">' + CusProds[which].contentCus + '</tspan>', // Adjust dy for line spacing
+                        '</text>',
+                        '</g>'
+
+                    ].join('')
+                });
+                CusProdLink[which].addTo(graph);
+            }
 
 
         }
-        
+
 
 
         function createInfoLink() {
@@ -577,53 +642,207 @@ export const TestJoint: React.FC = () => {
                 if (SupProds[i].typeSup === 'eletronic') {
                     eletronicLink(i, 1);
                 }
-            }    
-            for(let i =0 ; i< ProcProds.length; i++ ){
-                if(ProcProds[i].typeProcess === 'eletronic'){
-                    eletronicLink(i,2);
+                else{
+                    let other = supArray[(SupProds[i].supNumber) - 1];
+                    let receiver = SupProds[i].receiveSup;
+                    let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
+                    SupProdLink[i] = new shapes.standard.Link({
+                        source: source,
+                        target: target,
+                        labels: [
+                            {
+                                position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                                attrs: {
+                                    text: {
+                                        'font-size': 10,
+                                        fill: 'black',
+                                        'font-family': 'Arial, sans-serif'
+                                    }
+                                }
+                            }
+                        ],
+                        labelMarkup: [
+                            '<g class="label">',
+                            '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                            '<tspan>' + SupProds[i].periodSup + '</tspan>',
+                            '<tspan x="40" dy="25">' + SupProds[i].contentSup + '</tspan>', // Adjust dy for line spacing
+                            '</text>',
+                            '</g>'
+    
+                        ].join('')
+                    });
+                    SupProdLink[i].addTo(graph);
+                }
+            }
+            for (let i = 0; i < ProcProds.length; i++) {
+                if (ProcProds[i].typeProcess === 'eletronic') {
+                    eletronicLink(i, 2);
+                }
+                else{
+                    let other = procArray[(ProcProds[i].processNumber) - 1];
+                    let receiver = ProcProds[i].receiveProcess;
+                    let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
+                    ProcProdLink[i] = new shapes.standard.Link({
+                        source: source,
+                        target: target,
+                        labels: [
+                            {
+                                position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                                attrs: {
+                                    text: {
+                                        'font-size': 10,
+                                        fill: 'black',
+                                        'font-family': 'Arial, sans-serif'
+                                    }
+                                }
+                            }
+                        ],
+                        labelMarkup: [
+                            '<g class="label">',
+                            '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                            '<tspan>' + ProcProds[i].periodProcess + '</tspan>',
+                            '<tspan x="40" dy="25">' + ProcProds[i].contentProcess + '</tspan>', // Adjust dy for line spacing
+                            '</text>',
+                            '</g>'
+    
+                        ].join('')
+                    });
+                    ProcProdLink[i].addTo(graph);
                 }
 
             }
-            for(let i = 0 ; i< CusProds.length ; i++){
-                if(CusProds[i].typeCus === 'eletronic'){
-                    eletronicLink(i,3)
+            for (let i = 0; i < CusProds.length; i++) {
+                if (CusProds[i].typeCus === 'eletronic') {
+                    eletronicLink(i, 3)
+                }
+                else{
+                    let other = customer[0];
+                    let receiver = CusProds[i].receiveCus;
+                    let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
+                    CusProdLink[i] = new shapes.standard.Link({
+                        source: source,
+                        target: target,
+                        labels: [
+                            {
+                                position: { distance: 0.5, offset: { x: 20, y: 20 } },
+                                attrs: {
+                                    text: {
+                                        'font-size': 10,
+                                        fill: 'black',
+                                        'font-family': 'Arial, sans-serif'
+                                    }
+                                }
+                            }
+                        ],
+                        labelMarkup: [
+                            '<g class="label">',
+                            '<text x="40" y="20" text-anchor="middle" alignment-baseline="middle" font-size="20">',
+                            '<tspan>' + CusProds[0].periodCus + '</tspan>',
+                            '<tspan x="40" dy="25">' + CusProds[0].contentCus + '</tspan>', // Adjust dy for line spacing
+                            '</text>',
+                            '</g>'
+    
+                        ].join('')
+                    });
+                    CusProdLink[i].addTo(graph);
                 }
             }
         }
 
         createInfoLink();
 
-        
-        for(let i = 0 ; i < procArray.length; i ++ ){
-            procArray[i].on('change:position', function () {
-                updateLinkVertices(ProcProdLink[i], i, 2);
-            });
-            
-            company[0].on('change:position', function () {
-                updateLinkVertices(ProcProdLink[i], i,2);
-            });
-            
-        }
-        
-        for( let i = 0 ; i < customer.length ; i++){
-            customer[0].on('change:position', function () {
-                updateLinkVertices(CusProdLink[i], i, 3);
-            });
-            
-            company[0].on('change:position', function () {
-                updateLinkVertices(CusProdLink[i], i,3);
-            });
-        }
-        for (let i = 0; i < supArray.length; i++) {
 
-            supArray[i].on('change:position', function () {
-                updateLinkVertices(SupProdLink[i], i, 1);
-            });
+        for (let i = 0; i < ProcProds.length; i++) {
+            if(ProcProds[i].typeProcess === 'eletronic'){
+                procArray[i].on('change:position', function () {
+                    updateLinkVertices(ProcProdLink[i], i, 2);
+                });
+                company[0].on('change:position', function () {
+                    updateLinkVertices(ProcProdLink[i], i, 2);
+                });
+            }
+        }
 
-            company[0].on('change:position', function () {
-                updateLinkVertices(SupProdLink[i], i,1);
+        for (let i = 0; i < customer.length; i++) {
+
+            if(CusProds[0]){
+                if(CusProds[0].typeCus === 'eletronic'){
+                    customer[0].on('change:position', function () {
+                        updateLinkVertices(CusProdLink[i], i, 3);
+                    });
+        
+                    company[0].on('change:position', function () {
+                        updateLinkVertices(CusProdLink[i], i, 3);
+                    });
+                }
+            }
+            
+            
+        }
+        for (let i = 0; i < SupProds.length; i++) {
+
+            if(SupProds[i].typeSup === 'eletronic'){
+                supArray[i].on('change:position', function () {
+                    updateLinkVertices(SupProdLink[i], i, 1);
+                });
+    
+                company[0].on('change:position', function () {
+                    updateLinkVertices(SupProdLink[i], i, 1);
+                });
+            }
+
+        }
+
+        var vertices: any[] = [];
+        var labels: any[] = [];
+
+        for (let i = 0 ; i < procArray.length ; i++ ){
+            console.log('Entra na vez :' , i)
+            vertices.push(
+                { x: 500 * (i+1) , y: 650 + procHeight },
+                { x: 500 * (i+1) , y: 700 + procHeight },
+                { x: 500 * (i+1) + procWidth, y: 700 + procHeight },
+                { x: 500 * (i+1) + procWidth, y: 650 + procHeight }
+            );
+            labels.push({
+                position: { distance: ( 250 + 50 + (procWidth/2) + 500*i + 2*i*50), offset: -10 },
+                attrs: {
+                    text: {
+                        text: processes[i].cycleTime, // Ou qualquer outra propriedade desejada
+                        'font-size': 15,
+                        fill: 'black',
+                        'font-family': 'Arial, sans-serif'
+                    }
+                }
+            });
+            labels.push({
+                position: { distance: ( 90 + 500*i + 2*i*50), offset: -10 },
+                attrs: {
+                    text: {
+                        text: (inventories[i].processINumber * processes[i].cycleTime), // Ou qualquer outra propriedade desejada
+                        'font-size': 15,
+                        fill: 'black',
+                        'font-family': 'Arial, sans-serif'
+                    }
+                }
             });
         }
+
+        function timeLadder (){
+            let timeLadderLink = new shapes.standard.Link({
+                source: {x: 250, y: (650 + procHeight)},
+                target: {x: (500 *procArray.length + procWidth + 50), y: 650 + procHeight  },
+                vertices: vertices,
+                labels: labels
+            });
+            timeLadderLink.addTo(graph);
+            return timeLadderLink;
+        }
+
+        var timeLadderLink = timeLadder();
+        timeLadderLink.set('vertices', vertices);
+        timeLadderLink.set('labels', labels);
+
 
         // Definição do link em formato de raio
 
