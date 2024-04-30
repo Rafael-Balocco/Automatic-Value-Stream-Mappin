@@ -276,6 +276,18 @@ input[type="text"] {
     background-color: #254785;
 }
 
+.editButtons{
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
 .previous-button {
   background-color: #ff0000;
   color: #fff;
@@ -287,6 +299,7 @@ input[type="text"] {
   margin-right: 10px;
 }
 
-.previous-button:hover{
+.previous-button:hover,
+.editButtons:hover{
   background-color: #c11818;
 }

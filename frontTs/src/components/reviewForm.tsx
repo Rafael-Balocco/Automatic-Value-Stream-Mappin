@@ -10,6 +10,8 @@ import { useAllProcessContext } from '../contexts/proHandlerContext';
 import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
+import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { MouseEventHandler } from 'react';
 
 export const ShowDataComponent: React.FC = () => {
     const { CusProds } = useAllCusProdContext();
@@ -22,12 +24,18 @@ export const ShowDataComponent: React.FC = () => {
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const navigate = useNavigate();
+
+    const navigateButton = (path: string): MouseEventHandler<HTMLButtonElement> => {
+        return () => navigate(path);
+    };
 
     return (
         <div className="data-review-container">
             <h1>Data Submitted Review</h1>
             <div className="form-data-section">
                 <h2>Form Data</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/mapInfos')}>Edit</button>
                 <div className='project'>
                     <p><strong>Enterprise Name:</strong> {formData.enterpriseName}</p>
                     <p><strong>Creator Name:</strong> {formData.creatorName}</p>
@@ -36,6 +44,7 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="customer-form-data-section">
                 <h2>Customer Form Data</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/customer')}>Edit</button>
                 <div className='customer'>
                     <p><strong>Customer Name:</strong> {customerForm.CustomerName}</p>
                     <p><strong>Demand:</strong> {customerForm.demand}</p>
@@ -44,6 +53,7 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="suppliers-section">
                 <h2>Suppliers</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/supplier')}>Edit</button>
                 {suppliers.map((supplier, index) => (
                     <div key={index} className="supplier-item">
                         <h3>Supplier #{index + 1}</h3>
@@ -55,6 +65,7 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="processes-section">
                 <h2>Processes</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/process')}>Edit</button>
                 {processes.map((process, index) => (
                     <div key={index} className="process-item">
                         <h3>Process #{index + 1}</h3>
@@ -69,6 +80,7 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="inventories-section">
                 <h2>Inventories</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/inventory')}>Edit</button>
                 {inventories.map((inventory, index) => (
                     <div key={index} className="inventory-item">
                         <h3>Inventory #{index + 1}</h3>
@@ -79,12 +91,15 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="material-flow-section">
                 <h2>Customer Material Flow Data</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/MaterialFlow')}>Edit</button>
+
                 <div className='customer-mat'>
                     <p><strong>Mode:</strong> {CusformData.modeCustomer}</p>
                     <p><strong>Period Shift:</strong> {CusformData.periodShiftCustomer}</p>
                     <p><strong>Quantity Shift:</strong> {CusformData.quantityShiftCustomer}</p>
                 </div>
                 <h2>Supplier Material Data</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/MaterialFlow')}>Edit</button>
                 {SupMats.map((supplier, index) => (
                     <div key={index} className="supplier-material-item">
                         <h3>Supplier #{index + 1}</h3>
@@ -97,6 +112,7 @@ export const ShowDataComponent: React.FC = () => {
 
             <div className="production-section">
                 <h2>Informational Flow</h2>
+                <button type= 'button' className='editButtons' onClick={navigateButton('/InfoFlow')}>Edit</button>
                 <div className="customer-productions">
                     <h3>Customer</h3>
                     {CusProds.map((prod, index) => (

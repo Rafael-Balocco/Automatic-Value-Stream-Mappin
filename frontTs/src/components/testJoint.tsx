@@ -875,7 +875,7 @@ export const TestJoint: React.FC = () => {
                 name: 'timeLadderResult',
                 z: 3,
                 size: { width: 250, height: 150 },
-                    attrs: {
+                    attrs: {    
                         label: {
                           html: totalLead.toString() + ' Days'
                         },
