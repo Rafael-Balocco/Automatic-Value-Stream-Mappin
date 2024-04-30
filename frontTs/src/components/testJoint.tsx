@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { dia, shapes, util } from '@joint/core';
 import '../styles/tabsCSS.css'
+import multiModal from '../images/noun-multi-modal-476756.svg'
 
 //importing contexts:
 import DataSubmissionComponent from './DataSubmission';
@@ -50,6 +51,9 @@ export const TestJoint: React.FC = () => {
         let ProcProdLink: any[] = [];
         let CusProdLink: any[] = [];
         const customer: any[] = [];
+        const timeLadderResult: any [] = [] ;
+        let totalLead =0; 
+        let VAT = 0;
 
         const paper = new dia.Paper({
             width: 6000,
@@ -200,6 +204,40 @@ export const TestJoint: React.FC = () => {
             }
         }
 
+        class timeResult extends ForeignObjectElement{
+
+            defaults() {
+                return {
+                    ...super.defaults(),
+                    type: 'timeResult',
+                    size: {
+                        width: "calc(w)",
+                        height: "calc(h)"
+                    }
+                };
+            }
+            preinitialize() {
+                this.markup = util.svg/* xml */`
+                    <rect @selector="body" />
+                    <foreignObject @selector="foreignObject" overflow="hidden">
+                        <div @selector="content"
+                            class="jj-form"
+                            xmlns="http://www.w3.org/1999/xhtml"
+                        >
+                            <div class="timeResult-field-vertical">
+                            <h2>Lead Time</h2>
+                                <text @selector ="label" text-anchor="middle" fill="black"></text> 
+                                <br></br>
+                                <h2>Value Added Time</h2>
+                                <text @selector ="VATime" text-anchor="middle" fill="black"></text> 
+                            </div>
+                        </div>
+                    </foreignObject>
+                `;
+            }
+
+        }
+
 
         function figMat(which: number, mode: string) {
             let period = SupMats[which].periodShiftSupplier === undefined ? '' : SupMats[which].periodShiftSupplier?.toString();
@@ -343,7 +381,7 @@ export const TestJoint: React.FC = () => {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
                 Car: "https://www.svgrepo.com/show/533553/car-side.svg",
-                MultiModal: "https://www.svgrepo.com/show/522355/multimodal.svg",
+                MultiModal: "https://www.svgrepo.com/show/533553/multi-modal.svg",
                 Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
                 Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
                 Truck: "https://www.svgrepo.com/show/533567/truck.svg",
@@ -407,7 +445,7 @@ export const TestJoint: React.FC = () => {
 
             for (i; i <= (inventories.length - 1); i++) {
                 invArray[i] = new Inventory({
-                    position: { x: start * (i + 1) - 120, y: 720 },
+                    position: { x: start * (i + 1) - 200, y: 720 },
                     name: 'i',
                     z: 3,
                     size: { width: 100, height: 100 },
@@ -435,12 +473,12 @@ export const TestJoint: React.FC = () => {
             for (let i = 0; i < procArray.length; i++) {
                 procArray[i].on('change:position', function () {
                     var proc1Position = procArray[i].position();
-                    invArray[i].position(proc1Position.x - 120, proc1Position.y + 120)
+                    invArray[i].position(proc1Position.x - 200, proc1Position.y + 120)
                 })
 
                 invArray[i].on('change:position', function () {
                     var proc1Position = invArray[i].position();
-                    procArray[i].position(proc1Position.x + 120, proc1Position.y - 120)
+                    procArray[i].position(proc1Position.x + 200, proc1Position.y - 120)
                 })
 
             }
@@ -808,7 +846,7 @@ export const TestJoint: React.FC = () => {
                 position: { distance: ( 250 + 50 + (procWidth/2) + 500*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
-                        text: processes[i].cycleTime, // Ou qualquer outra propriedade desejada
+                        text: (processes[i].cycleTime + ' Seconds'), // Ou qualquer outra propriedade desejada
                         'font-size': 15,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif'
@@ -816,10 +854,10 @@ export const TestJoint: React.FC = () => {
                 }
             });
             labels.push({
-                position: { distance: ( 90 + 500*i + 2*i*50), offset: -10 },
+                position: { distance: ( 100 + 500*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
-                        text: (inventories[i].processINumber * processes[i].cycleTime), // Ou qualquer outra propriedade desejada
+                        text: (inventories[i].processINumber / customerForm.demand + ' Days'), // Ou qualquer outra propriedade desejada
                         'font-size': 15,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif'
@@ -828,10 +866,28 @@ export const TestJoint: React.FC = () => {
             });
         }
 
-        function timeLadder (){
+        function timeLadder (){     
+
+            for(let i = 0; i<inventories.length; i++ ) {totalLead += (inventories[i].processINumber / customerForm.demand) ; let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada' , i , ': ' , typeof cycleTimeNumber)}
+
+            timeLadderResult[0] = new timeResult({
+                position: { x: (500 * procArray.length + procWidth + 50), y: 575 + procHeight   },
+                name: 'timeLadderResult',
+                z: 3,
+                size: { width: 250, height: 150 },
+                    attrs: {
+                        label: {
+                          html: totalLead.toString()
+                        },
+                        VATime: {
+                          html: VAT
+                        }
+                }
+            });
+            timeLadderResult[0].addTo(graph);
             let timeLadderLink = new shapes.standard.Link({
                 source: {x: 250, y: (650 + procHeight)},
-                target: {x: (500 *procArray.length + procWidth + 50), y: 650 + procHeight  },
+                target: (timeLadderResult[0]),
                 vertices: vertices,
                 labels: labels
             });
