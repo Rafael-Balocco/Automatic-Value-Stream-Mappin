@@ -877,10 +877,10 @@ export const TestJoint: React.FC = () => {
                 size: { width: 250, height: 150 },
                     attrs: {
                         label: {
-                          html: totalLead.toString()
+                          html: totalLead.toString() + ' Days'
                         },
                         VATime: {
-                          html: VAT
+                          html: VAT + ' Seconds'
                         }
                 }
             });
