@@ -292,7 +292,7 @@ export const TestJoint: React.FC = () => {
                     z: 3,
                     attrs: {
                         body: {
-                            fill: '#F7E3AE'
+                            fill: '#F0F0F0'
                         },
                         label: {
                             html: processes[i].processName

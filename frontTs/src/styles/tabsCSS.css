@@ -303,3 +303,32 @@ input[type="text"] {
 .editButtons:hover{
   background-color: #c11818;
 }
+
+
+
+/* Cabeçalho da caixa */
+.process-field-vertical h2 {
+  font-weight: bold; /* Texto em negrito */
+  text-align: center;
+  margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Etiquetas e inputs */
+.process-field-vertical label {
+  float: right;
+  display: block; /* Exibe cada label em uma linha */
+  margin-bottom: 18px; /* Espaçamento inferior */
+  text-align: left;
+}
+
+.process-field-vertical label strong {
+  display: block; /* Exibe o título da label em uma linha */
+  margin-bottom: 2px; /* Espaço entre título e input */
+}
+
+.process-field-vertical input {
+  width: 40%; /* Largura total do input */
+  padding: 5px; /* Espaçamento interno do input */
+  border: 1px solid #CCC; /* Borda do input */
+  border-radius: 3px; /* Arredondamento dos cantos do input */
+}
