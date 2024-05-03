@@ -389,8 +389,8 @@ export const TestJoint: React.FC = () => {
 
             const chosen = modeMap[(CusformData.modeCustomer as keyof typeof modeMap)] || ""; // Type assertion              
             var linkCus = new shapes.standard.Link({
-                source: customer[0],
-                target: procArray[(procArray.length - 1)],
+                source: procArray[(procArray.length - 1)],
+                target: customer[0],
                 labels: [
                     {
                         position: { distance: 0.5, offset: { x: 20, y: 20 } },

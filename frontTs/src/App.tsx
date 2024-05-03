@@ -28,6 +28,7 @@ import { AllSupMatProvider } from './contexts/supMatContext';
 import { AllCusProdProvider } from './contexts/cusProdContext';
 import { AllSupProdProvider } from './contexts/supProdContext';
 import { AllProcProdProvider } from './contexts/proProdContext';
+import { AllSelBoxProvider } from './contexts/selectedBoxContext';
 
 function App() {
 
@@ -44,6 +45,7 @@ function App() {
                       <MapInfoProvider>
                         <CustomerProvider>
                           <CustomerMaterialFlowProvider>
+                            <AllSelBoxProvider>
 
                             <Routes>
                               <Route path="/home/*" element={<Home />} />
@@ -84,6 +86,8 @@ function App() {
                               <Route path='/result/*' element = {<TestJoint/>}/>
                               <Route path= "/review/" element ={<ShowDataComponent/>}/>
                             </Routes>
+                          
+                            </AllSelBoxProvider>
                           </CustomerMaterialFlowProvider>
                         </CustomerProvider>
                       </MapInfoProvider>

@@ -8,6 +8,7 @@ import React, { useState, useEffect} from 'react';
 import { useAllCusProdContext } from '../contexts/cusProdContext';
 import { useAllProcProdContext } from '../contexts/proProdContext';
 import { useAllSupProdContext } from '../contexts/supProdContext';
+import { useAllSelBoxContext } from '../contexts/selectedBoxContext';
 
 export type FormValues ={
     customerProd:{
@@ -243,6 +244,7 @@ export const InfoFlow: React.FC = () => {
     const handleOptionChange = (index:number, value:string) => {
         const newSelectedOptions = [...selectedOptions]
         newSelectedOptions[index] = value;
+        console.log("newSelectedOption em ",index, "é: ", newSelectedOptions[index])
         setSelectedOptions(newSelectedOptions)
     };
     
@@ -252,10 +254,11 @@ export const InfoFlow: React.FC = () => {
     const{CusProds, updateCusProd} = useAllCusProdContext();
     const {SupProds, updateSupProd} = useAllSupProdContext();
     const {ProcProds, updateProcProd} = useAllProcProdContext();
+    const {SelBox, updateSelBox} = useAllSelBoxContext();
     const navigate = useNavigate();
     const [lastVisited, setLastVisited] = useState<number[]>([]);
     
-    const {register,control, handleSubmit, formState} = useForm<FormValues>({
+    const {register,control, handleSubmit, formState, setValue} = useForm<FormValues>({
         defaultValues:{
             selectbox:[{connection:"Select an Option"}],
             supplierProd:[{typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null}],
@@ -263,6 +266,40 @@ export const InfoFlow: React.FC = () => {
             customerProd:[{typeCus: undefined, receiveCus: "Select an Option", periodCus: null, contentCus: null}]
         }
     });
+
+    useEffect (() =>{
+        setValue('customerProd', CusProds)
+    }, [CusProds, setValue]);
+
+    useEffect (() =>{
+        setValue('supplierProd', SupProds)
+    }, [SupProds, setValue]);
+
+    useEffect (() =>{
+        setValue('processProd', ProcProds)
+    }, [ProcProds, setValue]);
+
+    useEffect(() => {
+        if(SelBox[0]){
+            for (let i = 0; i < SelBox.length; i++) {
+                const value = SelBox[i];
+                handleOptionChange(i,value)
+                renderSelectedForm(i)
+                console.log("Passada ", i, " tem valor: ", value)
+                switch (value) {
+                    case "customer&MRP-1":
+                        break;
+                    case "supplier&MRP-1":
+                        break;
+                    case "process&MRP-1":
+                        break;
+                    default:
+                        break;
+                }
+                handleAdd();
+            }
+        }
+}, []);
 
 
     const {errors} = formState;
@@ -280,6 +317,7 @@ export const InfoFlow: React.FC = () => {
 
             for(let i = 0 ; i < numConections ; i++){
                 console.log("Round", i)
+                updateSelBox(i, data.selectbox[i].connection);
                 
                 if(lastVisited[i] === 1){
                     console.log("entra em customer")
@@ -328,6 +366,7 @@ export const InfoFlow: React.FC = () => {
                     console.log("Conexão ", i, "falhou")
                 }
             }
+            localStorage.setItem('formData', JSON.stringify(data));
             navigate('/review')
             
         } catch (error) {
@@ -337,6 +376,10 @@ export const InfoFlow: React.FC = () => {
     
     
     const renderSelectedForm = (index:number) => {
+        
+        if(selectedOptions[index] === undefined || selectedOptions[index] === '' ) selectedOptions[index] = SelBox[index];
+        
+        console.log("Em renderSelectedForm posição" ,index, "valor" , selectedOptions[index]);
         switch (selectedOptions[index]) {
           case "customer&MRP-1":
             return <CustomerProductionForm index={index} register={register} errors = {errors} lastVisited = {lastVisited} setLastVisited = {setLastVisited}/>;
@@ -395,8 +438,8 @@ export const InfoFlow: React.FC = () => {
                 
                 {fields.map((field, index) =>(
                     <div key= {field.id}>
-                        <label htmlFor="infoType">Connection {index+1}</label>
-                        <select  className="options-in-menu-1" value={selectedOptions[index]} onChange={(e) => handleOptionChange(index, e.target.value)}>
+                        <label htmlFor={`connection.${index}`}>Connection {index+1}</label>
+                        <select {...register(`selectbox.${index}.connection`)} value={selectedOptions[index]} onChange={(e) => handleOptionChange(index, e.target.value)}>
                             <option value="" disabled hidden selected> Select an option </option>
                             <option value="customer&MRP-1">Between Customer and Production Control</option>
                             <option value="supplier&MRP-1">Between Supplier and Production Control</option>
