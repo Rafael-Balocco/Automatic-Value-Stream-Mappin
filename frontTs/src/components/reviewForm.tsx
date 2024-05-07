@@ -10,6 +10,7 @@ import { useAllProcessContext } from '../contexts/proHandlerContext';
 import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
+import { useAllSelBoxContext } from '../contexts/selectedBoxContext';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { MouseEventHandler } from 'react';
 
@@ -24,6 +25,8 @@ export const ShowDataComponent: React.FC = () => {
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const {SelBox} = useAllSelBoxContext();
+    
     const navigate = useNavigate();
 
     const navigateButton = (path: string): MouseEventHandler<HTMLButtonElement> => {

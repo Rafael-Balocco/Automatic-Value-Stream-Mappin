@@ -12,12 +12,17 @@ interface MyComponentProps {
   interface AllSelectedBoxType {
       SelBox: FormValues['selectbox'];
       updateSelBox: (index: number, newSelBox: FormValues['selectbox'][number]) => void;
+      setSelBox: React.Dispatch<React.SetStateAction<FormValues['selectbox']>>;
+      transformSelBox: (newArray: FormValues['selectbox']) => void;
   }
   
   // Crie o contexto
   const AllSelBoxContext = createContext<AllSelectedBoxType>({
     SelBox:[],
     updateSelBox: () =>{},
+    setSelBox: () => {},
+    transformSelBox: () => {}
+    
   })
   
   // Hook para usar o contexto
@@ -45,10 +50,14 @@ interface MyComponentProps {
           // Return the updated array
           return updatedSelBox;
         });
-      };      
+      };   
+    
+      const transformSelBox = (newArray: FormValues['selectbox']) => {
+        setSelBox(newArray);
+    };
   
       return (
-          <AllSelBoxContext.Provider value={{ SelBox, updateSelBox }}>
+          <AllSelBoxContext.Provider value={{ SelBox, updateSelBox, setSelBox, transformSelBox }}>
               {children}
           </AllSelBoxContext.Provider>
       );
