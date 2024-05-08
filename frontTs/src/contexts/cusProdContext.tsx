@@ -12,12 +12,14 @@ interface MyComponentProps {
   interface AllCusProdContextType {
       CusProds: FormValues['customerProd'];
       updateCusProd: (index: number, newCusProd: FormValues['customerProd'][number]) => void;
+      transformCusProds: (newArray: FormValues['customerProd']) => void;
   }
   
   // Crie o contexto
   const AllCusProdContext = createContext<AllCusProdContextType>({
     CusProds:[],
     updateCusProd: () =>{},
+    transformCusProds: () => {},
   })
   
   // Hook para usar o contexto
@@ -46,9 +48,13 @@ interface MyComponentProps {
           return updatedCusProds;
         });
       };      
-  
+
+      const transformCusProds = (newArray: FormValues['customerProd']) => {
+        setCusProds(newArray);
+      };
+
       return (
-          <AllCusProdContext.Provider value={{ CusProds, updateCusProd }}>
+          <AllCusProdContext.Provider value={{ CusProds, updateCusProd, transformCusProds }}>
               {children}
           </AllCusProdContext.Provider>
       );

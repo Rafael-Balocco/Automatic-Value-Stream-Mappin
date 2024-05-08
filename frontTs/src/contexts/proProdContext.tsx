@@ -12,12 +12,14 @@ interface MyComponentProps {
   interface AllProcProdContextType {
       ProcProds: FormValues['processProd'];
       updateProcProd: (index: number, newProcProd: FormValues['processProd'][number]) => void;
-  }
+      transformProcProds: (newArray: FormValues['processProd']) => void;
+}
   
   // Crie o contexto
   const AllProcProdContext = createContext<AllProcProdContextType>({
     ProcProds:[],
     updateProcProd: () =>{},
+    transformProcProds: () => {},
   })
   
   // Hook para usar o contexto
@@ -45,10 +47,14 @@ interface MyComponentProps {
           // Return the updated array
           return updatedProcProds;
         });
-      };      
+      };
+      
+      const transformProcProds = (newArray: FormValues['processProd']) => {
+        setProcProds(newArray);
+    };
   
       return (
-          <AllProcProdContext.Provider value={{ ProcProds, updateProcProd }}>
+          <AllProcProdContext.Provider value={{ ProcProds, updateProcProd, transformProcProds }}>
               {children}
           </AllProcProdContext.Provider>
       );

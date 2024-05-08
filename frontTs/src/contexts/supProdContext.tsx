@@ -12,12 +12,14 @@ interface MyComponentProps {
   interface AllSupProdContextType {
       SupProds: FormValues['supplierProd'];
       updateSupProd: (index: number, newSupProd: FormValues['supplierProd'][number]) => void;
+      transformSupProds: (newArray: FormValues['supplierProd']) => void;
   }
   
   // Crie o contexto
   const AllSupProdContext = createContext<AllSupProdContextType>({
     SupProds:[],
     updateSupProd: () =>{},
+    transformSupProds: () => {},
   })
   
   // Hook para usar o contexto
@@ -45,10 +47,14 @@ interface MyComponentProps {
           // Return the updated array
           return updatedSupProds;
         });
-      };      
+      };
+      
+      const transformSupProds = (newArray: FormValues['supplierProd']) => {
+        setSupProds(newArray);
+    };
   
       return (
-          <AllSupProdContext.Provider value={{ SupProds, updateSupProd }}>
+          <AllSupProdContext.Provider value={{ SupProds, updateSupProd, transformSupProds }}>
               {children}
           </AllSupProdContext.Provider>
       );

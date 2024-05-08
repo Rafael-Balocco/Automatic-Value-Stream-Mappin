@@ -248,9 +248,9 @@ export const InfoFlow: React.FC = () => {
     const [numConections, setNumConections] = useState(1);
     const { numberOfProcess } = useProcessContext();
     const { numberOfSuppliers } = useSupplierContext();
-    const { CusProds, updateCusProd } = useAllCusProdContext();
-    const { SupProds, updateSupProd } = useAllSupProdContext();
-    const { ProcProds, updateProcProd } = useAllProcProdContext();
+    const { CusProds, updateCusProd, transformCusProds } = useAllCusProdContext();
+    const { SupProds, updateSupProd, transformSupProds } = useAllSupProdContext();
+    const { ProcProds, updateProcProd, transformProcProds } = useAllProcProdContext();
     const { SelBox, updateSelBox, transformSelBox } = useAllSelBoxContext();
     const navigate = useNavigate();
     const [lastVisited, setLastVisited] = useState<number[]>([]);
@@ -323,13 +323,17 @@ export const InfoFlow: React.FC = () => {
             let numSup = 0;
             let numCus = 0;
             let numProc = 0;
+            transformSupProds([])
+            transformProcProds([])
+            transformCusProds([])
+
 
             for (let i = 0; i < numConections; i++) {
                 if (data.selectbox[i].connection !== '' && data.selectbox[i].connection !== 'Select an Option') {
                     updateSelBox(i, data.selectbox[i].connection);
                 }
                 console.log('updated box number', i, "value: ", data.selectbox[i].connection)
-                
+
                 if (lastVisited[i] === 1) {
                     console.log("Customer: ", i)
                     const updatedCusProd = {
@@ -403,38 +407,50 @@ export const InfoFlow: React.FC = () => {
     }
 
 
-const handleRemoveAndDecrement = async (index: number) => {
-    // Remove o processo usando o índice fornecido
-    console.log("Index removido foi o seguinte: ", index);
-    
-    // Atualiza os selectedOptions para refletir a remoção do item
-    const updatedSelectedOptions = [...selectedOptions];
-    updatedSelectedOptions.splice(index, 1);
-    setSelectedOptions(updatedSelectedOptions);
+    const handleRemoveAndDecrement = async (index: number) => {
+        // Remove o processo usando o índice fornecido
+        console.log("Index removido foi o seguinte: ", index);
 
-    // Decrementa o índice
-    setNumConections(prevNumConnections => prevNumConnections - 1);
-    remove(index);
+        // Atualiza os selectedOptions para refletir a remoção do item
+        const updatedSelectedOptions = [...selectedOptions];
+        updatedSelectedOptions.splice(index, 1);
+        setSelectedOptions(updatedSelectedOptions);
+        
+        // Decrementa o índice
+        setNumConections(prevNumConnections => prevNumConnections - 1);
+        remove(index);
 
-    const updatedSelBox: any[] = SelBox;
-    const updatedLastVisited: any[] = lastVisited;
+        const updatedSelBox: any[] = SelBox;
+        const updatedLastVisited: any[] = lastVisited;
 
-    for(let i = index ; i<(SelBox.length-1); i++){
-        updatedSelBox [index] = updatedSelBox[index+1]
-        updatedLastVisited[index] = updatedLastVisited[index+1]
-    }
-    
-    updatedSelBox.length --;
-    lastVisited.length--;
+        console.log("lastVisited que chega: ", lastVisited)
+        console.log('Sel Box que chega: ', SelBox)
 
-    transformSelBox(updatedSelBox);
-    setLastVisited(updatedLastVisited);
+        for (let i = index; i < (lastVisited.length-1); i++) {
+            if(SelBox[index]) {
+                console.log("Sai: ", updatedSelBox[i] ,"index é:", i)
+                console.log("Entra: ", updatedSelBox[i+1], "da posição", (i+1))
+
+                updatedSelBox[i] = updatedSelBox[i + 1];
+                console.log('Após troca, updated: ', updatedSelBox)
+            }
+            
+                updatedLastVisited[i] = updatedLastVisited[i + 1]
+        }
+
+        if(SelBox[index]){
+            
+            updatedSelBox.length--;
+            lastVisited.length--;
+        }
 
 
-    console.log("Sel Box: ", SelBox)
-    console.log("Número de conexões agora: ", numConections)
+        if(SelBox)transformSelBox(updatedSelBox);
+        setLastVisited(updatedLastVisited);
+        console.log("Sel Box final: ", SelBox)
+        console.log('lastVisited', updatedLastVisited)
 
-};
+    };
 
 
     const handlePrevious = () => {
