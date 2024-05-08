@@ -418,11 +418,10 @@ export const InfoFlow: React.FC = () => {
         
         // Decrementa o índice
         setNumConections(prevNumConnections => prevNumConnections - 1);
-        remove(index);
-
+        
         const updatedSelBox: any[] = SelBox;
         const updatedLastVisited: any[] = lastVisited;
-
+        
         console.log("lastVisited que chega: ", lastVisited)
         console.log('Sel Box que chega: ', SelBox)
 
@@ -443,12 +442,13 @@ export const InfoFlow: React.FC = () => {
             updatedSelBox.length--;
             lastVisited.length--;
         }
-
+        
 
         if(SelBox)transformSelBox(updatedSelBox);
         setLastVisited(updatedLastVisited);
         console.log("Sel Box final: ", SelBox)
         console.log('lastVisited', updatedLastVisited)
+        remove(index);
 
     };
 
