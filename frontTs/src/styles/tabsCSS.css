@@ -332,3 +332,42 @@ input[type="text"] {
   border: 1px solid #CCC; /* Borda do input */
   border-radius: 3px; /* Arredondamento dos cantos do input */
 }
+
+.jj-form {
+  position: static;
+  text-align: center;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.supCus-field-vertical h2{
+  color:black;
+  margin-bottom: 10px;
+}
+
+.supCus-field-vertical input{
+  border: none;
+  border-bottom: 3px solid blue;
+  width: 80%;
+  color:black;
+  font-weight: bold;
+  text-align: center; /* Centraliza o texto dentro do input */
+}
+
+
+.process-field-vertical label{
+  text-align: left;
+  color:#000000;
+}
+
+.process-field-vertical input{
+  border: none;
+  border-bottom: 3px solid blue;
+  width: 30%;
+  appearance: textfield; /* Esconde as setas */
+  color:black;
+  font-weight: bold;
+}

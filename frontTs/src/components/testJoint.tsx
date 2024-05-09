@@ -58,11 +58,11 @@ export const TestJoint: React.FC = () => {
         let VAT = 0;
 
         const paper = new dia.Paper({
-            width: 6000,
-            height: 7000,
+            width: 3000,
+            height: 1300,
             model: graph,
             background: {
-                color: '#F8F9FA',
+                color: '#ccccca',
             },
             frozen: true,
             async: true,
@@ -919,8 +919,6 @@ export const TestJoint: React.FC = () => {
 
             <Header/>
             <main>
-            <p>teste</p>
-            <p>teste</p>
                 <div className="canvas" ref={canvas} style={{ position: 'relative', zIndex: '1' }} />
             </main>
             <Footer/>
