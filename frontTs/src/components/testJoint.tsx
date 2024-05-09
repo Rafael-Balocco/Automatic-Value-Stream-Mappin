@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { dia, shapes, util } from '@joint/core';
+import Header from './Header';
+import Footer from './Footer';
 import '../styles/tabsCSS.css'
 import multiModal from '../images/noun-multi-modal-476756.svg'
 
@@ -916,7 +918,13 @@ export const TestJoint: React.FC = () => {
 
 
     return (
-        <div className="canvas" ref={canvas} />
+        <div>
+            <Header/>
+            <main>
+                <div className="canvas" ref={canvas} />
+            </main>
+            <Footer/>
+        </div>
     );
 }
 
