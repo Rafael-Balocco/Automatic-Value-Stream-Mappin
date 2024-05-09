@@ -914,14 +914,14 @@ export const TestJoint: React.FC = () => {
     }, []);
 
 
-
-
-
     return (
         <div>
+
             <Header/>
             <main>
-                <div className="canvas" ref={canvas} />
+            <p>teste</p>
+            <p>teste</p>
+                <div className="canvas" ref={canvas} style={{ position: 'relative', zIndex: '1' }} />
             </main>
             <Footer/>
         </div>
