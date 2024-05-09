@@ -70,7 +70,7 @@ export const Customer = () => {
             <p className='errorsValidation'>{errors.CustomerName?.message}</p>
             <br />
             <label htmlFor="demand">Daily Demand:</label>
-            <input type="text" id="demand" {...register("demand", {
+            <input type="number" id="demand" {...register("demand", {
               required:{
                 value:true,
                 message:"Daily Demand is Required"
