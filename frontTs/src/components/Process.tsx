@@ -145,7 +145,7 @@ export const Process: React.FC = () => {
                                                 {...register(`proNumbers.${index}.processName`, {
                                                     required: {
                                                         value: true,
-                                                        message: "Supplier Name is Required",
+                                                        message: "Process Name is Required",
                                                     },
                                                 } as const)} />
                                             <p className='errorsValidation'>{errors?.proNumbers?.[index]?.processName?.message}</p>

@@ -255,7 +255,7 @@ export const InfoFlow: React.FC = () => {
     const navigate = useNavigate();
     const [lastVisited, setLastVisited] = useState<number[]>([]);
 
-    const { register, control, handleSubmit, formState, setValue } = useForm<FormValues>({
+    const { register, control, handleSubmit, formState, setValue, watch, getValues } = useForm<FormValues>({
         defaultValues: {
             selectbox: [{ connection: "Select an Option" }],
             supplierProd: [{ typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null }],
@@ -264,8 +264,11 @@ export const InfoFlow: React.FC = () => {
         }
     });
 
+    const watchedValues = watch(); // Obtém todos os valores do formulário
+
 
     useEffect(() => {
+        console.log(watchedValues); // Todos os valores do formulário   
         if (SelBox[0]) {
             let process = -1
             let customer = -1
@@ -316,10 +319,13 @@ export const InfoFlow: React.FC = () => {
         control,
         name: 'selectbox',
     });
+    
     const [selectedOptions, setSelectedOptions] = useState(fields.map(() => ""));
+    
 
     const onSubmit = async (data: any) => {
         try {
+            console.log(data)
             let numSup = 0;
             let numCus = 0;
             let numProc = 0;
@@ -402,15 +408,28 @@ export const InfoFlow: React.FC = () => {
     };
 
     const handleAdd = () => {
+        console.log(watchedValues); // Todos os valores do formulário
         append({ connection: '' });
         setNumConections(prevNumConnections => prevNumConnections + 1);
     }
+
+    const removeItem = (index: number) => {
+        const values = getValues();
+        const newSupplierProds = values.supplierProd.filter((item: any, i: number) => i !== index);
+        const newProcessProds = values.processProd.filter((item: any, i: number) => i !== index);
+        const newCustomerProds = values.customerProd.filter((item: any, i: number) => i !== index);
+
+        if(values.supplierProd[index]){setValue('supplierProd', newSupplierProds); console.log("item removido foi: ", values.supplierProd[index])}
+        if(values.processProd[index])setValue('processProd', newProcessProds);
+        if(values.supplierProd[index])setValue('customerProd', newCustomerProds);
+    };
 
 
     const handleRemoveAndDecrement = async (index: number) => {
         // Remove o processo usando o índice fornecido
         console.log("Index removido foi o seguinte: ", index);
 
+        
         // Atualiza os selectedOptions para refletir a remoção do item
         const updatedSelectedOptions = [...selectedOptions];
         updatedSelectedOptions.splice(index, 1);
@@ -436,23 +455,28 @@ export const InfoFlow: React.FC = () => {
             
                 updatedLastVisited[i] = updatedLastVisited[i + 1]
         }
-
+        
         if(SelBox[index]){
             
             updatedSelBox.length--;
             lastVisited.length--;
         }
         
-
+        
         if(SelBox)transformSelBox(updatedSelBox);
         setLastVisited(updatedLastVisited);
         console.log("Sel Box final: ", SelBox)
         console.log('lastVisited', updatedLastVisited)
+        
         remove(index);
 
+        await removeItem(index); // Chamada assíncrona para removeItem
+        
+        console.log(watchedValues); // Todos os valores do formulário
+    
     };
 
-
+    
     const handlePrevious = () => {
         navigate('/MaterialFlow')
     }
