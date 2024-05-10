@@ -59,7 +59,7 @@ export const TestJoint: React.FC = () => {
         let VAT = 0;
 
         const paper = new dia.Paper({
-            width: 3000,
+            width: (start * ((numProcess)) + 500),
             height: 1200,
             model: graph,
             background: {
@@ -945,13 +945,17 @@ export const TestJoint: React.FC = () => {
         dailyDemand()
 
         // Definição do link em formato de raio
-
+        graph.set('graphCustomProperty', true);
+        graph.set('graphExportTime', Date.now());
+        var jsonObject = graph.toJSON();
+        console.log(jsonObject)
 
         paper.unfreeze();
 
         return () => {
             paper.remove();
         };
+
 
     }, []);
 
