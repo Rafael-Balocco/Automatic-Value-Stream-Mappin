@@ -18,7 +18,7 @@ import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
 
-const start = 500;
+const start = 440;
 const procWidth = 180;
 const procHeight = 240;
 
@@ -202,7 +202,6 @@ export const TestJoint: React.FC = () => {
                 this.markup = util.svg/* xml */`
                     <path d="M 50 10 L 90 90 L 10 90 Z" fill="yellow" stroke="black" />
                     <text @selector ="label" text-anchor="middle" fill="black"/>
-
                 `;
             }
         }
@@ -451,7 +450,7 @@ export const TestJoint: React.FC = () => {
 
             for (i; i <= (inventories.length - 1); i++) {
                 invArray[i] = new Inventory({
-                    position: { x: start * (i + 1) - 200, y: 720 },
+                    position: { x: start * (i + 1) - 175, y: 720 },
                     name: 'i',
                     z: 3,
                     size: { width: 100, height: 100 },
@@ -843,19 +842,20 @@ export const TestJoint: React.FC = () => {
         for (let i = 0 ; i < procArray.length ; i++ ){
             console.log('Entra na vez :' , i)
             vertices.push(
-                { x: 500 * (i+1) , y: 650 + procHeight },
-                { x: 500 * (i+1) , y: 700 + procHeight },
-                { x: 500 * (i+1) + procWidth, y: 700 + procHeight },
-                { x: 500 * (i+1) + procWidth, y: 650 + procHeight }
+                { x: start * (i+1) , y: 650 + procHeight },
+                { x: start * (i+1) , y: 700 + procHeight },
+                { x: start * (i+1) + procWidth, y: 700 + procHeight },
+                { x: start * (i+1) + procWidth, y: 650 + procHeight }
             );
             labels.push({
-                position: { distance: ( 250 + 50 + (procWidth/2) + 500*i + 2*i*50), offset: -10 },
+                position: { distance: ( 240 + (procWidth/2) + start*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
                         text: (processes[i].cycleTime + ' Seconds'), // Ou qualquer outra propriedade desejada
-                        'font-size': 15,
+                        'font-size': 17,
                         fill: 'black',
-                        'font-family': 'Arial, sans-serif'
+                        'font-family': 'Arial, sans-serif',
+                        'font-weight': 'bold' // Define a fonte como negrito
                     },
                     rect: {
                         fill: '#ccccca', // Define a cor de fundo da label como cinza
@@ -865,13 +865,14 @@ export const TestJoint: React.FC = () => {
                 }
             });
             labels.push({
-                position: { distance: ( 100 + 500*i + 2*i*50), offset: -10 },
+                position: { distance: ( 65 + start*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
                         text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
-                        'font-size': 15,
+                        'font-size': 17,
                         fill: 'black',
-                        'font-family': 'Arial, sans-serif'
+                        'font-family': 'Arial, sans-serif',
+                        'font-weight': 'bold' // Define a fonte como negrito
                     },
                     rect: {
                         fill: '#ccccca', // Define a cor de fundo da label como cinza
@@ -887,7 +888,7 @@ export const TestJoint: React.FC = () => {
             for(let i = 0; i<inventories.length; i++ ) {totalLead += (inventories[i].processINumber / customerForm.demand) ; let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada' , i , ': ' , typeof cycleTimeNumber)}
 
             timeLadderResult[0] = new timeResult({
-                position: { x: (500 * procArray.length + procWidth + 50), y: 560 + procHeight   },
+                position: { x: (start * procArray.length + procWidth + 50), y: 560 + procHeight   },
                 name: 'timeLadderResult',
                 z: 3,
                 size: { width: 250, height: 180 },
@@ -900,7 +901,10 @@ export const TestJoint: React.FC = () => {
                         },
                         Ratio:{
                             html: (VAT / (totalLead * 86400)).toFixed(6).toString() + " %"
-                        }
+                        },
+                        body: {
+                            fill: '#EAECEA'
+                        },
                 }
             });
             timeLadderResult[0].addTo(graph);

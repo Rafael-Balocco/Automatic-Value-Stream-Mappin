@@ -32,7 +32,7 @@ export type FormValues = {
 
 export const MatFlow: React.FC = () => {
 
-    const {SupMats, updateSupMat} = useAllSupMatContext();
+    const { SupMats, updateSupMat } = useAllSupMatContext();
     const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
     const { numberOfSuppliers } = useSupplierContext();
 
@@ -45,7 +45,7 @@ export const MatFlow: React.FC = () => {
     const { errors } = formState;
     const navigate = useNavigate(); // Instancia o hook useNavigate
 
-    useEffect (() =>{
+    useEffect(() => {
         setValue('supplier', SupMats)
     }, [SupMats, setValue]);
 
@@ -54,7 +54,7 @@ export const MatFlow: React.FC = () => {
         try {
             console.log('Form Submitted:', data.customer);
             updateCusFormData(data.customer); // Atualiza os dados do formulário no contexto
-            for(let i = 0 ; i < numberOfSuppliers ; i++){
+            for (let i = 0; i < numberOfSuppliers; i++) {
                 const updatedSupMats = {
                     modeSupplier: data.supplier[i].modeSupplier,
                     periodShiftSupplier: data.supplier[i].periodShiftSupplier,
@@ -102,8 +102,24 @@ export const MatFlow: React.FC = () => {
                         {...register(`supplier.${j}.periodShiftSupplier`)} />
 
                     <label htmlFor={`supplier.${j}.quantityShiftSupplier`}>Quantity per Shift:</label>
-                    <input type="text"
-                        {...register(`supplier.${j}.quantityShiftSupplier`)} />
+                    <input
+                                type="number"
+                                {...register(`customer.quantityShiftCustomer`, {
+                                    pattern: {
+                                        value: /^[0-9]*$/,
+                                        message: "Please enter a valid number or leave it empty!"
+                                    },
+                                    validate: value => {
+                                        if (value !== "") {
+                                            if (value < 0) {
+                                                return "This value must be positive or empty!";
+                                            }
+                                            return true;
+                                        }
+                                    }
+                                })}
+                            />
+                            <p className='errorsValidation'>{errors?.supplier?.[j]?.quantityShiftSupplier?.message}</p>
                 </div>
             );
             if (j < numberOfSuppliers - 1) {
@@ -145,7 +161,7 @@ export const MatFlow: React.FC = () => {
                             <button type="button" onClick={handlePrevious}>Previous</button>
                         </div>
                         <br /><br />
-                        
+
                         <h2>Customer Material Flow</h2>
                         <div className='consumerMat'>
                             <br />
@@ -173,8 +189,25 @@ export const MatFlow: React.FC = () => {
                                 {...register(`customer.periodShiftCustomer`)} />
 
                             <label htmlFor={`customer.quantityShiftCustomer`}>Quantity per Shift:</label>
-                            <input type="text"
-                                {...register(`customer.quantityShiftCustomer`)} />
+                            <input
+                                type="number"
+                                {...register(`customer.quantityShiftCustomer`, {
+                                    pattern: {
+                                        value: /^[0-9]*$/,
+                                        message: "Please enter a valid number or leave it empty!"
+                                    },
+                                    validate: value => {
+                                        if (value !== "") {
+                                            if (value < 0) {
+                                                return "This value must be positive or empty!";
+                                            }
+                                            return true;
+                                        }
+                                    }
+                                })}
+                            />
+                            <p className='errorsValidation'>{errors?.customer?.quantityShiftCustomer?.message}</p>
+                            <br />
                         </div>
                     </div>
                     <div className='tab'>
