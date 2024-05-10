@@ -54,12 +54,13 @@ export const TestJoint: React.FC = () => {
         let CusProdLink: any[] = [];
         const customer: any[] = [];
         const timeLadderResult: any [] = [] ;
+        const demandArray: any [] =[];
         let totalLead =0; 
         let VAT = 0;
 
         const paper = new dia.Paper({
             width: 3000,
-            height: 1300,
+            height: 1200,
             model: graph,
             background: {
                 color: '#ccccca',
@@ -200,7 +201,7 @@ export const TestJoint: React.FC = () => {
             preinitialize() {
                 this.markup = util.svg/* xml */`
                     <path d="M 50 10 L 90 90 L 10 90 Z" fill="yellow" stroke="black" />
-                    <text @selector ="label" text-anchor="middle" fill="black"/> 
+                    <text @selector ="label" text-anchor="middle" fill="black"/>
 
                 `;
             }
@@ -232,6 +233,9 @@ export const TestJoint: React.FC = () => {
                                 <br></br>
                                 <h2>Value Added Time</h2>
                                 <text @selector ="VATime" text-anchor="middle" fill="black"></text> 
+                                <br></br>
+                            <h2>Ratio</h2>
+                            <text @selector = "Ratio" text-anchor = "middle" fill="black"></text>
                             </div>
                         </div>
                     </foreignObject>
@@ -852,6 +856,11 @@ export const TestJoint: React.FC = () => {
                         'font-size': 15,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif'
+                    },
+                    rect: {
+                        fill: '#ccccca', // Define a cor de fundo da label como cinza
+                        rx: 4, // Raio do canto arredondado (opcional)
+                        ry: 4 // Raio do canto arredondado (opcional)
                     }
                 }
             });
@@ -859,10 +868,15 @@ export const TestJoint: React.FC = () => {
                 position: { distance: ( 100 + 500*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
-                        text: (inventories[i].processINumber / customerForm.demand + ' Days'), // Ou qualquer outra propriedade desejada
+                        text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
                         'font-size': 15,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif'
+                    },
+                    rect: {
+                        fill: '#ccccca', // Define a cor de fundo da label como cinza
+                        rx: 4, // Raio do canto arredondado (opcional)
+                        ry: 4 // Raio do canto arredondado (opcional)
                     }
                 }
             });
@@ -873,16 +887,19 @@ export const TestJoint: React.FC = () => {
             for(let i = 0; i<inventories.length; i++ ) {totalLead += (inventories[i].processINumber / customerForm.demand) ; let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada' , i , ': ' , typeof cycleTimeNumber)}
 
             timeLadderResult[0] = new timeResult({
-                position: { x: (500 * procArray.length + procWidth + 50), y: 575 + procHeight   },
+                position: { x: (500 * procArray.length + procWidth + 50), y: 560 + procHeight   },
                 name: 'timeLadderResult',
                 z: 3,
-                size: { width: 250, height: 150 },
+                size: { width: 250, height: 180 },
                     attrs: {    
                         label: {
-                          html: totalLead.toString() + ' Days'
+                          html: totalLead.toString() + ' Days = ' + (totalLead * 86400) + ' Seconds'
                         },
                         VATime: {
                           html: VAT + ' Seconds'
+                        },
+                        Ratio:{
+                            html: (VAT / (totalLead * 86400)).toFixed(6).toString() + " %"
                         }
                 }
             });
@@ -901,6 +918,27 @@ export const TestJoint: React.FC = () => {
         timeLadderLink.set('vertices', vertices);
         timeLadderLink.set('labels', labels);
 
+        function dailyDemand() {
+            demandArray[0] = new SupCus({
+                position: { x: start * ((numProcess + 1) / 2), y: 800 + procHeight },
+                name: 'p',
+                z: 3,
+                attrs: {
+                    body: {
+                        fill: '#EAECEA'
+                    },
+                    label: {
+                        html: "Daily Demand"
+                    },
+                    nameSupplier: {
+                        props: { value: customerForm.demand }
+                    }
+                }
+            })
+            demandArray[0].addTo(graph);
+        }
+
+        dailyDemand()
 
         // Definição do link em formato de raio
 
