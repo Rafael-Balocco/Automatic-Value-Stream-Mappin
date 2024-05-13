@@ -53,9 +53,9 @@ export const TestJoint: React.FC = () => {
         let ProcProdLink: any[] = [];
         let CusProdLink: any[] = [];
         const customer: any[] = [];
-        const timeLadderResult: any [] = [] ;
-        const demandArray: any [] =[];
-        let totalLead =0; 
+        const timeLadderResult: any[] = [];
+        const demandArray: any[] = [];
+        let totalLead = 0;
         let VAT = 0;
 
         const paper = new dia.Paper({
@@ -75,12 +75,12 @@ export const TestJoint: React.FC = () => {
                 labelMove: true
             },
             elementView: dia.ElementView.extend({
-        
+
                 events: {
                     'change input,select': 'onInputChange'
                 },
-        
-                onInputChange: function(evt:any) {
+
+                onInputChange: function (evt: any) {
                     const input = evt.target;
                     if (!input.validity.valid) return;
                     const valuePath = input.getAttribute('joint-selector') + '/props/value';
@@ -164,8 +164,7 @@ export const TestJoint: React.FC = () => {
                     </foreignObject>
                 `;
             }
-            getCycleTime () {
-                console.log('cycleTime/props/value')
+            getCycleTime() {
                 return Number(this.attr('cycleTime/props/value'))
             }
         }
@@ -203,6 +202,45 @@ export const TestJoint: React.FC = () => {
             }
         }
 
+        class Demand extends ForeignObjectElement {
+
+            defaults() {
+                return {
+                    ...super.defaults(),
+                    type: 'Demand',
+                    size: {
+                        width: 180,
+                        height: 120
+                    }
+                };
+            }
+
+            preinitialize() {
+                this.markup = util.svg/* xml */`
+                    <rect @selector="body" />
+                    <foreignObject @selector="foreignObject" overflow="hidden">
+                        <div @selector="content"
+                            class="jj-form"
+                            xmlns="http://www.w3.org/1999/xhtml"
+                        >
+                            <div class="supCus-field-vertical">
+                                <h2><strong @selector="label"></strong></h2>
+                                <label>
+                                    <input @selector="dailyDemand" class="jj-input" type="text"/>
+                                </label>
+                            </div>
+                        </div>
+                    </foreignObject>
+                `;
+            }
+            getDemand(){
+                return Number(this.attr('dailyDemand/props/value'))
+            }
+            setDemand(value: any) {
+                this.attr('dailyDemand/props/value', value.toString());
+            }
+        }
+
         class Inventory extends ForeignObjectElement {
 
             defaults() {
@@ -218,13 +256,28 @@ export const TestJoint: React.FC = () => {
 
             preinitialize() {
                 this.markup = util.svg/* xml */`
-                    <path d="M 50 10 L 90 90 L 10 90 Z" fill="yellow" stroke="black" />
-                    <text @selector ="label" text-anchor="middle" fill="black"/>
-                `;
+                <path d="M 50 10 L 90 90 L 10 90 Z" fill="yellow" stroke="black" />
+                <foreignObject @selector="foreignObject" overflow="hidden">
+                <div @selector="content"
+                    class="jj-form"
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    style="display: flex; justify-content: center; align-items: center; margin-top: 20px; margin-left: -25px; width: 160px; height: 120px"
+                >
+                        <div class="inventory-field-vertical">
+                            <label>
+                            <input @selector="inventoryLabel" class="jj-input" type="number"/>
+                            </label>
+                        </div>
+                    </div>
+                </foreignObject>
+            `;
+            }
+            getInventory() {
+                return Number(this.attr('inventoryLabel/props/value'))
             }
         }
 
-        class timeResult extends ForeignObjectElement{
+        class timeResult extends ForeignObjectElement {
 
             defaults() {
                 return {
@@ -258,15 +311,20 @@ export const TestJoint: React.FC = () => {
                     </foreignObject>
                 `;
             }
-
-            setVATime (value:any){
+            getVATime(){
+                return Number(this.attr('VATime/html'))
+            }
+            setVATime(value: any) {
                 this.attr('VATime/html', value.toString());
             }
-            setRatio (value:any){
+            setRatio(value: any) {
                 this.attr('Ratio/html', value.toFixed(6).toString());
             }
-            getLead (){
+            getLead() {
                 return Number(this.attr('label/html'));
+            }
+            setLead(value:any){
+                this.attr('label/html', value.toString());
             }
 
         }
@@ -485,10 +543,10 @@ export const TestJoint: React.FC = () => {
                     z: 3,
                     size: { width: 100, height: 100 },
                     attrs: {
-                        label: {
+                        inventoryLabel: {
                             x: "calc(w/2)",
                             y: "calc(h/2)",
-                            text: inventories[i].processINumber?.toString(),
+                            props: { value: inventories[i].processINumber },
                             textVerticalAnchor: "middle"
                         },
                         body: {
@@ -639,7 +697,7 @@ export const TestJoint: React.FC = () => {
             }
 
             else if (id === 2) {
-                
+
                 ProcProdLink[which] = new shapes.standard.Link({
                     source: source,
                     target: target,
@@ -715,7 +773,7 @@ export const TestJoint: React.FC = () => {
                 if (SupProds[i].typeSup === 'eletronic') {
                     eletronicLink(i, 1);
                 }
-                else{
+                else {
                     let other = supArray[(SupProds[i].supNumber) - 1];
                     let receiver = SupProds[i].receiveSup;
                     let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
@@ -741,7 +799,7 @@ export const TestJoint: React.FC = () => {
                             '<tspan x="40" dy="25">' + SupProds[i].contentSup + '</tspan>', // Adjust dy for line spacing
                             '</text>',
                             '</g>'
-    
+
                         ].join('')
                     });
                     SupProdLink[i].addTo(graph);
@@ -751,7 +809,7 @@ export const TestJoint: React.FC = () => {
                 if (ProcProds[i].typeProcess === 'eletronic') {
                     eletronicLink(i, 2);
                 }
-                else{
+                else {
                     let other = procArray[(ProcProds[i].processNumber) - 1];
                     let receiver = ProcProds[i].receiveProcess;
                     let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
@@ -777,7 +835,7 @@ export const TestJoint: React.FC = () => {
                             '<tspan x="40" dy="25">' + ProcProds[i].contentProcess + '</tspan>', // Adjust dy for line spacing
                             '</text>',
                             '</g>'
-    
+
                         ].join('')
                     });
                     ProcProdLink[i].addTo(graph);
@@ -788,7 +846,7 @@ export const TestJoint: React.FC = () => {
                 if (CusProds[i].typeCus === 'eletronic') {
                     eletronicLink(i, 3)
                 }
-                else{
+                else {
                     let other = customer[0];
                     let receiver = CusProds[i].receiveCus;
                     let target = receiver === 'Production Control' ? company[0] : other; let source = receiver === 'Production Control' ? other : company[0];
@@ -814,7 +872,7 @@ export const TestJoint: React.FC = () => {
                             '<tspan x="40" dy="25">' + CusProds[0].contentCus + '</tspan>', // Adjust dy for line spacing
                             '</text>',
                             '</g>'
-    
+
                         ].join('')
                     });
                     CusProdLink[i].addTo(graph);
@@ -826,7 +884,7 @@ export const TestJoint: React.FC = () => {
 
 
         for (let i = 0; i < ProcProds.length; i++) {
-            if(ProcProds[i].typeProcess === 'eletronic'){
+            if (ProcProds[i].typeProcess === 'eletronic') {
                 procArray[i].on('change:position', function () {
                     updateLinkVertices(ProcProdLink[i], i, 2);
                 });
@@ -838,27 +896,27 @@ export const TestJoint: React.FC = () => {
 
         for (let i = 0; i < customer.length; i++) {
 
-            if(CusProds[0]){
-                if(CusProds[0].typeCus === 'eletronic'){
+            if (CusProds[0]) {
+                if (CusProds[0].typeCus === 'eletronic') {
                     customer[0].on('change:position', function () {
                         updateLinkVertices(CusProdLink[i], i, 3);
                     });
-        
+
                     company[0].on('change:position', function () {
                         updateLinkVertices(CusProdLink[i], i, 3);
                     });
                 }
             }
-            
-            
+
+
         }
         for (let i = 0; i < SupProds.length; i++) {
 
-            if(SupProds[i].typeSup === 'eletronic'){
+            if (SupProds[i].typeSup === 'eletronic') {
                 supArray[i].on('change:position', function () {
                     updateLinkVertices(SupProdLink[i], i, 1);
                 });
-    
+
                 company[0].on('change:position', function () {
                     updateLinkVertices(SupProdLink[i], i, 1);
                 });
@@ -869,17 +927,17 @@ export const TestJoint: React.FC = () => {
         var vertices: any[] = [];
         var labels: any[] = [];
 
-        
-        for (let i = 0 ; i < procArray.length ; i++ ){
+
+        for (let i = 0; i < procArray.length; i++) {
             let cycle = procArray[i].getCycleTime();
             vertices.push(
-                { x: start * (i+1) , y: 650 + procHeight },
-                { x: start * (i+1) , y: 700 + procHeight },
-                { x: start * (i+1) + procWidth, y: 700 + procHeight },
-                { x: start * (i+1) + procWidth, y: 650 + procHeight }
+                { x: start * (i + 1), y: 650 + procHeight },
+                { x: start * (i + 1), y: 700 + procHeight },
+                { x: start * (i + 1) + procWidth, y: 700 + procHeight },
+                { x: start * (i + 1) + procWidth, y: 650 + procHeight }
             );
             labels.push({
-                position: { distance: ( 240 + (procWidth/2) + start*i + 2*i*50), offset: -10 },
+                position: { distance: (240 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
                         text: (cycle + ' Seconds'), // Ou qualquer outra propriedade desejada
@@ -896,7 +954,7 @@ export const TestJoint: React.FC = () => {
                 }
             });
             labels.push({
-                position: { distance: ( 65 + start*i + 2*i*50), offset: -10 },
+                position: { distance: (65 + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
                         text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
@@ -914,34 +972,34 @@ export const TestJoint: React.FC = () => {
             });
         }
 
-        function timeLadder (){     
+        function timeLadder() {
 
-            for(let i = 0; i<inventories.length; i++ ) {totalLead += (inventories[i].processINumber / customerForm.demand) ; let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada' , i , ': ' , typeof cycleTimeNumber)}
+            for (let i = 0; i < inventories.length; i++) { totalLead += (inventories[i].processINumber / customerForm.demand); let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada', i, ': ', typeof cycleTimeNumber) }
             let ratio = (VAT / (totalLead * 86400))
             let leadSeconds = totalLead * 86400;
             timeLadderResult[0] = new timeResult({
-                position: { x: (start * procArray.length + procWidth + 50), y: 560 + procHeight   },
+                position: { x: (start * procArray.length + procWidth + 50), y: 560 + procHeight },
                 name: 'timeLadderResult',
                 z: 3,
                 size: { width: 250, height: 180 },
-                    attrs: {    
-                        label: {
-                          html: leadSeconds.toString()
-                        },
-                        VATime: {
-                          html: VAT.toString()
-                        },
-                        Ratio:{
-                            html: ratio.toFixed(6).toString()
-                        },
-                        body: {
-                            fill: '#EAECEA'
-                        },
+                attrs: {
+                    label: {
+                        html: leadSeconds.toString()
+                    },
+                    VATime: {
+                        html: VAT.toString()
+                    },
+                    Ratio: {
+                        html: ratio.toFixed(6).toString()
+                    },
+                    body: {
+                        fill: '#EAECEA'
+                    },
                 }
             });
             timeLadderResult[0].addTo(graph);
             let timeLadderLink = new shapes.standard.Link({
-                source: {x: 250, y: (650 + procHeight)},
+                source: { x: 250, y: (650 + procHeight) },
                 target: (timeLadderResult[0]),
                 vertices: vertices,
                 labels: labels
@@ -955,7 +1013,7 @@ export const TestJoint: React.FC = () => {
         timeLadderLink.set('labels', labels);
 
         function dailyDemand() {
-            demandArray[0] = new SupCus({
+            demandArray[0] = new Demand({
                 position: { x: start * ((numProcess + 1) / 2), y: 800 + procHeight },
                 name: 'p',
                 z: 3,
@@ -966,7 +1024,7 @@ export const TestJoint: React.FC = () => {
                     label: {
                         html: "Daily Demand"
                     },
-                    nameSupplier: {
+                    dailyDemand: {
                         props: { value: customerForm.demand }
                     }
                 }
@@ -976,73 +1034,102 @@ export const TestJoint: React.FC = () => {
 
         dailyDemand()
 
-        let newCycle: any [] = [];
-        
-        function cycleProcess (){
-            let value =0;
-            for(let i =0 ; i<procArray.length; i++){
+        let newCycle: any[] = [];
+
+        function cycleProcess() {
+            let value = 0;
+            for (let i = 0; i < procArray.length; i++) {
                 newCycle[i] = procArray[i].getCycleTime();
                 value = value + procArray[i].getCycleTime();
                 console.log("valor cycle", i, ": ", value)
             }
-            console.log('tamanho da labels', labels.length);
             timeLadderResult[0].setVATime(value)
             let lead = timeLadderResult[0].getLead();
             let ratio = value / lead;
-            timeLadderResult[0].setRatio(ratio) 
-            
+            timeLadderResult[0].setRatio(ratio)
+            return newCycle;
         }
 
-        function changeLabels(){
-            let j =0;
-            let newLabel: any[] =[]
-            for(let i =0 ; i< procArray.length ; i++){
-                    newLabel.push({
-                        position: { distance: ( 240 + (procWidth/2) + start*i + 2*i*50), offset: -10 },
-                        attrs: {
-                            text: {
-                                text: (newCycle[j] + ' Seconds'), // Ou qualquer outra propriedade desejada
-                                'font-size': 17,
-                                fill: 'black',
-                                'font-family': 'Arial, sans-serif',
-                                'font-weight': 'bold' // Define a fonte como negrito
-                            },
-                            rect: {
-                                fill: '#ccccca', // Define a cor de fundo da label como cinza
-                                rx: 4, // Raio do canto arredondado (opcional)
-                                ry: 4 // Raio do canto arredondado (opcional)
-                            }
+        function changeLabels(newInventory, newCycle, newDemand) {
+            let j = 0;
+            let newLabel: any[] = []
+
+            for (let i = 0; i < procArray.length; i++) {
+                newLabel.push({
+                    position: { distance: (240 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
+                    attrs: {
+                        text: {
+                            text: (newCycle[j] + ' Seconds'), // Ou qualquer outra propriedade desejada
+                            'font-size': 17,
+                            fill: 'black',
+                            'font-family': 'Arial, sans-serif',
+                            'font-weight': 'bold' // Define a fonte como negrito
+                        },
+                        rect: {
+                            fill: '#ccccca', // Define a cor de fundo da label como cinza
+                            rx: 4, // Raio do canto arredondado (opcional)
+                            ry: 4 // Raio do canto arredondado (opcional)
                         }
-                    });
-                    newLabel.push({
-                        position: { distance: ( 65 + start*i + 2*i*50), offset: -10 },
-                        attrs: {
-                            text: {
-                                text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
-                                'font-size': 17,
-                                fill: 'black',
-                                'font-family': 'Arial, sans-serif',
-                                'font-weight': 'bold' // Define a fonte como negrito
-                            },
-                            rect: {
-                                fill: '#ccccca', // Define a cor de fundo da label como cinza
-                                rx: 4, // Raio do canto arredondado (opcional)
-                                ry: 4 // Raio do canto arredondado (opcional)
-                            }
+                    }
+                });
+                newLabel.push({
+                    position: { distance: (65 + start * i + 2 * i * 50), offset: -10 },
+                    attrs: {
+                        text: {
+                            text: (newInventory[i] / newDemand + ' Day(s)'), // Ou qualquer outra propriedade desejada
+                            'font-size': 17,
+                            fill: 'black',
+                            'font-family': 'Arial, sans-serif',
+                            'font-weight': 'bold' // Define a fonte como negrito
+                        },
+                        rect: {
+                            fill: '#ccccca', // Define a cor de fundo da label como cinza
+                            rx: 4, // Raio do canto arredondado (opcional)
+                            ry: 4 // Raio do canto arredondado (opcional)
                         }
-                    });
-                    j++;
-                }
-                timeLadderLink.prop('labels', null);
-                timeLadderLink.prop('labels', newLabel);
+                    }
+                });
+                j++;
             }
-            
-            graph.on('change:attrs', (cell, attrs) => {
-                // Verifica se o atributo cycleTime foi alterado
-                if ('cycleTime' in attrs) {
-                    console.log("Muddou atributo")
-                    cycleProcess();
-                changeLabels();
+            timeLadderLink.prop('labels', null);
+            timeLadderLink.prop('labels', newLabel);
+        }
+
+        function inventoryChange (newDemand:number){
+            let newInventory:any [] = [];
+            let value =0;
+            for(let i =0 ; i< invArray.length ;i ++){
+                newInventory[i] = (invArray[i].getInventory())
+                value = value + (newInventory[i]/newDemand)
+                console.log("passada ", i, "tem valor", value)
+            }
+            timeLadderResult[0].setLead(value * 86400)
+            let VATime = timeLadderResult[0].getVATime()
+            timeLadderResult[0].setRatio (VATime/value)
+
+            return newInventory;
+        }
+
+        graph.on('change:attrs', (cell, attrs) => {
+            if ('cycleTime' in attrs) {
+                let newDemand = demandArray[0].getDemand();
+                let newInventory = inventoryChange(newDemand);
+                let newCycle = cycleProcess();
+                changeLabels(newInventory,newCycle, newDemand)
+            }
+            if('inventoryLabel' in attrs){
+                console.log('Entra no inventoryChange')
+                let newDemand = demandArray[0].getDemand();
+                let newInventory = inventoryChange(newDemand);
+                let newCycle = cycleProcess();
+                changeLabels(newInventory,newCycle,newDemand)
+            }
+            if('dailyDemand' in attrs){
+                console.log('Entra em Demand')
+                let newDemand = demandArray[0].getDemand();
+                let newInventory = inventoryChange(newDemand);
+                let newCycle = cycleProcess();
+                changeLabels(newInventory,newCycle,newDemand)
             }
         });
 
@@ -1065,11 +1152,11 @@ export const TestJoint: React.FC = () => {
     return (
         <div>
 
-            <Header/>
+            <Header />
             <main>
                 <div className="canvas" ref={canvas} style={{ position: 'relative', zIndex: '1' }} />
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

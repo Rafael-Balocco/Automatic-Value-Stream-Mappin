@@ -372,3 +372,13 @@ input[type="text"] {
   font-weight: bold;
 }
 
+.inventory-field-vertical input {
+  background-color: yellow;
+  border: none;
+  width: 28%; /* Defina uma largura menor, como 50% */
+  appearance: textfield; /* Esconde as setas */
+  color: black;
+  font-weight: bold;
+}
+
+
