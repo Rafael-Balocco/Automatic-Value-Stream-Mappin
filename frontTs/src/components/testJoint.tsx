@@ -73,7 +73,21 @@ export const TestJoint: React.FC = () => {
             interactive: {
                 linkMove: false,
                 labelMove: true
-            }
+            },
+            elementView: dia.ElementView.extend({
+        
+                events: {
+                    'change input,select': 'onInputChange'
+                },
+        
+                onInputChange: function(evt:any) {
+                    const input = evt.target;
+                    if (!input.validity.valid) return;
+                    const valuePath = input.getAttribute('joint-selector') + '/props/value';
+                    const currentValue = this.model.attr(valuePath);
+                    this.model.attr(valuePath, input.value, { previousValue: currentValue, calc: true });
+                }
+            })
         });
 
         canvas.current.appendChild(paper.el);
@@ -149,6 +163,10 @@ export const TestJoint: React.FC = () => {
                         </div>
                     </foreignObject>
                 `;
+            }
+            getCycleTime () {
+                console.log('cycleTime/props/value')
+                return Number(this.attr('cycleTime/props/value'))
             }
         }
 
@@ -228,17 +246,27 @@ export const TestJoint: React.FC = () => {
                         >
                             <div class="timeResult-field-vertical">
                             <h2>Lead Time</h2>
-                                <text @selector ="label" text-anchor="middle" fill="black"></text> 
+                                <text @selector ="label" text-anchor="middle" fill="black"></text><text> Seconds</text> 
                                 <br></br>
                                 <h2>Value Added Time</h2>
-                                <text @selector ="VATime" text-anchor="middle" fill="black"></text> 
+                                <text @selector ="VATime" text-anchor="middle" fill="black"></text><text> Seconds </text> 
                                 <br></br>
                             <h2>Ratio</h2>
-                            <text @selector = "Ratio" text-anchor = "middle" fill="black"></text>
+                            <text @selector = "Ratio" text-anchor = "middle" fill="black"></text><text> %</text>
                             </div>
                         </div>
                     </foreignObject>
                 `;
+            }
+
+            setVATime (value:any){
+                this.attr('VATime/html', value.toString());
+            }
+            setRatio (value:any){
+                this.attr('Ratio/html', value.toFixed(6).toString());
+            }
+            getLead (){
+                return Number(this.attr('label/html'));
             }
 
         }
@@ -325,6 +353,8 @@ export const TestJoint: React.FC = () => {
                 link[i].source(procArray[i]);
                 link[i].target(procArray[i + 1]);
                 link[i].addTo(graph);
+                const teste = procArray[i].getCycleTime();
+                console.log("valor process", i, ": ", teste)
             }
 
         }
@@ -839,8 +869,9 @@ export const TestJoint: React.FC = () => {
         var vertices: any[] = [];
         var labels: any[] = [];
 
+        
         for (let i = 0 ; i < procArray.length ; i++ ){
-            console.log('Entra na vez :' , i)
+            let cycle = procArray[i].getCycleTime();
             vertices.push(
                 { x: start * (i+1) , y: 650 + procHeight },
                 { x: start * (i+1) , y: 700 + procHeight },
@@ -851,7 +882,7 @@ export const TestJoint: React.FC = () => {
                 position: { distance: ( 240 + (procWidth/2) + start*i + 2*i*50), offset: -10 },
                 attrs: {
                     text: {
-                        text: (processes[i].cycleTime + ' Seconds'), // Ou qualquer outra propriedade desejada
+                        text: (cycle + ' Seconds'), // Ou qualquer outra propriedade desejada
                         'font-size': 17,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif',
@@ -886,7 +917,8 @@ export const TestJoint: React.FC = () => {
         function timeLadder (){     
 
             for(let i = 0; i<inventories.length; i++ ) {totalLead += (inventories[i].processINumber / customerForm.demand) ; let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada' , i , ': ' , typeof cycleTimeNumber)}
-
+            let ratio = (VAT / (totalLead * 86400))
+            let leadSeconds = totalLead * 86400;
             timeLadderResult[0] = new timeResult({
                 position: { x: (start * procArray.length + procWidth + 50), y: 560 + procHeight   },
                 name: 'timeLadderResult',
@@ -894,13 +926,13 @@ export const TestJoint: React.FC = () => {
                 size: { width: 250, height: 180 },
                     attrs: {    
                         label: {
-                          html: totalLead.toString() + ' Days = ' + (totalLead * 86400) + ' Seconds'
+                          html: leadSeconds.toString()
                         },
                         VATime: {
-                          html: VAT + ' Seconds'
+                          html: VAT.toString()
                         },
                         Ratio:{
-                            html: (VAT / (totalLead * 86400)).toFixed(6).toString() + " %"
+                            html: ratio.toFixed(6).toString()
                         },
                         body: {
                             fill: '#EAECEA'
@@ -918,7 +950,7 @@ export const TestJoint: React.FC = () => {
             return timeLadderLink;
         }
 
-        var timeLadderLink = timeLadder();
+        let timeLadderLink = timeLadder();
         timeLadderLink.set('vertices', vertices);
         timeLadderLink.set('labels', labels);
 
@@ -943,6 +975,76 @@ export const TestJoint: React.FC = () => {
         }
 
         dailyDemand()
+
+        let newCycle: any [] = [];
+        
+        function cycleProcess (){
+            let value =0;
+            for(let i =0 ; i<procArray.length; i++){
+                newCycle[i] = procArray[i].getCycleTime();
+                value = value + procArray[i].getCycleTime();
+                console.log("valor cycle", i, ": ", value)
+            }
+            console.log('tamanho da labels', labels.length);
+            timeLadderResult[0].setVATime(value)
+            let lead = timeLadderResult[0].getLead();
+            let ratio = value / lead;
+            timeLadderResult[0].setRatio(ratio) 
+            
+        }
+
+        function changeLabels(){
+            let j =0;
+            let newLabel: any[] =[]
+            for(let i =0 ; i< procArray.length ; i++){
+                    newLabel.push({
+                        position: { distance: ( 240 + (procWidth/2) + start*i + 2*i*50), offset: -10 },
+                        attrs: {
+                            text: {
+                                text: (newCycle[j] + ' Seconds'), // Ou qualquer outra propriedade desejada
+                                'font-size': 17,
+                                fill: 'black',
+                                'font-family': 'Arial, sans-serif',
+                                'font-weight': 'bold' // Define a fonte como negrito
+                            },
+                            rect: {
+                                fill: '#ccccca', // Define a cor de fundo da label como cinza
+                                rx: 4, // Raio do canto arredondado (opcional)
+                                ry: 4 // Raio do canto arredondado (opcional)
+                            }
+                        }
+                    });
+                    newLabel.push({
+                        position: { distance: ( 65 + start*i + 2*i*50), offset: -10 },
+                        attrs: {
+                            text: {
+                                text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
+                                'font-size': 17,
+                                fill: 'black',
+                                'font-family': 'Arial, sans-serif',
+                                'font-weight': 'bold' // Define a fonte como negrito
+                            },
+                            rect: {
+                                fill: '#ccccca', // Define a cor de fundo da label como cinza
+                                rx: 4, // Raio do canto arredondado (opcional)
+                                ry: 4 // Raio do canto arredondado (opcional)
+                            }
+                        }
+                    });
+                    j++;
+                }
+                timeLadderLink.prop('labels', null);
+                timeLadderLink.prop('labels', newLabel);
+            }
+            
+            graph.on('change:attrs', (cell, attrs) => {
+                // Verifica se o atributo cycleTime foi alterado
+                if ('cycleTime' in attrs) {
+                    console.log("Muddou atributo")
+                    cycleProcess();
+                changeLabels();
+            }
+        });
 
         // Definição do link em formato de raio
         graph.set('graphCustomProperty', true);
