@@ -1154,6 +1154,7 @@ export const TestJoint: React.FC = () => {
 
 
     const exportDiagram = () => {
+
         const paper = paperRef.current;
         if (!paper) return;
       
@@ -1196,6 +1197,18 @@ export const TestJoint: React.FC = () => {
           }
         });
       
+        const procSize = document.querySelectorAll('.process-field-vertical')
+
+
+        const width = start * procSize.length + procWidth + 200 - start +1000
+
+        const x = start * ((procSize.length + 1) / 2) -(start*2.35);
+      
+        // Set the viewBox attribute based on the bounding box
+        clonedSvg.setAttribute('viewBox', `${x} 0 ${width} 1300`);
+    
+
+
         // Serialize the cloned SVG element to XML string
         const serializer = new XMLSerializer();
         let svgData = serializer.serializeToString(clonedSvg);
