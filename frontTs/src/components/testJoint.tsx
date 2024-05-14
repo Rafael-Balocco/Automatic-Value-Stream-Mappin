@@ -1186,11 +1186,12 @@ export const TestJoint: React.FC = () => {
         // Replace input values in the cloned SVG with updated values
         const inputs = document.querySelectorAll('.jj-input');
         inputs.forEach(input => {
-          const selector = input.getAttribute('joint-selector');
+          const selector = input.getAttribute('id');
           if (selector) {
-            const inputInSVG = clonedSvg.querySelector(`[joint-selector="${selector}"]`);
+            const inputInSVG = clonedSvg.querySelector(`[id="${selector}"]`);
             if (inputInSVG) {
                 inputInSVG.setAttribute('value', input.value);
+                console.log(inputInSVG)
             }
           }
         });
