@@ -24,6 +24,8 @@ const procHeight = 240;
 
 export const TestJoint: React.FC = () => {
 
+    let paperRef: any = useRef(null);
+
     const canvas: any = useRef(null);
 
     const { CusProds } = useAllCusProdContext();
@@ -90,6 +92,8 @@ export const TestJoint: React.FC = () => {
             })
         });
 
+        paperRef.current = paper;
+
         canvas.current.appendChild(paper.el);
         paper.render();
 
@@ -142,22 +146,22 @@ export const TestJoint: React.FC = () => {
                                 <h2><strong @selector="label"></strong></h2>
                                 <label>
                                 Cycle Time
-                                <input @selector="cycleTime" class="jj-input" type="number"/>
+                                <input @selector="cycleTime" class="jj-input" type="number" joint-input-name="cycleTime"/>
                                 </label>
 
                                 <label>
                                 Available Time
-                                <input @selector="availableTime" class="jj-input" type="number"/>
+                                <input @selector="availableTime" class="jj-input" type="number" joint-input-name="availableTime"/>
                                 </label>
 
                                 <label>
                                 Scrap Rate
-                                <input @selector="scrapRate" class="jj-input" type="number"/>
+                                <input @selector="scrapRate" class="jj-input" type="number" joint-input-name="scrapRate"/>
                                 </label>
 
                                 <label>
                                 Up Time
-                                <input @selector="upTime" class="jj-input" type="number"/>
+                                <input @selector="upTime" class="jj-input" type="number" joint-input-name="upTime"/>
                                 </label>
                             </div>
                         </div>
@@ -193,7 +197,7 @@ export const TestJoint: React.FC = () => {
                             <div class="supCus-field-vertical">
                                 <h2><strong @selector="label"></strong></h2>
                                 <label>
-                                    <input @selector="nameSupplier" class="jj-input" type="text"/>
+                                    <input @selector="nameSupplier" class="jj-input" type="text" joint-input-name="nameSupplier"/>
                                 </label>
                             </div>
                         </div>
@@ -226,14 +230,14 @@ export const TestJoint: React.FC = () => {
                             <div class="supCus-field-vertical">
                                 <h2><strong @selector="label"></strong></h2>
                                 <label>
-                                    <input @selector="dailyDemand" class="jj-input" type="text"/>
+                                    <input @selector="dailyDemand" class="jj-input" type="text" joint-input-name="dailyDemand"/>
                                 </label>
                             </div>
                         </div>
                     </foreignObject>
                 `;
             }
-            getDemand(){
+            getDemand() {
                 return Number(this.attr('dailyDemand/props/value'))
             }
             setDemand(value: any) {
@@ -265,7 +269,7 @@ export const TestJoint: React.FC = () => {
                 >
                         <div class="inventory-field-vertical">
                             <label>
-                            <input @selector="inventoryLabel" class="jj-input" type="number"/>
+                            <input @selector="inventoryLabel" class="jj-input" type="number" joint-input-name="inventoryLabel"/>
                             </label>
                         </div>
                     </div>
@@ -311,7 +315,7 @@ export const TestJoint: React.FC = () => {
                     </foreignObject>
                 `;
             }
-            getVATime(){
+            getVATime() {
                 return Number(this.attr('VATime/html'))
             }
             setVATime(value: any) {
@@ -323,7 +327,7 @@ export const TestJoint: React.FC = () => {
             getLead() {
                 return Number(this.attr('label/html'));
             }
-            setLead(value:any){
+            setLead(value: any) {
                 this.attr('label/html', value.toString());
             }
 
@@ -1095,17 +1099,17 @@ export const TestJoint: React.FC = () => {
             timeLadderLink.prop('labels', newLabel);
         }
 
-        function inventoryChange (newDemand:number){
-            let newInventory:any [] = [];
-            let value =0;
-            for(let i =0 ; i< invArray.length ;i ++){
+        function inventoryChange(newDemand: number) {
+            let newInventory: any[] = [];
+            let value = 0;
+            for (let i = 0; i < invArray.length; i++) {
                 newInventory[i] = (invArray[i].getInventory())
-                value = value + (newInventory[i]/newDemand)
+                value = value + (newInventory[i] / newDemand)
                 console.log("passada ", i, "tem valor", value)
             }
             timeLadderResult[0].setLead(value * 86400)
             let VATime = timeLadderResult[0].getVATime()
-            timeLadderResult[0].setRatio (VATime/value)
+            timeLadderResult[0].setRatio(VATime / value)
 
             return newInventory;
         }
@@ -1115,21 +1119,21 @@ export const TestJoint: React.FC = () => {
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess();
-                changeLabels(newInventory,newCycle, newDemand)
+                changeLabels(newInventory, newCycle, newDemand)
             }
-            if('inventoryLabel' in attrs){
+            if ('inventoryLabel' in attrs) {
                 console.log('Entra no inventoryChange')
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess();
-                changeLabels(newInventory,newCycle,newDemand)
+                changeLabels(newInventory, newCycle, newDemand)
             }
-            if('dailyDemand' in attrs){
+            if ('dailyDemand' in attrs) {
                 console.log('Entra em Demand')
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess();
-                changeLabels(newInventory,newCycle,newDemand)
+                changeLabels(newInventory, newCycle, newDemand)
             }
         });
 
@@ -1149,12 +1153,84 @@ export const TestJoint: React.FC = () => {
     }, []);
 
 
+    const exportDiagram = () => {
+        const paper = paperRef.current;
+        if (!paper) return;
+      
+        // Get the SVG element from the paper's DOM representation
+        const svgElement = paper.svg;
+      
+        // Clone the SVG element to preserve the original
+        const clonedSvg = svgElement.cloneNode(true);
+      
+        // Get the stylesheets from the document
+        const styleTags = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'))
+          .map(tag => tag.outerHTML)
+          .join('');
+      
+        // Create a new SVG element to hold the styles
+        const styleContainer = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+        styleContainer.textContent = styleTags;
+      
+        // Insert the styles into the cloned SVG's defs element
+        const defs = clonedSvg.querySelector('defs');
+        if (defs) {
+          defs.appendChild(styleContainer);
+        } else {
+          // If defs element is not found, create one and append to the cloned SVG
+          const newDefs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+          newDefs.appendChild(styleContainer);
+          clonedSvg.insertBefore(newDefs, clonedSvg.firstChild);
+        }
+      
+        // Replace input values in the cloned SVG with updated values
+        const inputs = document.querySelectorAll('.jj-input');
+        inputs.forEach(input => {
+          const selector = input.getAttribute('joint-selector');
+          if (selector) {
+            const inputInSVG = clonedSvg.querySelector(`[joint-selector="${selector}"]`);
+            if (inputInSVG) {
+                inputInSVG.setAttribute('value', input.value);
+            }
+          }
+        });
+      
+        // Serialize the cloned SVG element to XML string
+        const serializer = new XMLSerializer();
+        let svgData = serializer.serializeToString(clonedSvg);
+
+        // Include CSS styles in the SVG
+        svgData = svgData.replace('</defs>', `${styleTags}</defs>`);
+
+        // Create a blob from the SVG data
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+
+        // Create a URL for the blob
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary anchor element to initiate the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'diagram.svg'; // Set desired file name
+        document.body.appendChild(a);
+        a.click();
+
+        // Cleanup
+        document.body.removeChild(a);
+         URL.revokeObjectURL(url);
+      };
+      
+
+
+
+
     return (
         <div>
 
             <Header />
             <main>
                 <div className="canvas" ref={canvas} style={{ position: 'relative', zIndex: '1' }} />
+                <button onClick={exportDiagram}>Download Diagram</button>
             </main>
             <Footer />
         </div>
