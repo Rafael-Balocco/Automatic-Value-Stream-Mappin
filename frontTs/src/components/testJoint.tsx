@@ -1202,7 +1202,7 @@ export const TestJoint: React.FC = () => {
 
         const width = start * procSize.length + procWidth + 200 - start +1000
 
-        const x = start * ((procSize.length + 1) / 2) -(start*2.35);
+        const x = start * ((procSize.length + 1) / 2) - (procSize.length*300);
       
         // Set the viewBox attribute based on the bounding box
         clonedSvg.setAttribute('viewBox', `${x} 0 ${width} 1300`);
