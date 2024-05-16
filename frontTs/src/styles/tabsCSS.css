@@ -270,6 +270,7 @@ input[type="text"] {
     cursor: pointer;
     font-size: 16px;
     margin-right: 10px;
+    z-index: 1;
 }
 
 .submit-button:hover{
@@ -297,6 +298,7 @@ input[type="text"] {
   cursor: pointer;
   font-size: 16px;
   margin-right: 10px;
+  z-index: 1;
 }
 
 .previous-button:hover,
@@ -381,4 +383,40 @@ input[type="text"] {
   font-weight: bold;
 }
 
+.buttonDiv{
+  background-color: #ccccca;
+  margin-top: 90px;
+  text-align: right; /* Alinha o conteúdo dentro do contêiner à direita */
+}
 
+.button-download{
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2F5597;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+    z-index: 1;
+}
+
+.button-download:hover{
+  background-color: #1d325b; /* Darker shade of blue on hover */
+  transform: translateY(-3px); /* Add a slight upward lift on hover */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.canvas{
+  display: inline-block;
+  background-color: #ccccca;
+  background-size: auto;
+  margin-left: 0; 
+  z-index: 1;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { dia, shapes, util } from '@joint/core';
 import Header from './Header';
 import Footer from './Footer';
@@ -18,9 +18,9 @@ import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
 
-const start = 440;
 const procWidth = 180;
 const procHeight = 240;
+
 
 export const TestJoint: React.FC = () => {
 
@@ -38,9 +38,13 @@ export const TestJoint: React.FC = () => {
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
-
+    
     const numProcess = processes.length;
 
+    const start = 500;
+
+    const [scale, setScale] = useState<number>();
+    
 
     useEffect(() => {
 
@@ -60,9 +64,30 @@ export const TestJoint: React.FC = () => {
         let totalLead = 0;
         let VAT = 0;
 
+        
+        const adjustSize = () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+          
+            let lastElx = timeLadderResult[0].position() ;
+            let lastEly = demandArray[0].position();  
+            let scaleX = (window.innerWidth/(lastElx.x + 270 -start))*0.8 ;
+            let scaleY = (window.innerHeight /(lastEly.y + 200)) *0.8;
+            let scale = scaleX < scaleY? scaleX :scaleY 
+            console.log("Escala x e y: ", scaleX,scaleY)
+
+            
+            if (paperRef.current) {
+                setScale(scale)
+                paperRef.current.setDimensions(width, height);
+                paper.scale(scale,scale);
+            }
+
+        };
+
         const paper = new dia.Paper({
-            width: (start * ((numProcess)) + 500),
-            height: 1200,
+            width: window.innerWidth ,
+            height: window.innerHeight,
             model: graph,
             background: {
                 color: '#ccccca',
@@ -382,7 +407,7 @@ export const TestJoint: React.FC = () => {
 
             for (let i = 0; i < processes.length; i++) {
                 procArray[i] = new Process({
-                    position: { x: start * (i + 1), y: 600 },
+                    position: { x: start * (i + 1), y: 500 },
                     name: 'p'[i],
                     z: 3,
                     attrs: {
@@ -428,7 +453,7 @@ export const TestJoint: React.FC = () => {
 
             for (i = 0; i < suppliers.length; i++) {
                 supArray[i] = new SupCus({
-                    position: { x: start - 250, y: 150 * (i + 1) },
+                    position: { x: start - 250, y: 50 * (i + 1) },
                     name: 's'[i],
                     z: 3,
                     attrs: {
@@ -454,7 +479,7 @@ export const TestJoint: React.FC = () => {
             }
 
             customer[0] = new SupCus({
-                position: { x: start * ((numProcess)) + 250, y: 150 },
+                position: { x: start * ((numProcess)) + 250, y: 50 },
                 name: 'c',
                 z: 3,
                 attrs: {
@@ -517,7 +542,7 @@ export const TestJoint: React.FC = () => {
 
         function prodControl() {
             company[0] = new SupCus({
-                position: { x: start * ((numProcess + 1) / 2), y: 100 },
+                position: { x: start * ((numProcess + 1) / 2), y: 0 },
                 name: 'p',
                 z: 3,
                 attrs: {
@@ -542,7 +567,7 @@ export const TestJoint: React.FC = () => {
 
             for (i; i <= (inventories.length - 1); i++) {
                 invArray[i] = new Inventory({
-                    position: { x: start * (i + 1) - 175, y: 720 },
+                    position: { x: start * (i + 1) - 175, y: 620 },
                     name: 'i',
                     z: 3,
                     size: { width: 100, height: 100 },
@@ -935,13 +960,13 @@ export const TestJoint: React.FC = () => {
         for (let i = 0; i < procArray.length; i++) {
             let cycle = procArray[i].getCycleTime();
             vertices.push(
-                { x: start * (i + 1), y: 650 + procHeight },
-                { x: start * (i + 1), y: 700 + procHeight },
-                { x: start * (i + 1) + procWidth, y: 700 + procHeight },
-                { x: start * (i + 1) + procWidth, y: 650 + procHeight }
+                { x: start * (i + 1), y: 550 + procHeight },
+                { x: start * (i + 1), y: 600 + procHeight },
+                { x: start * (i + 1) + procWidth, y: 600 + procHeight },
+                { x: start * (i + 1) + procWidth, y: 550 + procHeight }
             );
             labels.push({
-                position: { distance: (240 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
+                position: { distance: (300 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
                         text: (cycle + ' Seconds'), // Ou qualquer outra propriedade desejada
@@ -951,14 +976,14 @@ export const TestJoint: React.FC = () => {
                         'font-weight': 'bold' // Define a fonte como negrito
                     },
                     rect: {
-                        fill: '#ccccca', // Define a cor de fundo da label como cinza
+                        fill: 'transparent', // Define a cor de fundo da label como cinza
                         rx: 4, // Raio do canto arredondado (opcional)
                         ry: 4 // Raio do canto arredondado (opcional)
                     }
                 }
             });
             labels.push({
-                position: { distance: (65 + start * i + 2 * i * 50), offset: -10 },
+                position: { distance: (120 + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
                         text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
@@ -968,7 +993,7 @@ export const TestJoint: React.FC = () => {
                         'font-weight': 'bold' // Define a fonte como negrito
                     },
                     rect: {
-                        fill: '#ccccca', // Define a cor de fundo da label como cinza
+                        fill: 'transparent', // Define a cor de fundo da label como cinza
                         rx: 4, // Raio do canto arredondado (opcional)
                         ry: 4 // Raio do canto arredondado (opcional)
                     }
@@ -982,7 +1007,7 @@ export const TestJoint: React.FC = () => {
             let ratio = (VAT / (totalLead * 86400))
             let leadSeconds = totalLead * 86400;
             timeLadderResult[0] = new timeResult({
-                position: { x: (start * procArray.length + procWidth + 50), y: 560 + procHeight },
+                position: { x: (start * procArray.length + procWidth + 50), y: 460 + procHeight },
                 name: 'timeLadderResult',
                 z: 3,
                 size: { width: 250, height: 180 },
@@ -1003,7 +1028,7 @@ export const TestJoint: React.FC = () => {
             });
             timeLadderResult[0].addTo(graph);
             let timeLadderLink = new shapes.standard.Link({
-                source: { x: 250, y: (650 + procHeight) },
+                source: { x: start - 250, y: (550 + procHeight) },
                 target: (timeLadderResult[0]),
                 vertices: vertices,
                 labels: labels
@@ -1018,7 +1043,7 @@ export const TestJoint: React.FC = () => {
 
         function dailyDemand() {
             demandArray[0] = new Demand({
-                position: { x: start * ((numProcess + 1) / 2), y: 800 + procHeight },
+                position: { x: start * ((numProcess + 1) / 2), y: 700 + procHeight },
                 name: 'p',
                 z: 3,
                 attrs: {
@@ -1070,7 +1095,7 @@ export const TestJoint: React.FC = () => {
                             'font-weight': 'bold' // Define a fonte como negrito
                         },
                         rect: {
-                            fill: '#ccccca', // Define a cor de fundo da label como cinza
+                            fill: 'transparent', // Define a cor de fundo da label como cinza
                             rx: 4, // Raio do canto arredondado (opcional)
                             ry: 4 // Raio do canto arredondado (opcional)
                         }
@@ -1087,7 +1112,7 @@ export const TestJoint: React.FC = () => {
                             'font-weight': 'bold' // Define a fonte como negrito
                         },
                         rect: {
-                            fill: '#ccccca', // Define a cor de fundo da label como cinza
+                            fill: 'transparent', // Define a cor de fundo da label como cinza
                             rx: 4, // Raio do canto arredondado (opcional)
                             ry: 4 // Raio do canto arredondado (opcional)
                         }
@@ -1142,6 +1167,12 @@ export const TestJoint: React.FC = () => {
         graph.set('graphExportTime', Date.now());
         var jsonObject = graph.toJSON();
         console.log(jsonObject)
+
+
+        adjustSize();
+
+            // Adiciona um event listener para ajustar o tamanho quando a janela for redimensionada
+         window.addEventListener('resize', adjustSize);
 
         paper.unfreeze();
 
@@ -1234,18 +1265,26 @@ export const TestJoint: React.FC = () => {
          URL.revokeObjectURL(url);
       };
       
-
-
-
-
-    return (
+      const changeScale = (signal: number) => {
+        const paper = paperRef.current;
+        if (paper) {
+          let newScale = scale + signal;
+          setScale(newScale);
+          paper.scale(newScale, newScale);
+        }
+      };
+      
+      return (
         <div>
-
-            <Header />
-            <main>
-                <div className="canvas" ref={canvas} style={{ position: 'relative', zIndex: '1' }} />
-                <button onClick={exportDiagram}>Download Diagram</button>
-            </main>
+          <Header />
+          <div>
+            <div className='buttonDiv'>
+                    <button onClick={() => changeScale(-0.05)}> - </button>
+                    <button onClick={() => changeScale(0.05)}> + </button>
+                    <button className='button-download' onClick={exportDiagram}>Download Diagram</button>
+                </div>
+                <div className="canvas" ref={canvas}/>
+            </div>
             <Footer />
         </div>
     );
