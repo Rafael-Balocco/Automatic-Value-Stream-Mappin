@@ -41,9 +41,12 @@ export const TestJoint: React.FC = () => {
     
     const numProcess = processes.length;
 
-    const start = 500;
+    const start = 600;
 
     const [scale, setScale] = useState<number>();
+    const [width, setWidth] = useState<number>(window.innerWidth);
+    const [height, setHeight] = useState<number>(window.innerHeight);
+
     
 
     useEffect(() => {
@@ -66,8 +69,8 @@ export const TestJoint: React.FC = () => {
 
         
         const adjustSize = () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
+            setWidth(window.innerWidth);
+            setHeight(window.innerHeight);
           
             let lastElx = timeLadderResult[0].position() ;
             let lastEly = demandArray[0].position();  
@@ -1186,6 +1189,8 @@ export const TestJoint: React.FC = () => {
 
     const exportDiagram = () => {
 
+        console.log(start)
+
         const paper = paperRef.current;
         if (!paper) return;
       
@@ -1233,10 +1238,10 @@ export const TestJoint: React.FC = () => {
 
         const width = start * procSize.length + procWidth + 200 - start +1000
 
-        const x = start * ((procSize.length + 1) / 2) - (procSize.length*300);
-      
+        console.log("scale: ", scale)
+        
         // Set the viewBox attribute based on the bounding box
-        clonedSvg.setAttribute('viewBox', `${x} 0 ${width} 1300`);
+        clonedSvg.setAttribute('viewBox', `100 100 ${width*scale} ${height*scale}`);
     
 
 
@@ -1279,8 +1284,9 @@ export const TestJoint: React.FC = () => {
           <Header />
           <div>
             <div className='buttonDiv'>
-                    <button onClick={() => changeScale(-0.05)}> - </button>
-                    <button onClick={() => changeScale(0.05)}> + </button>
+                    <p className='scale'>Scale: </p>
+                    <button className="reduceScale" onClick={() => changeScale(-0.05)}>  -  </button>
+                    <button className="increaseScale" onClick={() => changeScale(0.05)}> + </button>
                     <button className='button-download' onClick={exportDiagram}>Download Diagram</button>
                 </div>
                 <div className="canvas" ref={canvas}/>
