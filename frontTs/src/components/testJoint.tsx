@@ -46,6 +46,8 @@ export const TestJoint: React.FC = () => {
     const [scale, setScale] = useState<number>();
     const [width, setWidth] = useState<number>(window.innerWidth);
     const [height, setHeight] = useState<number>(window.innerHeight);
+    const [initialState, setInitialState] = useState(null);
+    const graphRef = useRef(null);
 
     
 
@@ -57,7 +59,6 @@ export const TestJoint: React.FC = () => {
         const supArray: any[] = [];
         const invArray: any[] = [];
         const company: any[] = [];
-        const graph = new dia.Graph();
         let SupProdLink: any[] = [];
         let ProcProdLink: any[] = [];
         let CusProdLink: any[] = [];
@@ -68,63 +69,6 @@ export const TestJoint: React.FC = () => {
         let VAT = 0;
 
         
-        const adjustSize = () => {
-            setWidth(window.innerWidth);
-            setHeight(window.innerHeight);
-          
-            let lastElx = timeLadderResult[0].position() ;
-            let lastEly = demandArray[0].position();  
-            let scaleX = (window.innerWidth/(lastElx.x + 270 -start))*0.8 ;
-            let scaleY = (window.innerHeight /(lastEly.y + 200)) *0.8;
-            let scale = scaleX < scaleY? scaleX :scaleY 
-            console.log("Escala x e y: ", scaleX,scaleY)
-
-            
-            if (paperRef.current) {
-                setScale(scale)
-                paperRef.current.setDimensions(width, height);
-                paper.scale(scale,scale);
-            }
-
-        };
-
-        const paper = new dia.Paper({
-            width: window.innerWidth ,
-            height: window.innerHeight,
-            model: graph,
-            background: {
-                color: '#ccccca',
-            },
-            frozen: true,
-            async: true,
-            sorting: dia.Paper.sorting.APPROX,
-            gridSize: 1,
-            cellViewNamespace: shapes,
-            interactive: {
-                linkMove: false,
-                labelMove: true
-            },
-            elementView: dia.ElementView.extend({
-
-                events: {
-                    'change input,select': 'onInputChange'
-                },
-
-                onInputChange: function (evt: any) {
-                    const input = evt.target;
-                    if (!input.validity.valid) return;
-                    const valuePath = input.getAttribute('joint-selector') + '/props/value';
-                    const currentValue = this.model.attr(valuePath);
-                    this.model.attr(valuePath, input.value, { previousValue: currentValue, calc: true });
-                }
-            })
-        });
-
-        paperRef.current = paper;
-
-        canvas.current.appendChild(paper.el);
-        paper.render();
-
         class ForeignObjectElement extends dia.Element {
 
             defaults() {
@@ -198,6 +142,9 @@ export const TestJoint: React.FC = () => {
             }
             getCycleTime() {
                 return Number(this.attr('cycleTime/props/value'))
+            }
+            setCycleTime(value: any) {
+                this.attr('cycleTime/props/value', value.toString());
             }
         }
 
@@ -360,6 +307,88 @@ export const TestJoint: React.FC = () => {
             }
 
         }
+        const adjustSize = () => {
+            setWidth(window.innerWidth);
+            setHeight(window.innerHeight);
+          
+            let lastElx = timeLadderResult[0].position() ;
+            let lastEly = demandArray[0].position();  
+            let scaleX = (window.innerWidth/(lastElx.x + 270 -start))*0.8 ;
+            let scaleY = (window.innerHeight /(lastEly.y + 200)) *0.8;
+            let scale = scaleX < scaleY? scaleX :scaleY 
+            console.log("Escala x e y: ", scaleX,scaleY)
+
+            
+            if (paperRef.current) {
+                setScale(scale)
+                paperRef.current.setDimensions(width, height);
+                paper.scale(scale,scale);
+            }
+
+        };
+
+        const cellNamespace = {
+            Process: Process,
+            timeResult:timeResult,
+            Inventory:Inventory,
+            inventory:Inventory,
+            Demand:Demand,
+            SupCus:SupCus
+        };
+
+        const combinedNamespace = {
+            ...shapes,
+            ...cellNamespace,
+            standard: {
+                ...shapes.standard,
+                Link: shapes.standard.Link
+            }
+        };
+
+        // Criar o graph
+        const graph = new dia.Graph({}, { cellNamespace: combinedNamespace });
+        graphRef.current = graph;
+
+
+
+        const paper = new dia.Paper({
+            width: window.innerWidth ,
+            height: window.innerHeight,
+            model: graph,
+            background: {
+                color: '#ccccca',
+            },
+            frozen: true,
+            async: true,
+            sorting: dia.Paper.sorting.APPROX,
+            gridSize: 1,
+            cellViewNamespace: combinedNamespace,
+            interactive: {
+                linkMove: false,
+                labelMove: true
+            },
+            elementView: dia.ElementView.extend({
+
+                events: {
+                    'change input,select': 'onInputChange'
+                },
+
+                onInputChange: function (evt: any) {
+                    const input = evt.target;
+                    if (!input.validity.valid) return;
+                    const valuePath = input.getAttribute('joint-selector') + '/props/value';
+                    const currentValue = this.model.attr(valuePath);
+                    this.model.attr(valuePath, input.value, { previousValue: currentValue, calc: true });
+                }
+            })
+        });
+
+        paperRef.current = paper;
+        graphRef.current = graph;
+
+        canvas.current.appendChild(paper.el);
+        paper.render();
+
 
 
         function figMat(which: number, mode: string) {
@@ -419,7 +448,7 @@ export const TestJoint: React.FC = () => {
                         },
                         label: {
                             html: processes[i].processName
-                        },
+                        },  
                         cycleTime: {
                             props: { value: processes[i].cycleTime }
                         },
@@ -1087,8 +1116,9 @@ export const TestJoint: React.FC = () => {
             let newLabel: any[] = []
 
             for (let i = 0; i < procArray.length; i++) {
+                console.log("Novo Ciclo: ", newCycle[j])
                 newLabel.push({
-                    position: { distance: (240 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
+                    position: { distance: (300 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
                     attrs: {
                         text: {
                             text: (newCycle[j] + ' Seconds'), // Ou qualquer outra propriedade desejada
@@ -1105,7 +1135,7 @@ export const TestJoint: React.FC = () => {
                     }
                 });
                 newLabel.push({
-                    position: { distance: (65 + start * i + 2 * i * 50), offset: -10 },
+                    position: { distance: (120 + start * i + 2 * i * 50), offset: -10 },
                     attrs: {
                         text: {
                             text: (newInventory[i] / newDemand + ' Day(s)'), // Ou qualquer outra propriedade desejada
@@ -1125,6 +1155,8 @@ export const TestJoint: React.FC = () => {
             }
             timeLadderLink.prop('labels', null);
             timeLadderLink.prop('labels', newLabel);
+            timeLadderLink.addTo(graph)
+            console.log("timeLadder",timeLadderLink)
         }
 
         function inventoryChange(newDemand: number) {
@@ -1144,6 +1176,11 @@ export const TestJoint: React.FC = () => {
 
         graph.on('change:attrs', (cell, attrs) => {
             if ('cycleTime' in attrs) {
+                let onde;
+                for (let i = 0; i < procArray.length; i++) if (cell.id === procArray[i].id) {console.log(procArray[i]); onde = i}
+                console.log("Novo valor: " , attrs['cycleTime'].props.value)
+                console.log("Na célula: ", onde)
+                procArray[onde].setCycleTime(attrs['cycleTime'].props.value);
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess();
@@ -1176,6 +1213,8 @@ export const TestJoint: React.FC = () => {
 
             // Adiciona um event listener para ajustar o tamanho quando a janela for redimensionada
          window.addEventListener('resize', adjustSize);
+
+         setInitialState(graph.toJSON());
 
         paper.unfreeze();
 
@@ -1239,9 +1278,16 @@ export const TestJoint: React.FC = () => {
         const width = start * procSize.length + procWidth + 200 - start +1000
 
         console.log("scale: ", scale)
+
+        let minX = 100 * (scale)
+
+        console.log("Entra: ", width*scale)
+        console.log("Entra: ", height*scale)
+
+        let widthSVG = (width*scale) > 1600 ? (width*scale) : 1600
         
         // Set the viewBox attribute based on the bounding box
-        clonedSvg.setAttribute('viewBox', `100 100 ${width*scale} ${height*scale}`);
+        clonedSvg.setAttribute('viewBox', `${minX} 100 ${widthSVG} ${height*scale}`);
     
 
 
@@ -1278,6 +1324,14 @@ export const TestJoint: React.FC = () => {
           paper.scale(newScale, newScale);
         }
       };
+
+      const handleRefresh = () => {
+        if (graphRef.current && initialState) {
+            console.log("Entra IF")
+            graphRef.current.fromJSON(initialState);
+            console.log(graphRef.current)
+        }
+      };
       
       return (
         <div>
@@ -1287,6 +1341,7 @@ export const TestJoint: React.FC = () => {
                     <p className='scale'>Scale: </p>
                     <button className="reduceScale" onClick={() => changeScale(-0.05)}>  -  </button>
                     <button className="increaseScale" onClick={() => changeScale(0.05)}> + </button>
+                    <button id="refreshButton" onClick={handleRefresh}>Refresh Diagram</button>
                     <button className='button-download' onClick={exportDiagram}>Download Diagram</button>
                 </div>
                 <div className="canvas" ref={canvas}/>
