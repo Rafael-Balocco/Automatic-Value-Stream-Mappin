@@ -21,6 +21,12 @@ import { useAllSupMatContext } from '../contexts/supMatContext';
 const procWidth = 180;
 const procHeight = 240;
 
+type TimeResultValues = {
+    VATime: number;
+    ratio: number;
+    lead: number;
+  };
+
 
 export const TestJoint: React.FC = () => {
 
@@ -48,6 +54,10 @@ export const TestJoint: React.FC = () => {
     const [height, setHeight] = useState<number>(window.innerHeight);
     const [initialState, setInitialState] = useState(null);
     const graphRef = useRef(null);
+    const [cycleInitial, setCycleInitial] = useState<number[]>([]);
+    const [demandInitial, setdemandInitial] = useState<number>();
+    const [inventoryInitial, setinventoryInitial] = useState<number[]>([]);
+    const [timeResultInitial, settimeResultInitial] = useState<TimeResultValues[]>([]);
 
     
 
@@ -254,6 +264,9 @@ export const TestJoint: React.FC = () => {
             getInventory() {
                 return Number(this.attr('inventoryLabel/props/value'))
             }
+            setInventory(value:any){
+                this.attr('inventoryLabel/props/value', value.toString());
+            }
         }
 
         class timeResult extends ForeignObjectElement {
@@ -298,6 +311,9 @@ export const TestJoint: React.FC = () => {
             }
             setRatio(value: any) {
                 this.attr('Ratio/html', value.toFixed(6).toString());
+            }
+            getRatio() {
+                return Number(this.attr('Ratio/html'));
             }
             getLead() {
                 return Number(this.attr('label/html'));
@@ -1060,6 +1076,7 @@ export const TestJoint: React.FC = () => {
             });
             timeLadderResult[0].addTo(graph);
             let timeLadderLink = new shapes.standard.Link({
+                name: 'timeLadderLink',
                 source: { x: start - 250, y: (550 + procHeight) },
                 target: (timeLadderResult[0]),
                 vertices: vertices,
@@ -1097,19 +1114,55 @@ export const TestJoint: React.FC = () => {
 
         let newCycle: any[] = [];
 
-        function cycleProcess() {
+        function cycleProcess(graph) {
             let value = 0;
             for (let i = 0; i < procArray.length; i++) {
                 newCycle[i] = procArray[i].getCycleTime();
                 value = value + procArray[i].getCycleTime();
                 console.log("valor cycle", i, ": ", value)
             }
-            timeLadderResult[0].setVATime(value)
+            console.log("Valor que deveria entrar no VAT: ", value)
             let lead = timeLadderResult[0].getLead();
             let ratio = value / lead;
-            timeLadderResult[0].setRatio(ratio)
+            graph.getCells().forEach((cell) => {
+                if (cell.get('type') === 'timeResult') { // Supondo que você está buscando células do tipo 'timeResult'
+                  const attrs = cell.get('attrs');
+                  if (attrs['VATime']) {
+                    // Atualiza o atributo 'VATime'
+                    cell.attr('VATime/html', value);
+                  }
+                  if(attrs['Ratio']){
+                    cell.attr('Ratio/html', ratio.toFixed(6).toString())
+                  }
+                }
+              });
             return newCycle;
         }
+
+        function gettingValues(){
+            
+            const newCycleInitial = procArray.map(item => item.getCycleTime());
+            setCycleInitial(newCycleInitial);
+            
+            const newInvInitial = invArray.map(item => item.getInventory());
+            setinventoryInitial(newInvInitial);
+
+            const newValues:TimeResultValues  = {
+                VATime: timeLadderResult[0].getVATime(),
+                ratio: timeLadderResult[0].getRatio(),
+                lead: timeLadderResult[0].getLead()
+            };
+
+            settimeResultInitial([newValues])
+
+            setdemandInitial(demandArray[0].getDemand())
+
+            console.log("valor demanda guardado: ", demandInitial);
+
+        }
+
+        gettingValues()
+
 
         function changeLabels(newInventory, newCycle, newDemand) {
             let j = 0;
@@ -1153,6 +1206,15 @@ export const TestJoint: React.FC = () => {
                 });
                 j++;
             }
+            graph.getCells().forEach(cell => {
+                if (cell.get('name') === 'timeLadderLink') {
+                  const labels = cell.get('labels');
+                    if (labels) {
+                        cell.set('labels', newLabel);
+                  }
+                }
+            });
+
             timeLadderLink.prop('labels', null);
             timeLadderLink.prop('labels', newLabel);
             timeLadderLink.addTo(graph)
@@ -1169,35 +1231,51 @@ export const TestJoint: React.FC = () => {
             }
             timeLadderResult[0].setLead(value * 86400)
             let VATime = timeLadderResult[0].getVATime()
-            timeLadderResult[0].setRatio(VATime / value)
+            let ratio = VATime / value
+            timeLadderResult[0].setRatio(ratio)
+
+            graph.getCells().forEach((cell) => {
+                if (cell.get('type') === 'timeResult') { // Supondo que você está buscando células do tipo 'timeResult'
+                  const attrs = cell.get('attrs');
+                  if (attrs['label']) {
+                    // Atualiza o atributo 'VATime'
+                    cell.attr('label/html', (value*86400).toFixed(6).toString());
+                  }
+                  if(attrs['Ratio']){
+                    cell.attr('Ratio/html', ratio.toFixed(6).toString());
+                  }
+                }
+              });
 
             return newInventory;
         }
 
         graph.on('change:attrs', (cell, attrs) => {
             if ('cycleTime' in attrs) {
-                let onde;
-                for (let i = 0; i < procArray.length; i++) if (cell.id === procArray[i].id) {console.log(procArray[i]); onde = i}
-                console.log("Novo valor: " , attrs['cycleTime'].props.value)
-                console.log("Na célula: ", onde)
-                procArray[onde].setCycleTime(attrs['cycleTime'].props.value);
+                let where;
+                for (let i = 0; i < procArray.length; i++) if (cell.id === procArray[i].id) {console.log(procArray[i]); where = i}
+                procArray[where].setCycleTime(attrs['cycleTime'].props.value);
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
-                let newCycle = cycleProcess();
+                let newCycle = cycleProcess(graphRef.current);
                 changeLabels(newInventory, newCycle, newDemand)
+                console.log("Após alteração, grapho: ", graphRef.current)
             }
             if ('inventoryLabel' in attrs) {
-                console.log('Entra no inventoryChange')
+                let where;
+                for (let i = 0; i < invArray.length; i++) if (cell.id === invArray[i].id) {console.log(invArray[i]); where = i}
+                invArray[where].setInventory(attrs['inventoryLabel'].props.value);
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
-                let newCycle = cycleProcess();
+                let newCycle = cycleProcess(graphRef.current);
                 changeLabels(newInventory, newCycle, newDemand)
             }
             if ('dailyDemand' in attrs) {
-                console.log('Entra em Demand')
+                demandArray[0].setDemand(attrs['dailyDemand'].props.value);
+                console.log("Novo atributo: ",demandArray[0].getDemand())
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
-                let newCycle = cycleProcess();
+                let newCycle = cycleProcess(graphRef.current);
                 changeLabels(newInventory, newCycle, newDemand)
             }
         });
@@ -1212,13 +1290,15 @@ export const TestJoint: React.FC = () => {
         adjustSize();
 
             // Adiciona um event listener para ajustar o tamanho quando a janela for redimensionada
-         window.addEventListener('resize', adjustSize);
+        window.addEventListener('resize', adjustSize);
 
-         setInitialState(graph.toJSON());
+        setInitialState(graph.toJSON());
+        console.log("initial",initialState)
 
         paper.unfreeze();
 
         return () => {
+            graphRef.current.off('change:attrs')
             paper.remove();
         };
 
@@ -1327,13 +1407,12 @@ export const TestJoint: React.FC = () => {
 
       const handleRefresh = () => {
         if (graphRef.current && initialState) {
-            console.log("Entra IF")
             graphRef.current.fromJSON(initialState);
             console.log(graphRef.current)
         }
       };
       
-      return (
+    return (
         <div>
           <Header />
           <div>
