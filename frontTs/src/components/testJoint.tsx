@@ -44,7 +44,9 @@ export const TestJoint: React.FC = () => {
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
-    
+    const [refreshKey, setRefreshKey] = useState(0); // Estado para forçar o re-render
+
+
     const numProcess = processes.length;
 
     const start = 600;
@@ -59,11 +61,11 @@ export const TestJoint: React.FC = () => {
     const [inventoryInitial, setinventoryInitial] = useState<number[]>([]);
     const [timeResultInitial, settimeResultInitial] = useState<TimeResultValues[]>([]);
 
+    let procArray: any[] = [];
     
 
     useEffect(() => {
 
-        const procArray: any[] = [];
         const link: any[] = [];
         const linkSup: any[] = [];
         const supArray: any[] = [];
@@ -1139,29 +1141,6 @@ export const TestJoint: React.FC = () => {
             return newCycle;
         }
 
-        function gettingValues(){
-            
-            const newCycleInitial = procArray.map(item => item.getCycleTime());
-            setCycleInitial(newCycleInitial);
-            
-            const newInvInitial = invArray.map(item => item.getInventory());
-            setinventoryInitial(newInvInitial);
-
-            const newValues:TimeResultValues  = {
-                VATime: timeLadderResult[0].getVATime(),
-                ratio: timeLadderResult[0].getRatio(),
-                lead: timeLadderResult[0].getLead()
-            };
-
-            settimeResultInitial([newValues])
-
-            setdemandInitial(demandArray[0].getDemand())
-
-            console.log("valor demanda guardado: ", demandInitial);
-
-        }
-
-        gettingValues()
 
 
         function changeLabels(newInventory, newCycle, newDemand) {
@@ -1303,7 +1282,7 @@ export const TestJoint: React.FC = () => {
         };
 
 
-    }, []);
+    }, [refreshKey]);
 
 
     const exportDiagram = () => {
@@ -1407,8 +1386,7 @@ export const TestJoint: React.FC = () => {
 
       const handleRefresh = () => {
         if (graphRef.current && initialState) {
-            graphRef.current.fromJSON(initialState);
-            console.log(graphRef.current)
+            setRefreshKey(prevKey=>prevKey+1)
         }
       };
       
@@ -1420,8 +1398,8 @@ export const TestJoint: React.FC = () => {
                     <p className='scale'>Scale: </p>
                     <button className="reduceScale" onClick={() => changeScale(-0.05)}>  -  </button>
                     <button className="increaseScale" onClick={() => changeScale(0.05)}> + </button>
-                    <button id="refreshButton" onClick={handleRefresh}>Refresh Diagram</button>
-                    <button className='button-download' onClick={exportDiagram}>Download Diagram</button>
+                    <button id="refreshButton" className='refresh-button' onClick={handleRefresh}>Refresh</button>
+                    <button className='button-download' onClick={exportDiagram}>Download</button>
                 </div>
                 <div className="canvas" ref={canvas}/>
             </div>

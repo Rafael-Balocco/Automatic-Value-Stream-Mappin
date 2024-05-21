@@ -406,6 +406,25 @@ input[type="text"] {
     font-family: Arial, Helvetica, sans-serif;
     z-index: 1;
   }
+
+  .refresh-button{
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff2a00;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-family: Arial, Helvetica, sans-serif;
+    z-index: 1;
+  }
+
   .increaseScale{
     margin-top: 10px;
     margin-right: 10px;
@@ -448,7 +467,8 @@ input[type="text"] {
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
   }
 
-  .reduceScale:hover{
+  .reduceScale:hover,
+  .refresh-button:hover{
     background-color: #ff0000; /* Darker shade of blue on hover */
     transform: translateY(-3px); /* Add a slight upward lift on hover */
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
