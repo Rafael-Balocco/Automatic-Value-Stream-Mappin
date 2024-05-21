@@ -25,7 +25,6 @@ export const ShowDataComponent: React.FC = () => {
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
     const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
-    const {SelBox} = useAllSelBoxContext();
     
     const navigate = useNavigate();
 
