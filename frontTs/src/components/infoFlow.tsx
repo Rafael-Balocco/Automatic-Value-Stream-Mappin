@@ -38,7 +38,7 @@ export type FormValues = {
     }[]
 }
 
-const CustomerProductionForm: React.FC<{ index: number, register: any, errors: any, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, lastVisited, setLastVisited }) => {
+const CustomerProductionForm: React.FC<{ index: number, register: any, errors: any, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, setLastVisited }) => {
 
     useEffect(() => {
         setLastVisited((prevState: any) => {
@@ -89,7 +89,7 @@ const CustomerProductionForm: React.FC<{ index: number, register: any, errors: a
     );
 };
 
-const SupplierProductionForm: React.FC<{ index: number, register: any, errors: any, numberOfSuppliers: number, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, numberOfSuppliers, lastVisited, setLastVisited }) => {
+const SupplierProductionForm: React.FC<{ index: number, register: any, errors: any, numberOfSuppliers: number, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, numberOfSuppliers, setLastVisited }) => {
 
     useEffect(() => {
         setLastVisited((prevState: any) => {
@@ -162,7 +162,7 @@ const SupplierProductionForm: React.FC<{ index: number, register: any, errors: a
     );
 };
 
-export const ProcessProductionForm: React.FC<{ index: number, register: any, errors: any, numberOfProcess: number, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, numberOfProcess, lastVisited, setLastVisited }) => {
+export const ProcessProductionForm: React.FC<{ index: number, register: any, errors: any, numberOfProcess: number, lastVisited: number[], setLastVisited: any }> = ({ index, register, errors, numberOfProcess, setLastVisited }) => {
 
     useEffect(() => {
         setLastVisited((prevState: any) => {
