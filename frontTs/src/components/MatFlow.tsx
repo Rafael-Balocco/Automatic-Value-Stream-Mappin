@@ -1,4 +1,4 @@
-import { useForm, useFieldArray } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import React, { useEffect } from 'react';
 import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';

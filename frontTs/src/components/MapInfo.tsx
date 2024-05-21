@@ -1,9 +1,7 @@
-import React from 'react';
 import {useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import axios from "axios";
 import { useMapInfoContext } from '../contexts/allMapInfoContext';
 
 type FormValues = {
