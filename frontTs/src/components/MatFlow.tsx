@@ -61,7 +61,7 @@ export const MatFlow: React.FC = () => {
                     quantityShiftSupplier: data.supplier[i].quantityShiftSupplier
                 }
                 updateSupMat(i, updatedSupMats)
-                console.log('Supplier: ', updatedSupMats, 'adicionado na posição', i);
+                console.log('Supplier: ', updatedSupMats, 'added in the position: ', i);
             }
             navigate('/infoFlow')
             // Redireciona para a próxima página do formulário

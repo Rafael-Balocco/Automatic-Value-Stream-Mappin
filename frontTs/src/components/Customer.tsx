@@ -1,7 +1,7 @@
 import {useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom';
 import { useCustomerContext } from '../contexts/customerContext';
 
 type FormValues = {
@@ -11,7 +11,7 @@ type FormValues = {
 
 export const Customer = () => {
 
-  const navigate = useNavigate(); // Instancia o hook useNavigate
+  const navigate = useNavigate(); 
   const {customerForm, updatecustomerForm} = useCustomerContext();
   const { register, formState, handleSubmit} = useForm({ defaultValues: customerForm });
   const {errors} = formState;
@@ -20,7 +20,7 @@ export const Customer = () => {
     try{
       console.log('Form Submitted:', data);
       updatecustomerForm(data)
-      navigate('/process'); // Redireciona para a página Sup1.html
+      navigate('/process');
     }
     catch(error){
       console.log("Error submitting form", error)

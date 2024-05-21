@@ -37,7 +37,6 @@ export const Supplier: React.FC = () => {
                 supplierName: '',
                 whatSupplies: ''
             };
-            console.log(updatedSupplier)
             updateSupplier(0, updatedSupplier);
         }
     }, []);
@@ -58,7 +57,7 @@ export const Supplier: React.FC = () => {
                     whatSupplies: data.supNumbers[i].whatSupplies
                 };
                 updateSupplier(i, updatedSupplier);
-                console.log("Supplier:", updatedSupplier, "atualizado na posição:", i)
+                console.log("Supplier:", updatedSupplier, "updated in the position :", i)
             }
             navigate('/customer')
             
@@ -70,7 +69,6 @@ export const Supplier: React.FC = () => {
 
     
     const handleAppendAndIncrement = () => {
-        console.log(suppliers)
         append({ supplierName: "", whatSupplies: "" });
         
         // Incrementa o índice

@@ -46,7 +46,6 @@ export const Process: React.FC = () => {
                 upTime: null,
                 scrapRate: null
             }
-            console.log(updatedProcess);
             updateProcess(0,updatedProcess);
         }
     }, []);
@@ -60,7 +59,6 @@ export const Process: React.FC = () => {
         try{
             parentToChild();
             const newNumberOfProcess = numberOfProcess;
-            console.log("Número de processos salvos:", numberOfProcess)
             updateNumberOfProcess(newNumberOfProcess);
             for(let i = 0; i < numberOfProcess; i++){
                 const updatedProcess = {
@@ -71,7 +69,6 @@ export const Process: React.FC = () => {
                     scrapRate: data.proNumbers[i].scrapRate
                 };
                 updateProcess(i, updatedProcess);
-                console.log("Process:", updatedProcess, "atualizado na posição: ", i)
             }
             navigate('/inventory')
 
@@ -89,7 +86,6 @@ export const Process: React.FC = () => {
         
         // Incrementa o índice
         updateNumberOfProcess(numberOfProcess + 1);
-        console.log("Chamou o Append, npumero de processos é: ", numberOfProcess);
     };
 
     const handleRemoveAndDecrement = (index: number) => {

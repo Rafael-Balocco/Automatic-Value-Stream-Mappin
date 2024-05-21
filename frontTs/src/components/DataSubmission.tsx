@@ -41,10 +41,10 @@ const DataSubmissionComponent: React.FC = () => {
                 CusformData,
             };
 
-            // Faça a requisição POST para enviar os dados para o servidor
+            // Make the POST req to send the data to the server
             const resposta = await axios.post('http://localhost:3000/api/enviar-dados', dados);
 
-            console.log(resposta.data); // Exibir resposta do servidor
+            console.log(resposta.data);
             navigate('/result')
         } catch (error) {
             console.error('Erro ao enviar dados para o backend:', error);

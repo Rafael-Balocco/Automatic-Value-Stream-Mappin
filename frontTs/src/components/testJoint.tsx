@@ -37,14 +37,14 @@ export const TestJoint: React.FC = () => {
     const { CusProds } = useAllCusProdContext();
     const { SupProds } = useAllSupProdContext();
     const { ProcProds } = useAllProcProdContext();
-    const { formData } = useMapInfoContext(); // Use o contexto do componente MapInfo
+    const { formData } = useMapInfoContext(); 
     const { suppliers } = useAllSupplierContext();
     const { customerForm } = useCustomerContext();
     const { processes } = useAllProcessContext();
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
-    const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
-    const [refreshKey, setRefreshKey] = useState(0); // Estado para forçar o re-render
+    const { CusformData } = useCustomerMaterialFlowContext();
+    const [refreshKey, setRefreshKey] = useState(0); 
 
 
     const numProcess = processes.length;
@@ -334,7 +334,6 @@ export const TestJoint: React.FC = () => {
             let scaleX = (window.innerWidth/(lastElx.x + 270 -start))*0.8 ;
             let scaleY = (window.innerHeight /(lastEly.y + 200)) *0.8;
             let scale = scaleX < scaleY? scaleX :scaleY 
-            console.log("Escala x e y: ", scaleX,scaleY)
 
             
             if (paperRef.current) {
@@ -490,8 +489,6 @@ export const TestJoint: React.FC = () => {
                 link[i].source(procArray[i]);
                 link[i].target(procArray[i + 1]);
                 link[i].addTo(graph);
-                const teste = procArray[i].getCycleTime();
-                console.log("valor process", i, ": ", teste)
             }
 
         }
@@ -1019,16 +1016,16 @@ export const TestJoint: React.FC = () => {
                 position: { distance: (300 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
-                        text: (cycle + ' Seconds'), // Ou qualquer outra propriedade desejada
+                        text: (cycle + ' Seconds'), 
                         'font-size': 17,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif',
-                        'font-weight': 'bold' // Define a fonte como negrito
+                        'font-weight': 'bold' 
                     },
                     rect: {
-                        fill: 'transparent', // Define a cor de fundo da label como cinza
-                        rx: 4, // Raio do canto arredondado (opcional)
-                        ry: 4 // Raio do canto arredondado (opcional)
+                        fill: 'transparent', 
+                        rx: 4, 
+                        ry: 4 
                     }
                 }
             });
@@ -1036,16 +1033,16 @@ export const TestJoint: React.FC = () => {
                 position: { distance: (120 + start * i + 2 * i * 50), offset: -10 },
                 attrs: {
                     text: {
-                        text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), // Ou qualquer outra propriedade desejada
+                        text: (inventories[i].processINumber / customerForm.demand + ' Day(s)'), 
                         'font-size': 17,
                         fill: 'black',
                         'font-family': 'Arial, sans-serif',
-                        'font-weight': 'bold' // Define a fonte como negrito
+                        'font-weight': 'bold' 
                     },
                     rect: {
-                        fill: 'transparent', // Define a cor de fundo da label como cinza
-                        rx: 4, // Raio do canto arredondado (opcional)
-                        ry: 4 // Raio do canto arredondado (opcional)
+                        fill: 'transparent', 
+                        rx: 4, 
+                        ry: 4 
                     }
                 }
             });
@@ -1053,7 +1050,7 @@ export const TestJoint: React.FC = () => {
 
         function timeLadder() {
 
-            for (let i = 0; i < inventories.length; i++) { totalLead += (inventories[i].processINumber / customerForm.demand); let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; console.log('Passada', i, ': ', typeof cycleTimeNumber) }
+            for (let i = 0; i < inventories.length; i++) { totalLead += (inventories[i].processINumber / customerForm.demand); let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; }
             let ratio = (VAT / (totalLead * 86400))
             let leadSeconds = totalLead * 86400;
             timeLadderResult[0] = new timeResult({
@@ -1121,16 +1118,13 @@ export const TestJoint: React.FC = () => {
             for (let i = 0; i < procArray.length; i++) {
                 newCycle[i] = procArray[i].getCycleTime();
                 value = value + procArray[i].getCycleTime();
-                console.log("valor cycle", i, ": ", value)
             }
-            console.log("Valor que deveria entrar no VAT: ", value)
             let lead = timeLadderResult[0].getLead();
             let ratio = value / lead;
             graph.getCells().forEach((cell) => {
-                if (cell.get('type') === 'timeResult') { // Supondo que você está buscando células do tipo 'timeResult'
+                if (cell.get('type') === 'timeResult') { 
                   const attrs = cell.get('attrs');
                   if (attrs['VATime']) {
-                    // Atualiza o atributo 'VATime'
                     cell.attr('VATime/html', value);
                   }
                   if(attrs['Ratio']){
@@ -1148,21 +1142,21 @@ export const TestJoint: React.FC = () => {
             let newLabel: any[] = []
 
             for (let i = 0; i < procArray.length; i++) {
-                console.log("Novo Ciclo: ", newCycle[j])
+
                 newLabel.push({
                     position: { distance: (300 + (procWidth / 2) + start * i + 2 * i * 50), offset: -10 },
                     attrs: {
                         text: {
-                            text: (newCycle[j] + ' Seconds'), // Ou qualquer outra propriedade desejada
+                            text: (newCycle[j] + ' Seconds'),
                             'font-size': 17,
                             fill: 'black',
                             'font-family': 'Arial, sans-serif',
-                            'font-weight': 'bold' // Define a fonte como negrito
+                            'font-weight': 'bold' 
                         },
                         rect: {
-                            fill: 'transparent', // Define a cor de fundo da label como cinza
-                            rx: 4, // Raio do canto arredondado (opcional)
-                            ry: 4 // Raio do canto arredondado (opcional)
+                            fill: 'transparent', 
+                            rx: 4, 
+                            ry: 4 
                         }
                     }
                 });
@@ -1170,16 +1164,16 @@ export const TestJoint: React.FC = () => {
                     position: { distance: (120 + start * i + 2 * i * 50), offset: -10 },
                     attrs: {
                         text: {
-                            text: (newInventory[i] / newDemand + ' Day(s)'), // Ou qualquer outra propriedade desejada
+                            text: (newInventory[i] / newDemand + ' Day(s)'), 
                             'font-size': 17,
                             fill: 'black',
                             'font-family': 'Arial, sans-serif',
-                            'font-weight': 'bold' // Define a fonte como negrito
+                            'font-weight': 'bold' 
                         },
                         rect: {
-                            fill: 'transparent', // Define a cor de fundo da label como cinza
-                            rx: 4, // Raio do canto arredondado (opcional)
-                            ry: 4 // Raio do canto arredondado (opcional)
+                            fill: 'transparent', 
+                            rx: 4, 
+                            ry: 4 
                         }
                     }
                 });
@@ -1197,7 +1191,6 @@ export const TestJoint: React.FC = () => {
             timeLadderLink.prop('labels', null);
             timeLadderLink.prop('labels', newLabel);
             timeLadderLink.addTo(graph)
-            console.log("timeLadder",timeLadderLink)
         }
 
         function inventoryChange(newDemand: number) {
@@ -1206,7 +1199,6 @@ export const TestJoint: React.FC = () => {
             for (let i = 0; i < invArray.length; i++) {
                 newInventory[i] = (invArray[i].getInventory())
                 value = value + (newInventory[i] / newDemand)
-                console.log("passada ", i, "tem valor", value)
             }
             timeLadderResult[0].setLead(value * 86400)
             let VATime = timeLadderResult[0].getVATime()
@@ -1214,10 +1206,9 @@ export const TestJoint: React.FC = () => {
             timeLadderResult[0].setRatio(ratio)
 
             graph.getCells().forEach((cell) => {
-                if (cell.get('type') === 'timeResult') { // Supondo que você está buscando células do tipo 'timeResult'
+                if (cell.get('type') === 'timeResult') { 
                   const attrs = cell.get('attrs');
                   if (attrs['label']) {
-                    // Atualiza o atributo 'VATime'
                     cell.attr('label/html', (value*86400).toFixed(6).toString());
                   }
                   if(attrs['Ratio']){
@@ -1232,17 +1223,16 @@ export const TestJoint: React.FC = () => {
         graph.on('change:attrs', (cell, attrs) => {
             if ('cycleTime' in attrs) {
                 let where;
-                for (let i = 0; i < procArray.length; i++) if (cell.id === procArray[i].id) {console.log(procArray[i]); where = i}
+                for (let i = 0; i < procArray.length; i++) if (cell.id === procArray[i].id) { where = i}
                 procArray[where].setCycleTime(attrs['cycleTime'].props.value);
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess(graphRef.current);
                 changeLabels(newInventory, newCycle, newDemand)
-                console.log("Após alteração, grapho: ", graphRef.current)
             }
             if ('inventoryLabel' in attrs) {
                 let where;
-                for (let i = 0; i < invArray.length; i++) if (cell.id === invArray[i].id) {console.log(invArray[i]); where = i}
+                for (let i = 0; i < invArray.length; i++) if (cell.id === invArray[i].id) { where = i}
                 invArray[where].setInventory(attrs['inventoryLabel'].props.value);
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
@@ -1251,7 +1241,6 @@ export const TestJoint: React.FC = () => {
             }
             if ('dailyDemand' in attrs) {
                 demandArray[0].setDemand(attrs['dailyDemand'].props.value);
-                console.log("Novo atributo: ",demandArray[0].getDemand())
                 let newDemand = demandArray[0].getDemand();
                 let newInventory = inventoryChange(newDemand);
                 let newCycle = cycleProcess(graphRef.current);
@@ -1259,20 +1248,16 @@ export const TestJoint: React.FC = () => {
             }
         });
 
-        // Definição do link em formato de raio
         graph.set('graphCustomProperty', true);
         graph.set('graphExportTime', Date.now());
         var jsonObject = graph.toJSON();
-        console.log(jsonObject)
 
 
         adjustSize();
 
-            // Adiciona um event listener para ajustar o tamanho quando a janela for redimensionada
         window.addEventListener('resize', adjustSize);
 
         setInitialState(graph.toJSON());
-        console.log("initial",initialState)
 
         paper.unfreeze();
 
@@ -1287,7 +1272,6 @@ export const TestJoint: React.FC = () => {
 
     const exportDiagram = () => {
 
-        console.log(start)
 
         const paper = paperRef.current;
         if (!paper) return;
@@ -1326,7 +1310,6 @@ export const TestJoint: React.FC = () => {
             const inputInSVG = clonedSvg.querySelector(`[id="${selector}"]`);
             if (inputInSVG) {
                 inputInSVG.setAttribute('value', input.value);
-                console.log(inputInSVG)
             }
           }
         });
@@ -1336,12 +1319,8 @@ export const TestJoint: React.FC = () => {
 
         const width = start * procSize.length + procWidth + 200 - start +1000
 
-        console.log("scale: ", scale)
 
         let minX = 100 * (scale)
-
-        console.log("Entra: ", width*scale)
-        console.log("Entra: ", height*scale)
 
         let widthSVG = (width*scale) > 1600 ? (width*scale) : 1600
         

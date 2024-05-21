@@ -74,7 +74,7 @@ export const Inventory: React.FC = () => {
           processINumber: data.inventories[i].processINumber
         };
         updateInventory(i, updatedInventory);
-        console.log("Inventory: ", updatedInventory, " Salvo na posição ", i)
+        console.log("Inventory: ", updatedInventory, " Saved ", i)
       }
       navigate("/MaterialFlow")
     } catch (error) {

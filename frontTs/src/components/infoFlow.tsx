@@ -1,7 +1,7 @@
 import { useFieldArray, useForm } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom';
 import { useProcessContext } from '../contexts/processContext';
 import { useSupplierContext } from '../contexts/supplierContext';
 import React, { useState, useEffect } from 'react';
@@ -264,11 +264,10 @@ export const InfoFlow: React.FC = () => {
         }
     });
 
-    const watchedValues = watch(); // Obtém todos os valores do formulário
+    const watchedValues = watch(); // Get all values from the form
 
 
-    useEffect(() => {
-        console.log(watchedValues); // Todos os valores do formulário   
+    useEffect(() => { 
         if (SelBox[0]) {
             let process = -1
             let customer = -1
@@ -277,11 +276,9 @@ export const InfoFlow: React.FC = () => {
                 const value = SelBox[i];
                 handleOptionChange(i, value)
                 renderSelectedForm(i)
-                console.log("Passada ", i, " tem valor: ", value)
                 switch (value) {
                     case "customer&MRP-1":
                         customer++;
-                        console.log('Customer onEffect', customer)
                         setValue(`customerProd.${i}.typeCus`, CusProds[customer].typeCus);
                         setValue(`customerProd.${i}.receiveCus`, CusProds[customer].receiveCus);
                         setValue(`customerProd.${i}.periodCus`, CusProds[customer].periodCus);
@@ -289,7 +286,6 @@ export const InfoFlow: React.FC = () => {
                         break;
                     case "supplier&MRP-1":
                         supplier++;
-                        console.log('Supplier onEffect', supplier)
                         setValue(`supplierProd.${i}.typeSup`, SupProds[supplier].typeSup);
                         setValue(`supplierProd.${i}.receiveSup`, SupProds[supplier].receiveSup);
                         setValue(`supplierProd.${i}.periodSup`, SupProds[supplier].periodSup);
@@ -298,7 +294,6 @@ export const InfoFlow: React.FC = () => {
                         break;
                     case "process&MRP-1":
                         process++;
-                        console.log('Process onEffect', process);
                         setValue(`processProd.${i}.typeProcess`, ProcProds[process].typeProcess);
                         setValue(`processProd.${i}.receiveProcess`, ProcProds[process].receiveProcess);
                         setValue(`processProd.${i}.periodProcess`, ProcProds[process].periodProcess);
@@ -325,7 +320,6 @@ export const InfoFlow: React.FC = () => {
 
     const onSubmit = async (data: any) => {
         try {
-            console.log(data)
             let numSup = 0;
             let numCus = 0;
             let numProc = 0;
@@ -338,10 +332,8 @@ export const InfoFlow: React.FC = () => {
                 if (data.selectbox[i].connection !== '' && data.selectbox[i].connection !== 'Select an Option') {
                     updateSelBox(i, data.selectbox[i].connection);
                 }
-                console.log('updated box number', i, "value: ", data.selectbox[i].connection)
 
                 if (lastVisited[i] === 1) {
-                    console.log("Customer: ", i)
                     const updatedCusProd = {
                         typeCus: data.customerProd[i].typeCus,
                         receiveCus: data.customerProd[i].receiveCus,
@@ -353,7 +345,6 @@ export const InfoFlow: React.FC = () => {
                 }
 
                 else if (lastVisited[i] === 2) {
-                    console.log("supplier: ", i)
 
                     const updatedSupProd = {
                         typeSup: data.supplierProd[i].typeSup,
@@ -367,7 +358,7 @@ export const InfoFlow: React.FC = () => {
                 }
 
                 else if (lastVisited[i] === 3) {
-                    console.log("Process: ", i)
+
 
                     const updatedProcProd = {
                         typeProcess: data.processProd[i].typeProcess,
@@ -380,9 +371,8 @@ export const InfoFlow: React.FC = () => {
                     numProc++;
                 }
                 else {
-                    console.log("Conexão ", i, "falhou")
+                    console.log("Connection ", i, "failed")
                 }
-                console.log("Enviados: ", lastVisited)
             }
             localStorage.setItem('formData', JSON.stringify(data));
             navigate('/review')
@@ -408,7 +398,6 @@ export const InfoFlow: React.FC = () => {
     };
 
     const handleAdd = () => {
-        console.log(watchedValues); // Todos os valores do formulário
         append({ connection: '' });
         setNumConections(prevNumConnections => prevNumConnections + 1);
     }
@@ -419,38 +408,31 @@ export const InfoFlow: React.FC = () => {
         const newProcessProds = values.processProd.filter((item: any, i: number) => i !== index);
         const newCustomerProds = values.customerProd.filter((item: any, i: number) => i !== index);
 
-        if(values.supplierProd[index]){setValue('supplierProd', newSupplierProds); console.log("item removido foi: ", values.supplierProd[index])}
+        if(values.supplierProd[index]){setValue('supplierProd', newSupplierProds);}
         if(values.processProd[index])setValue('processProd', newProcessProds);
         if(values.supplierProd[index])setValue('customerProd', newCustomerProds);
     };
 
 
     const handleRemoveAndDecrement = async (index: number) => {
-        // Remove o processo usando o índice fornecido
-        console.log("Index removido foi o seguinte: ", index);
+        // Remove the process in the index
 
         
-        // Atualiza os selectedOptions para refletir a remoção do item
+        // update the selectedOptions to show the item removal
         const updatedSelectedOptions = [...selectedOptions];
         updatedSelectedOptions.splice(index, 1);
         setSelectedOptions(updatedSelectedOptions);
         
-        // Decrementa o índice
         setNumConections(prevNumConnections => prevNumConnections - 1);
         
         const updatedSelBox: any[] = SelBox;
         const updatedLastVisited: any[] = lastVisited;
         
-        console.log("lastVisited que chega: ", lastVisited)
-        console.log('Sel Box que chega: ', SelBox)
 
         for (let i = index; i < (lastVisited.length-1); i++) {
             if(SelBox[index]) {
-                console.log("Sai: ", updatedSelBox[i] ,"index é:", i)
-                console.log("Entra: ", updatedSelBox[i+1], "da posição", (i+1))
 
                 updatedSelBox[i] = updatedSelBox[i + 1];
-                console.log('Após troca, updated: ', updatedSelBox)
             }
             
                 updatedLastVisited[i] = updatedLastVisited[i + 1]
@@ -465,14 +447,11 @@ export const InfoFlow: React.FC = () => {
         
         if(SelBox)transformSelBox(updatedSelBox);
         setLastVisited(updatedLastVisited);
-        console.log("Sel Box final: ", SelBox)
-        console.log('lastVisited', updatedLastVisited)
         
         remove(index);
 
-        await removeItem(index); // Chamada assíncrona para removeItem
+        await removeItem(index); // assinc call to remove item
         
-        console.log(watchedValues); // Todos os valores do formulário
     
     };
 
