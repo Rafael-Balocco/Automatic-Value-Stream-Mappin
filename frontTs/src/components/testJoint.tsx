@@ -1203,13 +1203,14 @@ export const TestJoint: React.FC = () => {
             timeLadderResult[0].setLead(value * 86400)
             let VATime = timeLadderResult[0].getVATime()
             let ratio = VATime / value
+            let leadTime = value*86400
             timeLadderResult[0].setRatio(ratio)
 
             graph.getCells().forEach((cell) => {
                 if (cell.get('type') === 'timeResult') { 
                   const attrs = cell.get('attrs');
                   if (attrs['label']) {
-                    cell.attr('label/html', (value*86400).toFixed(6).toString());
+                    cell.attr('label/html', leadTime.toFixed(6).toString());
                   }
                   if(attrs['Ratio']){
                     cell.attr('Ratio/html', ratio.toFixed(6).toString());
@@ -1378,7 +1379,7 @@ export const TestJoint: React.FC = () => {
                     <button className="reduceScale" onClick={() => changeScale(-0.05)}>  -  </button>
                     <button className="increaseScale" onClick={() => changeScale(0.05)}> + </button>
                     <button id="refreshButton" className='refresh-button' onClick={handleRefresh}>Refresh</button>
-                    <button className='button-download' onClick={exportDiagram}>Download</button>
+                    <button className='button-download' onClick={exportDiagram}>Download SVG</button>
                 </div>
                 <div className="canvas" ref={canvas}/>
             </div>
