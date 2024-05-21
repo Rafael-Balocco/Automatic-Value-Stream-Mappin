@@ -10,7 +10,6 @@ import { useAllProcessContext } from '../contexts/proHandlerContext';
 import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
-import { useAllSelBoxContext } from '../contexts/selectedBoxContext';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
 import { MouseEventHandler } from 'react';
 
