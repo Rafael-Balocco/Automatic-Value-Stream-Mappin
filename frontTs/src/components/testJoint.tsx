@@ -962,24 +962,40 @@ export const TestJoint: React.FC = () => {
         for (let i = 0; i < ProcProds.length; i++) {
             if (ProcProds[i].typeProcess === 'eletronic') {
                 procArray[i].on('change:position', function () {
-                    updateLinkVertices(ProcProdLink[i], i, 2);
+                    for(let j =0 ; j <ProcProdLink.length;j++){
+                        if(ProcProds[j].typeProcess === 'eletronic'){
+                            updateLinkVertices(ProcProdLink[j], i, 2);
+                        }
+                    }
                 });
                 company[0].on('change:position', function () {
-                    updateLinkVertices(ProcProdLink[i], i, 2);
+                    for(let j =0 ; j < ProcProdLink.length;j++){
+                        if(ProcProds[j].typeProcess === 'eletronic'){
+                            updateLinkVertices(ProcProdLink[j], i, 2);
+                        }
+                    }
                 });
             }
         }
 
         for (let i = 0; i < customer.length; i++) {
 
-            if (CusProds[0]) {
-                if (CusProds[0].typeCus === 'eletronic') {
+            if (CusProds[i]) {
+                if (CusProds[i].typeCus === 'eletronic') {
                     customer[0].on('change:position', function () {
-                        updateLinkVertices(CusProdLink[i], i, 3);
+                        for(let j =0; j<CusProdLink.length; j++){
+                            if(CusProds[j].typeCus === 'eletronic'){
+                                updateLinkVertices(CusProdLink[j], i, 3);
+                            }
+                        }
                     });
 
                     company[0].on('change:position', function () {
-                        updateLinkVertices(CusProdLink[i], i, 3);
+                        for(let j =0; j<CusProdLink.length; j++){
+                            if(CusProds[j].typeCus === 'eletronic'){
+                                updateLinkVertices(CusProdLink[j], i, 3);
+                            }
+                        }
                     });
                 }
             }
@@ -990,11 +1006,20 @@ export const TestJoint: React.FC = () => {
 
             if (SupProds[i].typeSup === 'eletronic') {
                 supArray[i].on('change:position', function () {
-                    updateLinkVertices(SupProdLink[i], i, 1);
+                    console.log("entra vez: ", i)
+                    for(let j=0 ; j<SupProdLink.length ;j++ ){
+                        if(SupProds[j].typeSup === 'eletronic'){
+                            updateLinkVertices(SupProdLink[j], i, 1);
+                        }
+                    }
                 });
 
                 company[0].on('change:position', function () {
-                    updateLinkVertices(SupProdLink[i], i, 1);
+                    for(let j=0 ; j<SupProdLink.length ;j++ ){
+                        if(SupProds[j].typeSup === 'eletronic'){
+                            updateLinkVertices(SupProdLink[j], i, 1);
+                        }
+                    }
                 });
             }
 
@@ -1251,7 +1276,6 @@ export const TestJoint: React.FC = () => {
 
         graph.set('graphCustomProperty', true);
         graph.set('graphExportTime', Date.now());
-        var jsonObject = graph.toJSON();
 
 
         adjustSize();
