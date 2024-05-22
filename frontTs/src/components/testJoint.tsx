@@ -56,10 +56,6 @@ export const TestJoint: React.FC = () => {
     const [height, setHeight] = useState<number>(window.innerHeight);
     const [initialState, setInitialState] = useState(null);
     const graphRef = useRef(null);
-    const [cycleInitial, setCycleInitial] = useState<number[]>([]);
-    const [demandInitial, setdemandInitial] = useState<number>();
-    const [inventoryInitial, setinventoryInitial] = useState<number[]>([]);
-    const [timeResultInitial, settimeResultInitial] = useState<TimeResultValues[]>([]);
 
     let procArray: any[] = [];
     
@@ -79,6 +75,10 @@ export const TestJoint: React.FC = () => {
         const demandArray: any[] = [];
         let totalLead = 0;
         let VAT = 0;
+
+        //each element is created by a class, they all extend ForeignObjectElement
+        //Each Element has a preinitialize, which is the html content that will stay inside of the element
+        // they might have some set and get functions, made for updates on the graph upon some specific changes on certain elements
 
         
         class ForeignObjectElement extends dia.Element {
@@ -325,6 +325,8 @@ export const TestJoint: React.FC = () => {
             }
 
         }
+
+        //adjust the size of the scale depending on the size of the screen
         const adjustSize = () => {
             setWidth(window.innerWidth);
             setHeight(window.innerHeight);
@@ -362,7 +364,7 @@ export const TestJoint: React.FC = () => {
             }
         };
 
-        // Criar o graph
+        // Create the graph
         const graph = new dia.Graph({}, { cellNamespace: combinedNamespace });
         graphRef.current = graph;
 
@@ -390,6 +392,7 @@ export const TestJoint: React.FC = () => {
                     'change input,select': 'onInputChange'
                 },
 
+                //tracks the input change
                 onInputChange: function (evt: any) {
                     const input = evt.target;
                     if (!input.validity.valid) return;
@@ -400,6 +403,7 @@ export const TestJoint: React.FC = () => {
             })
         });
 
+        //update some refs
         paperRef.current = paper;
         graphRef.current = graph;
 
@@ -407,7 +411,7 @@ export const TestJoint: React.FC = () => {
         paper.render();
 
 
-
+        // creates the link of the material flow
         function figMat(which: number, mode: string) {
             let period = SupMats[which].periodShiftSupplier === undefined ? '' : SupMats[which].periodShiftSupplier?.toString();
             let quantity = SupMats[which].quantityShiftSupplier === undefined ? '' : SupMats[which].quantityShiftSupplier?.toString();
@@ -415,7 +419,6 @@ export const TestJoint: React.FC = () => {
                 Airplane: "https://www.svgrepo.com/show/522355/airplane.svg",
                 Bike: "https://www.svgrepo.com/show/487074/bike.svg",
                 Car: "https://www.svgrepo.com/show/533553/car-side.svg",
-                MultiModal: "https://www.svgrepo.com/show/533567/truck.svg",
                 Ship: "https://www.svgrepo.com/show/510190/ship-it.svg",
                 Train: "https://www.svgrepo.com/show/533566/train-tram.svg",
                 Truck: "https://www.svgrepo.com/show/533567/truck.svg",
@@ -451,6 +454,7 @@ export const TestJoint: React.FC = () => {
         }
 
 
+        //creates the link between processes
 
         function processLink() {
 
@@ -494,6 +498,8 @@ export const TestJoint: React.FC = () => {
         }
 
         processLink();
+
+        //Creates suppliers and customers, and their links
 
         function supCus() {
             let i;
@@ -587,6 +593,8 @@ export const TestJoint: React.FC = () => {
 
         supCus();
 
+        //creates the production control
+
         function prodControl() {
             company[0] = new SupCus({
                 position: { x: start * ((numProcess + 1) / 2), y: 0 },
@@ -608,6 +616,8 @@ export const TestJoint: React.FC = () => {
         }
 
         prodControl()
+
+        //creates the inventory
 
         function invFun() {
             let i = 0;
@@ -637,6 +647,8 @@ export const TestJoint: React.FC = () => {
 
         }
 
+        //glues the process with it inventory
+
         function procInvGlued() {
 
             for (let i = 0; i < procArray.length; i++) {
@@ -656,6 +668,8 @@ export const TestJoint: React.FC = () => {
 
         invFun();
         procInvGlued();
+
+        //function to make the eletronic links maintain the z format 
 
         function updateLinkVertices(link: any, which: number, id: number) {
             let companyPos = company[0].position();
@@ -700,6 +714,8 @@ export const TestJoint: React.FC = () => {
                 { x: meiox + (35 * inverterx), y: meioy + (35 * invertery) }
             ]);
         }
+
+        //creates different eletronic links depending on the element
 
         function eletronicLink(which: number, id: number) {
             let companyPos = company[0].position();
@@ -843,6 +859,7 @@ export const TestJoint: React.FC = () => {
         }
 
 
+        //creates normal link and calls the eletronicLink
 
         function createInfoLink() {
             for (let i = 0; i < SupProds.length; i++) {
@@ -958,6 +975,7 @@ export const TestJoint: React.FC = () => {
 
         createInfoLink();
 
+        //those for makes the useEffect always check if something changed, if changed, changes the position of the arrow
 
         for (let i = 0; i < ProcProds.length; i++) {
             if (ProcProds[i].typeProcess === 'eletronic') {
@@ -1073,6 +1091,8 @@ export const TestJoint: React.FC = () => {
             });
         }
 
+        //creates the timeLadder under the process
+
         function timeLadder() {
 
             for (let i = 0; i < inventories.length; i++) { totalLead += (inventories[i].processINumber / customerForm.demand); let cycleTimeNumber: number = parseInt(processes[i].cycleTime); VAT += cycleTimeNumber; }
@@ -1114,6 +1134,8 @@ export const TestJoint: React.FC = () => {
         timeLadderLink.set('vertices', vertices);
         timeLadderLink.set('labels', labels);
 
+        //creates the dailyDemand element
+
         function dailyDemand() {
             demandArray[0] = new Demand({
                 position: { x: start * ((numProcess + 1) / 2), y: 700 + procHeight },
@@ -1138,6 +1160,11 @@ export const TestJoint: React.FC = () => {
 
         let newCycle: any[] = [];
 
+        //bellow here are functions that are called when some key inputs are changed
+
+
+        //this one is called when changes the cycleTime
+
         function cycleProcess(graph) {
             let value = 0;
             for (let i = 0; i < procArray.length; i++) {
@@ -1161,6 +1188,8 @@ export const TestJoint: React.FC = () => {
         }
 
 
+
+        // this function change the label of the timeLadder
 
         function changeLabels(newInventory, newCycle, newDemand) {
             let j = 0;
@@ -1218,6 +1247,8 @@ export const TestJoint: React.FC = () => {
             timeLadderLink.addTo(graph)
         }
 
+        //this function handle the inventory change
+
         function inventoryChange(newDemand: number) {
             let newInventory: any[] = [];
             let value = 0;
@@ -1245,6 +1276,9 @@ export const TestJoint: React.FC = () => {
 
             return newInventory;
         }
+
+        //this function is called when some attribute change
+        //check if it is one of the following, and acts according to that
 
         graph.on('change:attrs', (cell, attrs) => {
             if ('cycleTime' in attrs) {
@@ -1294,6 +1328,8 @@ export const TestJoint: React.FC = () => {
 
     }, [refreshKey]);
 
+
+    //function to download the SVG
 
     const exportDiagram = () => {
 
