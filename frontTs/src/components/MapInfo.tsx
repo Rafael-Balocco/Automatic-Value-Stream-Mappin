@@ -1,7 +1,7 @@
 import {useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import { useMapInfoContext } from '../contexts/allMapInfoContext';
 
 type FormValues = {
@@ -11,10 +11,12 @@ type FormValues = {
 
 export const MapInfo = () => {
 
-  const navigate = useNavigate(); // Instancia o hook useNavigate
-  const { formData, updateFormData } = useMapInfoContext(); // Use o contexto do componente MapInfo
+  const navigate = useNavigate(); 
+  const { formData, updateFormData } = useMapInfoContext(); 
   const { register, formState, handleSubmit} = useForm({ defaultValues: formData });
   const {errors} = formState;
+
+  //onSubmit work on basically sending the data to the context, as the other components
 
   const onSubmit = async (data: FormValues) => {
     try {

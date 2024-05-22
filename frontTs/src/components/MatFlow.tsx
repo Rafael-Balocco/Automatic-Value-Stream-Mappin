@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useSupplierContext } from '../contexts/supplierContext';
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext'
 import { useAllSupMatContext } from '../contexts/supMatContext';
 
@@ -11,7 +11,6 @@ enum Mode {
     Airplane = 'Airplane',
     Bike = 'Bike',
     Car = 'Car',
-    MultiModal = 'Multi Modal',
     Ship = 'Ship',
     Train = 'Train',
     Truck = 'Truck',
@@ -33,7 +32,7 @@ export type FormValues = {
 export const MatFlow: React.FC = () => {
 
     const { SupMats, updateSupMat } = useAllSupMatContext();
-    const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const { CusformData, updateCusFormData } = useCustomerMaterialFlowContext(); // Use the context of the Material Flow
     const { numberOfSuppliers } = useSupplierContext();
 
     const { register, formState, handleSubmit, setValue } = useForm<FormValues>({
@@ -43,7 +42,7 @@ export const MatFlow: React.FC = () => {
         },
     })
     const { errors } = formState;
-    const navigate = useNavigate(); // Instancia o hook useNavigate
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         setValue('supplier', SupMats)
@@ -53,7 +52,7 @@ export const MatFlow: React.FC = () => {
     const onSubmit = async (data: any) => {
         try {
             console.log('Form Submitted:', data.customer);
-            updateCusFormData(data.customer); // Atualiza os dados do formulário no contexto
+            updateCusFormData(data.customer); // Update the context
             for (let i = 0; i < numberOfSuppliers; i++) {
                 const updatedSupMats = {
                     modeSupplier: data.supplier[i].modeSupplier,
@@ -64,11 +63,12 @@ export const MatFlow: React.FC = () => {
                 console.log('Supplier: ', updatedSupMats, 'added in the position: ', i);
             }
             navigate('/infoFlow')
-            // Redireciona para a próxima página do formulário
         } catch (error) {
             console.error('Error submitting form:', error);
         }
     };
+
+    //the supplier part needs to be render separeted because it deppends on the supplier context, because of the amount of the suppliers
 
     const renderSuppliers = () => {
         const suppliers = [];
@@ -89,7 +89,6 @@ export const MatFlow: React.FC = () => {
                         <option value="Airplane">Airplane</option>
                         <option value="Bike">Bike</option>
                         <option value="Car">Car</option>
-                        <option value="Multi">Multi Modal</option>
                         <option value="Ship">Ship</option>
                         <option value="Train">Train</option>
                         <option value="Truck">Truck</option>
@@ -104,18 +103,15 @@ export const MatFlow: React.FC = () => {
                     <label htmlFor={`supplier.${j}.quantityShiftSupplier`}>Quantity per Shift:</label>
                     <input
                                 type="number"
-                                {...register(`customer.quantityShiftCustomer`, {
-                                    pattern: {
-                                        value: /^[0-9]*$/,
-                                        message: "Please enter a valid number or leave it empty!"
-                                    },
+                                {...register(`supplier.${j}.quantityShiftSupplier`, {
                                     validate: value => {
-                                        if (value !== "") {
+                                        if (value != null) {
                                             if (value < 0) {
-                                                return "This value must be positive or empty!";
+                                                return "Quantity must be Positive or Empty!"
                                             }
                                             return true;
                                         }
+                                        else return true;
                                     }
                                 })}
                             />
@@ -176,7 +172,6 @@ export const MatFlow: React.FC = () => {
                                 <option value="Airplane">Airplane</option>
                                 <option value="Bike">Bike</option>
                                 <option value="Car">Car</option>
-                                <option value="Multi">Multi Modal</option>
                                 <option value="Ship">Ship</option>
                                 <option value="Train">Train</option>
                                 <option value="Truck">Truck</option>
@@ -192,17 +187,14 @@ export const MatFlow: React.FC = () => {
                             <input
                                 type="number"
                                 {...register(`customer.quantityShiftCustomer`, {
-                                    pattern: {
-                                        value: /^[0-9]*$/,
-                                        message: "Please enter a valid number or leave it empty!"
-                                    },
                                     validate: value => {
-                                        if (value !== "") {
+                                        if (value != null) {
                                             if (value < 0) {
-                                                return "This value must be positive or empty!";
+                                                return "Quantity must be Positive or Empty!"
                                             }
                                             return true;
                                         }
+                                        else return true;
                                     }
                                 })}
                             />

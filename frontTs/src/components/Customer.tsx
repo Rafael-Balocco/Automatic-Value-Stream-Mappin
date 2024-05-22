@@ -4,6 +4,8 @@ import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { useCustomerContext } from '../contexts/customerContext';
 
+
+//type of the formValues, so we can register them
 type FormValues = {
     CustomerName: string
     demand: string
@@ -12,10 +14,12 @@ type FormValues = {
 export const Customer = () => {
 
   const navigate = useNavigate(); 
-  const {customerForm, updatecustomerForm} = useCustomerContext();
-  const { register, formState, handleSubmit} = useForm({ defaultValues: customerForm });
+  const {customerForm, updatecustomerForm} = useCustomerContext(); //mandatory to save the data, so we can update them later
+  const { register, formState, handleSubmit} = useForm({ defaultValues: customerForm }); //letting the defaultValues as the customerForm makes the data previously inserted there
   const {errors} = formState;
 
+
+  //here we update the context so the data is saved
   const onSubmit = async (data:FormValues) =>{
     try{
       console.log('Form Submitted:', data);

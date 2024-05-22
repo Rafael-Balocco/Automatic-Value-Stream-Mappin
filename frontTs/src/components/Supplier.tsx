@@ -1,7 +1,7 @@
 import { useForm, useFieldArray,  } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import { useSupplierContext } from '../contexts/supplierContext';
 import React, { useEffect } from 'react';
 import { useAllSupplierContext } from '../contexts/supHandlerContext';
@@ -19,11 +19,11 @@ export const Supplier: React.FC = () => {
     const { numberOfSuppliers, updateNumberOfSuppliers } = useSupplierContext();
     const { register, control, formState, handleSubmit, setValue } = useForm<FormValues>({
         defaultValues: {
-            supNumbers: suppliers.length > 0 ? suppliers : [{ supplierName: '', whatSupplies: '' }] // Verifica se há fornecedores; se não, adiciona um fornecedor vazio
+            supNumbers: suppliers.length > 0 ? suppliers : [{ supplierName: '', whatSupplies: '' }] // verify if there is previous suppliers, if not, add an empty one
         }
     });
     const { errors } = formState;
-    const navigate = useNavigate(); // Instancia o hook useNavigate
+    const navigate = useNavigate(); 
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -42,10 +42,12 @@ export const Supplier: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // Atualizar os valores do formulário com os valores dos fornecedores sempre que eles mudarem
+        // Update the form values with the values saved on the context
         setValue('supNumbers', suppliers);
     }, [suppliers, setValue]);
 
+
+    //update the context
     const onSubmit = async (data: any) => {
         try {
             parentToChild();
@@ -71,16 +73,13 @@ export const Supplier: React.FC = () => {
     const handleAppendAndIncrement = () => {
         append({ supplierName: "", whatSupplies: "" });
         
-        // Incrementa o índice
         updateNumberOfSuppliers(numberOfSuppliers + 1);
     };
 
     
     const handleRemoveAndDecrement = (index: number) => {
-        // Remove o processo usando o índice fornecido
         remove(index);
 
-        // Decrementa o índice
         updateNumberOfSuppliers(numberOfSuppliers - 1);
     };
 

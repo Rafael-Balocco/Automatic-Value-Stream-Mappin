@@ -10,20 +10,23 @@ import { useAllProcessContext } from '../contexts/proHandlerContext';
 import { useAllInventoryContext } from '../contexts/inventoryContext';
 import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import { MouseEventHandler } from 'react';
 
 export const ShowDataComponent: React.FC = () => {
+
+    //It is the component that basically shows everything that was added and allow you to change the values you want to
+
     const { CusProds } = useAllCusProdContext();
     const { SupProds } = useAllSupProdContext();
     const { ProcProds } = useAllProcProdContext();
-    const { formData } = useMapInfoContext(); // Use o contexto do componente MapInfo
+    const { formData } = useMapInfoContext(); 
     const { suppliers } = useAllSupplierContext();
     const { customerForm } = useCustomerContext();
     const { processes } = useAllProcessContext();
     const { inventories } = useAllInventoryContext();
     const { SupMats } = useAllSupMatContext();
-    const { CusformData } = useCustomerMaterialFlowContext(); // Use o contexto do componente de material do cliente
+    const { CusformData } = useCustomerMaterialFlowContext(); 
     
     const navigate = useNavigate();
 

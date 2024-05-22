@@ -1,7 +1,7 @@
 import { useForm, useFieldArray } from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import React, {useEffect} from 'react';
 import { useProcessContext } from '../contexts/processContext';
 import { useAllProcessContext } from '../contexts/proHandlerContext';
@@ -19,9 +19,11 @@ export type FormValues = {
 
 export const Process: React.FC = () => {
     
-    const {processes, updateProcess} = useAllProcessContext();
-    const { numberOfProcess, updateNumberOfProcess } = useProcessContext();
+    const {processes, updateProcess} = useAllProcessContext(); //creates the context
+    const { numberOfProcess, updateNumberOfProcess } = useProcessContext(); //context just for the number of process 
     
+
+    //values that first appears
     const { register, control, formState, handleSubmit, setValue} = useForm<FormValues>({
         defaultValues: {
             proNumbers: processes.length > 0 ? processes: [{ processName: '', cycleTime: null, availableTime: null, upTime: null, scrapRate: null }]
@@ -29,7 +31,7 @@ export const Process: React.FC = () => {
     });
 
     const { errors } = formState;
-    const navigate = useNavigate(); // Instancia o hook useNavigate
+    const navigate = useNavigate(); 
     
     const { fields, append, remove } = useFieldArray({
         control,
@@ -37,6 +39,7 @@ export const Process: React.FC = () => {
     });
     
     useEffect(() => {
+        //automatically add one if empty
         if(numberOfProcess === 0){
             handleAppendAndIncrement();
             const updatedProcess = {
@@ -50,10 +53,13 @@ export const Process: React.FC = () => {
         }
     }, []);
 
+    //this is the case if not empty, bring the context data
     useEffect(()=>{
 
         setValue('proNumbers', processes);
     }, [processes, setValue]);
+
+    //submit the form data to the context
 
     const onSubmit = async (data:any) =>{
         try{
@@ -81,18 +87,18 @@ export const Process: React.FC = () => {
 
 
     const handleAppendAndIncrement = () => {
-        // Adiciona um novo processo usando o append
+        // Add new process with append
         append({ processName: '', cycleTime: null, availableTime: null, upTime: null, scrapRate: null });
         
-        // Incrementa o índice
+        // Increase the index
         updateNumberOfProcess(numberOfProcess + 1);
     };
 
     const handleRemoveAndDecrement = (index: number) => {
-        // Remove o processo usando o índice fornecido
+        // Remove the process in the index
         remove(index);
 
-        // Decrementa o índice
+        // Decrease the index
         updateNumberOfProcess(numberOfProcess - 1);
     };
 

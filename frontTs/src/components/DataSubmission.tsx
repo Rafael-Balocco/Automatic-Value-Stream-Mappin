@@ -12,6 +12,9 @@ import { useCustomerMaterialFlowContext } from '../contexts/customerMatContext';
 import { useAllSupMatContext } from '../contexts/supMatContext';
 import { useNavigate } from 'react-router-dom';
 
+//component that save the data in the database after the user click on "Confirm and Submit Form"
+//It gather all the context in 'data'
+
 const DataSubmissionComponent: React.FC = () => {
     const { CusProds } = useAllCusProdContext();
     const { SupProds } = useAllSupProdContext();
@@ -28,7 +31,7 @@ const DataSubmissionComponent: React.FC = () => {
     const handleSubmitData = async () => {
         try {
 
-            const dados = {
+            const data = {
                 CusProds,
                 SupProds,
                 ProcProds,
@@ -42,12 +45,12 @@ const DataSubmissionComponent: React.FC = () => {
             };
 
             // Make the POST req to send the data to the server
-            const resposta = await axios.post('http://localhost:3000/api/enviar-dados', dados);
+            const resposta = await axios.post('http://localhost:3000/api/enviar-dados', data);
 
             console.log(resposta.data);
             navigate('/result')
         } catch (error) {
-            console.error('Erro ao enviar dados para o backend:', error);
+            console.error('Error sending the data to the server:', error);
         }
     };
 

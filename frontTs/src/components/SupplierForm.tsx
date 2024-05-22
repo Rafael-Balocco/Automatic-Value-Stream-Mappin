@@ -1,12 +1,14 @@
 import React from 'react';
 
 interface SupplierFormProps {
-    field: any; // Substitua 'any' pelo tipo correto de 'field' se possível
+    field: any; 
     index: number;
-    register: any; // Substitua 'any' pelo tipo correto de 'register'
-    errors: any; // Substitua 'any' pelo tipo correto de 'errors'
-    handleRemoveAndDecrement: (index: number) => void; // Substitua 'void' pelo tipo de retorno correto
+    register: any; 
+    errors: any; 
+    handleRemoveAndDecrement: (index: number) => void; 
 }
+
+// supplier calls this component to generate others suppliers
 
 const SupplierForm: React.FC<SupplierFormProps> = ({ field, index, register, errors, handleRemoveAndDecrement }) => {
     return (

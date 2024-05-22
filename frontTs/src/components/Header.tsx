@@ -1,3 +1,4 @@
+//regular Header component 
 import logo from '../images/SMART_logo.png';
 
 const Header = () => {

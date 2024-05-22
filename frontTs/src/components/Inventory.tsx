@@ -1,7 +1,7 @@
 import { useForm} from 'react-hook-form'
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import { useProcessContext } from '../contexts/processContext';
 import React, {useEffect} from 'react';
 import { useAllInventoryContext } from '../contexts/inventoryContext';
@@ -22,14 +22,17 @@ export const Inventory: React.FC = () => {
       inventories: [{ processINumber: null }]
     }
   });
-  const navigate = useNavigate(); // Instancia o hook useNavigate
+  const navigate = useNavigate(); 
   const { errors } = formState;
 
   useEffect(()=>{
     setValue('inventories', inventories)
   }, [inventories, setValue] );
 
-
+  //the number of inventories that appear on the screen depends on the number of process created in the previous page (numberOfProcess)
+  
+  //renderInventory is the function that effectively works on generating the inventories
+  
   const renderInventory = () => {
     const inventories = [];
     for (let j = 0; j < numberOfProcess; j++) {

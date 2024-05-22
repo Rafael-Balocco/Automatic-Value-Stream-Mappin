@@ -10,6 +10,8 @@ import { useAllProcProdContext } from '../contexts/proProdContext';
 import { useAllSupProdContext } from '../contexts/supProdContext';
 import { useAllSelBoxContext } from '../contexts/selectedBoxContext';
 
+//the most complex component
+
 export type FormValues = {
     customerProd: {
         typeCus: "physical" | "eletronic" | "Select an Option" | undefined | undefined;
@@ -238,6 +240,7 @@ export const ProcessProductionForm: React.FC<{ index: number, register: any, err
 
 export const InfoFlow: React.FC = () => {
 
+    // It changes the array that saves which option was chosen and their order
 
     const handleOptionChange = (index: number, value: string) => {
         const newSelectedOptions = [...selectedOptions]
@@ -255,7 +258,7 @@ export const InfoFlow: React.FC = () => {
     const navigate = useNavigate();
     const [lastVisited, setLastVisited] = useState<number[]>([]);
 
-    const { register, control, handleSubmit, formState, setValue, watch, getValues } = useForm<FormValues>({
+    const { register, control, handleSubmit, formState, setValue, getValues } = useForm<FormValues>({
         defaultValues: {
             selectbox: [{ connection: "Select an Option" }],
             supplierProd: [{ typeSup: undefined, receiveSup: "Select an Option", periodSup: null, contentSup: null, supNumber: null }],
@@ -264,8 +267,10 @@ export const InfoFlow: React.FC = () => {
         }
     });
 
-    const watchedValues = watch(); // Get all values from the form
-
+    //useEffect is used to make the previous data inserted appears at the page
+    //There are some type problems that does not affect on the project, but would be good to fix it 
+    //All the errors comes from the difference of type between selectedBox and String
+    //UseEffect fetches every data that was previously submitted in the component to show them in the page
 
     useEffect(() => { 
         if (SelBox[0]) {
@@ -303,7 +308,7 @@ export const InfoFlow: React.FC = () => {
                     default:
                         break;
                 }
-                if (i != SelBox.length - 1) handleAdd();
+                if (i != SelBox.length - 1) handleAdd(); //If empty, it shows the first selectionbox already
             }
         }
     }, []);
@@ -316,7 +321,6 @@ export const InfoFlow: React.FC = () => {
     });
     
     const [selectedOptions, setSelectedOptions] = useState(fields.map(() => ""));
-    
 
     const onSubmit = async (data: any) => {
         try {
@@ -382,6 +386,7 @@ export const InfoFlow: React.FC = () => {
         }
     }
 
+    //function that shows the selected field
 
     const renderSelectedForm = (index: number) => {
 
@@ -397,16 +402,20 @@ export const InfoFlow: React.FC = () => {
         }
     };
 
+    //add another selectedBox
+
     const handleAdd = () => {
         append({ connection: '' });
         setNumConections(prevNumConnections => prevNumConnections + 1);
     }
 
+    //remove the right item from the context
+
     const removeItem = (index: number) => {
         const values = getValues();
-        const newSupplierProds = values.supplierProd.filter((item: any, i: number) => i !== index);
-        const newProcessProds = values.processProd.filter((item: any, i: number) => i !== index);
-        const newCustomerProds = values.customerProd.filter((item: any, i: number) => i !== index);
+        const newSupplierProds = values.supplierProd.filter((_item: any, i: number) => i !== index);
+        const newProcessProds = values.processProd.filter((_item: any, i: number) => i !== index);
+        const newCustomerProds = values.customerProd.filter((_item: any, i: number) => i !== index);
 
         if(values.supplierProd[index]){setValue('supplierProd', newSupplierProds);}
         if(values.processProd[index])setValue('processProd', newProcessProds);
@@ -499,7 +508,9 @@ export const InfoFlow: React.FC = () => {
                                 {selectedOptions[index] && renderSelectedForm(index)}
                                 <br /><br />
                                 <button type="button" id="removeProcessButton" className="removeProcessButton" onClick={() => handleRemoveAndDecrement(index)}>Remove Item</button>
-                                <br /><br />
+                                <br />
+                                <div className='divisionLine'></div>
+                                <br />
                             </div>
                         ))}
                         <button type="button" id="addProcessButton" className="addProcessButton" onClick={() => handleAdd()}>Add Item</button>
