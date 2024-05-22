@@ -8,7 +8,7 @@ interface SupplierFormProps {
     handleRemoveAndDecrement: (index: number) => void; 
 }
 
-// supplier calls this component to generate others suppliers
+// supplier calls this component to generate others suppliers 
 
 const SupplierForm: React.FC<SupplierFormProps> = ({ field, index, register, errors, handleRemoveAndDecrement }) => {
     return (
